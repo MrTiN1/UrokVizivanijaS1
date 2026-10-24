@@ -1,0 +1,464 @@
+{
+ "episode": "episode_01",
+ "video": "output/episode_01.mp4",
+ "duration": 120.0,
+ "checks": [
+  {
+   "check": "resolution",
+   "ok": true,
+   "detail": "1080×1920"
+  },
+  {
+   "check": "frame rate",
+   "ok": true,
+   "detail": "30.000 fps"
+  },
+  {
+   "check": "duration 90–120 s",
+   "ok": true,
+   "detail": "120.00 s (script 120 s)"
+  },
+  {
+   "check": "video codec H.264",
+   "ok": true,
+   "detail": "h264 High yuvj420p"
+  },
+  {
+   "check": "audio track AAC",
+   "ok": true,
+   "detail": "aac 48000 Hz 2 ch"
+  },
+  {
+   "check": "loudness for Shorts (-14 LUFS ±1.5)",
+   "ok": true,
+   "detail": "I=-14.2 LUFS, true peak -1.3 dBFS"
+  },
+  {
+   "check": "no clipping (true peak ≤ -1 dBFS)",
+   "ok": true,
+   "detail": "-1.3 dBFS"
+  },
+  {
+   "check": "no unintended black frames",
+   "ok": true,
+   "detail": "black segments [(114.333, 115.3)]; allowed = scripted fade-out [(113.0, 121)]"
+  },
+  {
+   "check": "no frozen stretches > 2 s (every shot animates)",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "check": "no empty shots",
+   "ok": true,
+   "detail": "52 sampled frames; low-detail: []"
+  },
+  {
+   "check": "subtitle timing valid (ordered, no overlap)",
+   "ok": true,
+   "detail": "40 captions; issues: []"
+  },
+  {
+   "check": "subtitles 2–5 words on screen",
+   "ok": true,
+   "detail": "all within 1–5 words"
+  },
+  {
+   "check": "no clipped captions (longest word fits)",
+   "ok": true,
+   "detail": "longest word «беспилотниками» ≈ 808px of 940px"
+  },
+  {
+   "check": "captions inside episode",
+   "ok": true,
+   "detail": "last caption ends 108.48s"
+  },
+  {
+   "check": "subtitle ↔ voice sync (≤ 100 ms)",
+   "ok": true,
+   "detail": "max offset 60 ms across 11 lines"
+  },
+  {
+   "check": "lip sync from phoneme alignment / Rhubarb",
+   "ok": true,
+   "detail": "sources: ['piper-alignment']; visemes/line ≥ 10"
+  },
+  {
+   "check": "dialogue intelligible over music (ASR on final mix)",
+   "ok": true,
+   "detail": "mean word accuracy 92.2%"
+  },
+  {
+   "check": "Gleb uses one canonical model (shared face/hair/proportions)",
+   "ok": true,
+   "detail": "designs used: ['GLEB_CIVIL', 'GLEB_MILITARY', 'GLEB_RECRUIT'] — all derived from GLEB_BASE"
+  }
+ ],
+ "frames": [
+  {
+   "t": 2.4,
+   "scene": "s1_hook",
+   "shot": "Медленный наезд на Глеба в посадке",
+   "std": 31.335424423217773,
+   "mean": 31.970569610595703
+  },
+  {
+   "t": 6.4,
+   "scene": "s1_hook",
+   "shot": "Медленный наезд на Глеба в посадке",
+   "std": 46.98035430908203,
+   "mean": 39.607845306396484
+  },
+  {
+   "t": 9.35,
+   "scene": "s2_college",
+   "shot": "Общий план аудитории",
+   "std": 60.788856506347656,
+   "mean": 119.66172790527344
+  },
+  {
+   "t": 11.6,
+   "scene": "s2_college",
+   "shot": "Общий план аудитории",
+   "std": 60.12547302246094,
+   "mean": 117.57818603515625
+  },
+  {
+   "t": 13.55,
+   "scene": "s2_college",
+   "shot": "Руки на клавиатуре",
+   "std": 45.98247528076172,
+   "mean": 79.75138854980469
+  },
+  {
+   "t": 15.3,
+   "scene": "s2_college",
+   "shot": "Руки на клавиатуре",
+   "std": 46.85295867919922,
+   "mean": 80.20409393310547
+  },
+  {
+   "t": 17.05,
+   "scene": "s2_college",
+   "shot": "Экран компьютера",
+   "std": 25.376235961914062,
+   "mean": 39.2319450378418
+  },
+  {
+   "t": 18.8,
+   "scene": "s2_college",
+   "shot": "Экран компьютера",
+   "std": 19.349685668945312,
+   "mean": 37.76981735229492
+  },
+  {
+   "t": 21.15,
+   "scene": "s2_college",
+   "shot": "Крупный план лица",
+   "std": 62.584468841552734,
+   "mean": 113.20796203613281
+  },
+  {
+   "t": 23.9,
+   "scene": "s2_college",
+   "shot": "Крупный план лица",
+   "std": 62.45431137084961,
+   "mean": 112.90949249267578
+  },
+  {
+   "t": 27.25,
+   "scene": "s3_agitation",
+   "shot": "Актовый зал, общий план",
+   "std": 70.28734588623047,
+   "mean": 85.0910873413086
+  },
+  {
+   "t": 31.0,
+   "scene": "s3_agitation",
+   "shot": "Актовый зал, общий план",
+   "std": 67.91222381591797,
+   "mean": 84.93042755126953
+  },
+  {
+   "t": 33.85,
+   "scene": "s3_agitation",
+   "shot": "Представитель у экрана",
+   "std": 82.09053039550781,
+   "mean": 120.5514144897461
+  },
+  {
+   "t": 36.1,
+   "scene": "s3_agitation",
+   "shot": "Представитель у экрана",
+   "std": 82.3861312866211,
+   "mean": 123.28273010253906
+  },
+  {
+   "t": 39.4,
+   "scene": "s3_agitation",
+   "shot": "Глеб слушает",
+   "std": 73.37332916259766,
+   "mean": 102.35478973388672
+  },
+  {
+   "t": 43.4,
+   "scene": "s3_agitation",
+   "shot": "Глеб слушает",
+   "std": 70.31465911865234,
+   "mean": 100.91194152832031
+  },
+  {
+   "t": 46.35,
+   "scene": "s4_signing",
+   "shot": "Глеб за столом с документами",
+   "std": 65.23148345947266,
+   "mean": 110.1424560546875
+  },
+  {
+   "t": 48.6,
+   "scene": "s4_signing",
+   "shot": "Глеб за столом с документами",
+   "std": 66.0396957397461,
+   "mean": 112.4098129272461
+  },
+  {
+   "t": 50.64,
+   "scene": "s4_signing",
+   "shot": "Документ крупно",
+   "std": 68.68475341796875,
+   "mean": 173.22821044921875
+  },
+  {
+   "t": 52.54,
+   "scene": "s4_signing",
+   "shot": "Документ крупно",
+   "std": 88.14790344238281,
+   "mean": 153.01742553710938
+  },
+  {
+   "t": 54.05,
+   "scene": "s4_signing",
+   "shot": "Ручка: подпись",
+   "std": 54.9263801574707,
+   "mean": 173.73182678222656
+  },
+  {
+   "t": 55.3,
+   "scene": "s4_signing",
+   "shot": "Ручка: подпись",
+   "std": 59.37218475341797,
+   "mean": 175.3027801513672
+  },
+  {
+   "t": 57.06,
+   "scene": "s4_signing",
+   "shot": "Лицо Глеба",
+   "std": 60.156795501708984,
+   "mean": 109.76439666748047
+  },
+  {
+   "t": 59.16,
+   "scene": "s4_signing",
+   "shot": "Лицо Глеба",
+   "std": 35.73122024536133,
+   "mean": 68.38436126708984
+  },
+  {
+   "t": 61.5,
+   "scene": "s5_training",
+   "shot": "Автобус прибывает к учебному центру",
+   "std": 31.76076316833496,
+   "mean": 97.33391571044922
+  },
+  {
+   "t": 64.0,
+   "scene": "s5_training",
+   "shot": "Автобус прибывает к учебному центру",
+   "std": 31.73958396911621,
+   "mean": 96.57566833496094
+  },
+  {
+   "t": 66.35,
+   "scene": "s5_training",
+   "shot": "Новобранцы выходят",
+   "std": 34.528263092041016,
+   "mean": 100.0879898071289
+  },
+  {
+   "t": 68.6,
+   "scene": "s5_training",
+   "shot": "Новобранцы выходят",
+   "std": 35.608001708984375,
+   "mean": 99.88478088378906
+  },
+  {
+   "t": 70.64,
+   "scene": "s5_training",
+   "shot": "Плац: Глеб спрашивает",
+   "std": 38.07807159423828,
+   "mean": 102.37152862548828
+  },
+  {
+   "t": 72.54,
+   "scene": "s5_training",
+   "shot": "Плац: Глеб спрашивает",
+   "std": 40.36970520019531,
+   "mean": 102.84695434570312
+  },
+  {
+   "t": 73.99,
+   "scene": "s5_training",
+   "shot": "Инструктор",
+   "std": 36.043846130371094,
+   "mean": 100.5617904663086
+  },
+  {
+   "t": 75.14,
+   "scene": "s5_training",
+   "shot": "Инструктор",
+   "std": 34.693702697753906,
+   "mean": 99.72114562988281
+  },
+  {
+   "t": 76.92,
+   "scene": "s5_training",
+   "shot": "Растерянность Глеба",
+   "std": 37.37718963623047,
+   "mean": 99.08333587646484
+  },
+  {
+   "t": 79.12,
+   "scene": "s5_training",
+   "shot": "Растерянность Глеба",
+   "std": 38.77505874633789,
+   "mean": 99.99520874023438
+  },
+  {
+   "t": 80.96,
+   "scene": "s6_assignment",
+   "shot": "Кабинет, общий план",
+   "std": 35.59198760986328,
+   "mean": 45.27936553955078
+  },
+  {
+   "t": 82.56,
+   "scene": "s6_assignment",
+   "shot": "Кабинет, общий план",
+   "std": 35.00270462036133,
+   "mean": 45.42729949951172
+  },
+  {
+   "t": 84.31,
+   "scene": "s6_assignment",
+   "shot": "Командир",
+   "std": 41.43378829956055,
+   "mean": 48.76475524902344
+  },
+  {
+   "t": 86.16,
+   "scene": "s6_assignment",
+   "shot": "Командир",
+   "std": 37.69749069213867,
+   "mean": 48.0556526184082
+  },
+  {
+   "t": 88.31,
+   "scene": "s6_assignment",
+   "shot": "Глеб",
+   "std": 30.650474548339844,
+   "mean": 38.927085876464844
+  },
+  {
+   "t": 90.66,
+   "scene": "s6_assignment",
+   "shot": "Глеб",
+   "std": 36.59356689453125,
+   "mean": 41.38592529296875
+  },
+  {
+   "t": 92.38,
+   "scene": "s6_assignment",
+   "shot": "Командир закрывает папку",
+   "std": 45.16132736206055,
+   "mean": 50.17842483520508
+  },
+  {
+   "t": 93.68,
+   "scene": "s6_assignment",
+   "shot": "Командир закрывает папку",
+   "std": 37.49972152709961,
+   "mean": 47.32666015625
+  },
+  {
+   "t": 95.94,
+   "scene": "s6_assignment",
+   "shot": "Крупный план Глеба, тишина",
+   "std": 42.71686553955078,
+   "mean": 48.711429595947266
+  },
+  {
+   "t": 98.84,
+   "scene": "s6_assignment",
+   "shot": "Крупный план Глеба, тишина",
+   "std": 43.87910842895508,
+   "mean": 50.53736114501953
+  },
+  {
+   "t": 101.5,
+   "scene": "s7_transport",
+   "shot": "Кузов военного грузовика",
+   "std": 24.829483032226562,
+   "mean": 33.57319259643555
+  },
+  {
+   "t": 104.0,
+   "scene": "s7_transport",
+   "shot": "Кузов военного грузовика",
+   "std": 32.03049087524414,
+   "mean": 36.21412658691406
+  },
+  {
+   "t": 106.08,
+   "scene": "s7_transport",
+   "shot": "Руки Глеба",
+   "std": 42.73729705810547,
+   "mean": 48.844825744628906
+  },
+  {
+   "t": 107.88,
+   "scene": "s7_transport",
+   "shot": "Руки Глеба",
+   "std": 40.608333587646484,
+   "mean": 48.24618148803711
+  },
+  {
+   "t": 110.52,
+   "scene": "s7_transport",
+   "shot": "Наезд на глаза, затемнение",
+   "std": 36.74767303466797,
+   "mean": 40.53994369506836
+  },
+  {
+   "t": 113.72,
+   "scene": "s7_transport",
+   "shot": "Наезд на глаза, затемнение",
+   "std": 23.616756439208984,
+   "mean": 27.5360107421875
+  },
+  {
+   "t": 116.5,
+   "scene": "s8_end",
+   "shot": "Продолжение следует",
+   "std": 34.7841682434082,
+   "mean": 12.391013145446777
+  },
+  {
+   "t": 119.0,
+   "scene": "s8_end",
+   "shot": "Продолжение следует",
+   "std": 35.11077117919922,
+   "mean": 13.113621711730957
+  }
+ ],
+ "passed": true
+}
