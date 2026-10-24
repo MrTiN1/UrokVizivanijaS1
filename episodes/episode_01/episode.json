@@ -16,7 +16,16 @@
       "noiseW": 0.75,
       "pitch": -1.0,
       "sentencePause": 0.42,
-      "eq": "warm"
+      "eq": "warm",
+      "elevenlabs": {
+        "voiceId": "nPczCjzI2devNBz1zQrb",
+        "name": "Brian",
+        "model": "eleven_v4",
+        "stability": 0.45,
+        "style": 0.3,
+        "speed": 0.9,
+        "eq": "warm"
+      }
     },
     "gleb": {
       "model": "denis",
@@ -25,7 +34,15 @@
       "noiseW": 0.85,
       "pitch": 1.2,
       "sentencePause": 0.3,
-      "eq": "young"
+      "eq": "young",
+      "elevenlabs": {
+        "voiceId": "bIHbv24MWmeRgasZH58o",
+        "name": "Will",
+        "model": "eleven_v4",
+        "stability": 0.35,
+        "style": 0.4,
+        "speed": 1.0
+      }
     },
     "commander": {
       "model": "dmitri",
@@ -34,7 +51,16 @@
       "noiseW": 0.6,
       "pitch": -3.2,
       "sentencePause": 0.35,
-      "eq": "deep"
+      "eq": "deep",
+      "elevenlabs": {
+        "voiceId": "pNInz6obpgDQGcFmaJgB",
+        "name": "Adam",
+        "model": "eleven_v4",
+        "stability": 0.55,
+        "style": 0.25,
+        "speed": 0.92,
+        "eq": "deep"
+      }
     },
     "instructor": {
       "model": "denis",
@@ -43,7 +69,15 @@
       "noiseW": 0.7,
       "pitch": -2.6,
       "sentencePause": 0.3,
-      "eq": "deep"
+      "eq": "deep",
+      "elevenlabs": {
+        "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+        "name": "Harry",
+        "model": "eleven_v4",
+        "stability": 0.45,
+        "style": 0.35,
+        "speed": 1.0
+      }
     },
     "rep": {
       "model": "dmitri",
@@ -52,7 +86,16 @@
       "noiseW": 0.7,
       "pitch": -0.6,
       "sentencePause": 0.3,
-      "eq": "hall"
+      "eq": "hall",
+      "elevenlabs": {
+        "voiceId": "cjVigY5qzO86Huf0OWal",
+        "name": "Eric",
+        "model": "eleven_v4",
+        "stability": 0.5,
+        "style": 0.3,
+        "speed": 1.0,
+        "eq": "hall"
+      }
     }
   },
   "scenes": [

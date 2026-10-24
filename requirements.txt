@@ -6,3 +6,4 @@ scipy
 soundfile
 pillow
 opencv-python-headless
+librosa

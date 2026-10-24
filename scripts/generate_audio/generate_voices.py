@@ -15,7 +15,12 @@ Outputs:
   assets/voices/<ep>/<line_id>.wav
   episodes/<ep>/build/voices.json   (durations, words, visemes, asr text)
 
-Usage: python scripts/generate_audio/generate_voices.py episode_01 [--only id1,id2] [--no-asr]
+Usage: python scripts/generate_audio/generate_voices.py episode_01 [--only id1,id2] [--no-asr] [--engine piper|elevenlabs]
+
+--engine elevenlabs uses voices.<speaker>.elevenlabs = {voiceId, model, stability, style, speed, eq}
+from episode.json. Word timings come from ElevenLabs character alignment; the
+raw MP3 + alignment are cached in assets/voices/<ep>/elevenlabs/ and reused
+while text and settings are unchanged (saves the monthly character quota).
 """
 from __future__ import annotations
 
@@ -308,11 +313,91 @@ def external_line(wav: Path, line: dict, episode: str, use_asr: bool) -> dict:
     return entry
 
 
+# Russian letter → mouth shape (same shape set as Rhubarb / VISEME above)
+RU_VISEME = {**{c: "A" for c in "пбм"}, **{c: "G" for c in "фв"}, **{c: "F" for c in "уюw"},
+             **{c: "E" for c in "оё"}, **{c: "D" for c in "ая"}, **{c: "C" for c in "еэиы"}}
+
+
+def visemes_from_chars(chars: list, total: float) -> list[dict]:
+    phones = []
+    for ch, a, b in chars:
+        c = ch.lower()
+        if c.isalpha():
+            phones.append({"p": c, "start": a, "end": b})
+        elif phones and b - a > 0.08:  # audible pause on punctuation / space
+            phones.append({"p": "_", "start": a, "end": b})
+    cues: list[dict] = []
+    for ph in phones:
+        v = "X" if ph["p"] == "_" else RU_VISEME.get(ph["p"], "B")
+        if cues and cues[-1]["v"] == v:
+            cues[-1]["end"] = round(ph["end"], 3)
+        else:
+            cues.append({"v": v, "start": round(ph["start"], 3), "end": round(ph["end"], 3)})
+    merged: list[dict] = []
+    for c in cues:
+        if merged and c["end"] - c["start"] < 0.045:
+            merged[-1]["end"] = c["end"]
+        else:
+            merged.append(c)
+    if not merged:
+        return [{"v": "X", "start": 0, "end": total}]
+    if merged[0]["start"] > 0:
+        merged.insert(0, {"v": "X", "start": 0, "end": merged[0]["start"]})
+    merged.append({"v": "X", "start": merged[-1]["end"], "end": total})
+    return merged
+
+
+def elevenlabs_line(line: dict, vcfg: dict, out_dir: Path, episode: str, use_asr: bool) -> dict:
+    import hashlib
+
+    sys.path.insert(0, str(Path(__file__).parent))
+    import elevenlabs_tts as el
+
+    ecfg = vcfg.get("elevenlabs")
+    if not ecfg:
+        raise SystemExit(f"voices.{line['speaker']}.elevenlabs is not set in episode.json")
+    model = ecfg.get("model", "eleven_v4")
+    key = json.dumps([line["text"], ecfg["voiceId"], model, ecfg.get("stability", 0.42), ecfg.get("style", 0.35), ecfg.get("speed", 1.0)], ensure_ascii=False)
+    digest = hashlib.sha1(key.encode()).hexdigest()[:12]
+    cache = out_dir / "elevenlabs"
+    mp3, align = cache / f"{line['id']}.mp3", cache / f"{line['id']}.json"
+    cached = json.loads(align.read_text()) if align.exists() else {}
+    if cached.get("digest") == digest and mp3.exists():
+        chars = cached["chars"]
+        print("   elevenlabs: cached")
+    else:
+        chars = el.synth_with_timestamps(ecfg["voiceId"], line["text"], mp3, ecfg.get("stability", 0.42), ecfg.get("style", 0.35), model=model, speed=ecfg.get("speed", 1.0))
+        align.write_text(json.dumps({"digest": digest, "voiceId": ecfg["voiceId"], "model": model, "chars": chars}, ensure_ascii=False))
+        print(f"   elevenlabs: synthesized {len(line['text'])} chars")
+    dst = out_dir / f"{line['id']}.wav"
+    eq = EQ.get(ecfg.get("eq", ""), "anull")
+    lead = 0.06
+    af = (f"adelay={int(lead * 1000)},aresample=48000,{eq},"
+          "acompressor=threshold=-20dB:ratio=2.5:attack=8:release=120:makeup=1.5,loudnorm=I=-18:TP=-2:LRA=9")
+    run(["ffmpeg", "-y", "-v", "error", "-i", str(mp3), "-af", af, "-ar", "48000", "-ac", "1", str(dst)])
+    data, sr = read_wav(dst)
+    dur = len(data) / sr
+    shifted = [(c, a + lead, b + lead) for c, a, b in chars]
+    words = [w for w in el.words_from_chars(shifted) if norm_word(w["w"])]
+    vis = visemes_from_chars(shifted, dur)
+    entry = {"speaker": line["speaker"], "text": line["text"], "file": f"voices/{episode}/{dst.name}", "duration": round(dur, 3),
+             "words": words, "visemes": vis, "rhubarb": rhubarb_cues(dst, line["text"]), "lipsyncSource": "elevenlabs-alignment",
+             "engine": "elevenlabs", "voiceId": ecfg["voiceId"], "model": model}
+    if use_asr:
+        hyp = asr_text(dst)
+        if hyp is not None:
+            entry["asr"], entry["asrWordAccuracy"] = hyp, round(word_accuracy(line["text"], hyp), 3)
+            print(f"   ASR «{hyp}» ({entry['asrWordAccuracy']:.0%})")
+    print(f"   => {dur:.2f}s, {len(words)} words, {len(vis)} visemes")
+    return entry
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("episode")
     ap.add_argument("--only", default="")
     ap.add_argument("--no-asr", action="store_true")
+    ap.add_argument("--engine", choices=["piper", "elevenlabs"], default="piper")
     ap.add_argument("--external", action="store_true", help="use existing WAVs in assets/voices/<ep>/ (recorded / ElevenLabs); lip sync via Rhubarb")
     args = ap.parse_args()
 
@@ -336,6 +421,9 @@ def main() -> None:
             print(f"[{lid}] {line['speaker']}: {line['text']}")
             if args.external and (out_dir / f"{lid}.wav").exists():
                 meta[lid] = external_line(out_dir / f"{lid}.wav", line, args.episode, not args.no_asr)
+                continue
+            if args.engine == "elevenlabs":
+                meta[lid] = elevenlabs_line(line, vcfg, out_dir, args.episode, not args.no_asr)
                 continue
             best = None
             for take in range(1 if args.no_asr else 4):

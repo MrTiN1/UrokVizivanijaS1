@@ -3,7 +3,11 @@
 
   elevenlabs_tts.py voices [query]          list your voices + shared library (Russian male)
   elevenlabs_tts.py say <voice_id> <out.mp3> "text" [stability] [style]
-  elevenlabs_tts.py casting <voice_id> [<voice_id> ...]   → output/voice_samples/el_<name>.mp3
+  elevenlabs_tts.py casting <model> <voice_id> [<voice_id> ...]   → output/voice_samples/el_<model>_<name>.mp3
+  elevenlabs_tts.py usage                   characters used / monthly limit
+
+Free tier: only premade voices work through the API (library voices and voice
+design need a paid plan). The agent proxy may inject the key itself.
 
 `synth_with_timestamps()` returns audio + per-character timings, used by
 generate_voices.py (engine "elevenlabs") for exact subtitle/lip-sync timing.
@@ -40,21 +44,23 @@ def _req(method: str, path: str, body: dict | None = None, accept: str = "applic
         raise SystemExit(f"ElevenLabs HTTP {e.code}: {e.read()[:400].decode(errors='replace')}")
 
 
-def settings(stability: float = 0.42, style: float = 0.35) -> dict:
-    # lower stability = livelier intonation; style adds expressiveness
-    return {"stability": stability, "similarity_boost": 0.8, "style": style, "use_speaker_boost": True}
+def settings(stability: float = 0.42, style: float = 0.35, speed: float = 1.0) -> dict:
+    # lower stability = livelier intonation; style adds expressiveness; speed 0.7–1.2
+    return {"stability": stability, "similarity_boost": 0.8, "style": style, "use_speaker_boost": True, "speed": speed}
 
 
-def synth(voice_id: str, text: str, out: Path, stability=0.42, style=0.35, fmt="mp3_44100_128") -> Path:
-    audio = _req("POST", f"/v1/text-to-speech/{voice_id}?output_format={fmt}", {"text": text, "model_id": MODEL, "voice_settings": settings(stability, style)}, accept="audio/mpeg")
+def synth(voice_id: str, text: str, out: Path, stability=0.42, style=0.35, fmt="mp3_44100_128", model: str | None = None) -> Path:
+    body = {"text": text, "model_id": model or MODEL, "voice_settings": settings(stability, style), "language_code": "ru"}
+    audio = _req("POST", f"/v1/text-to-speech/{voice_id}?output_format={fmt}", body, accept="audio/mpeg")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_bytes(audio)
     return out
 
 
-def synth_with_timestamps(voice_id: str, text: str, out: Path, stability=0.42, style=0.35, fmt="mp3_44100_128"):
+def synth_with_timestamps(voice_id: str, text: str, out: Path, stability=0.42, style=0.35, fmt="mp3_44100_128", model: str | None = None, speed: float = 1.0):
     """Returns list of (char, start_s, end_s)."""
-    js = json.loads(_req("POST", f"/v1/text-to-speech/{voice_id}/with-timestamps?output_format={fmt}", {"text": text, "model_id": MODEL, "voice_settings": settings(stability, style)}))
+    body = {"text": text, "model_id": model or MODEL, "voice_settings": settings(stability, style, speed), "language_code": "ru"}
+    js = json.loads(_req("POST", f"/v1/text-to-speech/{voice_id}/with-timestamps?output_format={fmt}", body))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_bytes(base64.b64decode(js["audio_base64"]))
     al = js.get("alignment") or js.get("normalized_alignment") or {}
@@ -103,6 +109,11 @@ if __name__ == "__main__":
         sty = float(sys.argv[6]) if len(sys.argv) > 6 else 0.35
         print(synth(vid, text, Path(out), stab, sty))
     elif cmd == "casting":
-        for vid in sys.argv[2:]:
-            p = synth(vid, TEXT, ROOT / "output" / "voice_samples" / f"el_{vid}.mp3")
-            print(p)
+        model = sys.argv[2]
+        names = {v["voice_id"]: v["name"].split(" ")[0].lower() for v in json.loads(_req("GET", "/v1/voices")).get("voices", [])}
+        for vid in sys.argv[3:]:
+            tag = model.replace("eleven_", "").replace("multilingual_", "")
+            print(synth(vid, TEXT, ROOT / "output" / "voice_samples" / f"el_{tag}_{names.get(vid, vid)}.mp3", model=model))
+    elif cmd == "usage":
+        u = json.loads(_req("GET", "/v1/user/subscription"))
+        print(f"{u['character_count']} / {u['character_limit']} characters ({u['tier']})")

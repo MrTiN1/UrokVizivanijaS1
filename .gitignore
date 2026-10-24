@@ -18,3 +18,4 @@ assets/voices/models/silero/
 /.env.local
 .env.local
 output/*.bundle
+__pycache__/
