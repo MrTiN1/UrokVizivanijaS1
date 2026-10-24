@@ -1,0 +1,29 @@
+{
+  "name": "uroki-vyzhivaniya",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production pipeline for the 2D animated series «Уроки выживания»",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.538",
+    "@remotion/cli": "^4.0.538",
+    "@remotion/media-utils": "^4.0.538",
+    "@remotion/renderer": "^4.0.538",
+    "@remotion/transitions": "^4.0.538",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "remotion": "^4.0.538"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "^4.0.538",
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.8",
+    "eslint": "^9.28.0",
+    "typescript": "^5.8.3"
+  }
+}

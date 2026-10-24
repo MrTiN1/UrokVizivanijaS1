@@ -1,0 +1,14 @@
+node_modules/
+.venv/
+tools/
+build/
+out/
+.cache/
+*.log
+assets/voices/models/
+output/frames/
+output/tmp/
+episodes/*/build/*.wav
+assets/music/*.wav
+assets/sfx/*_fx.wav
+assets/voices/*/*.take*.wav
