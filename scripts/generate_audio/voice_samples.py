@@ -27,6 +27,14 @@ TEXT = [
 ]
 PAUSES = [0.55, 0.9, 0.6]  # after each sentence (longer = dramatic beat)
 
+# denser, darker "TikTok documentary" chain matched to the reference narrator
+REF_CHAIN = (
+    "highpass=f=60,equalizer=f=110:t=q:w=0.8:g=4,equalizer=f=220:t=q:w=1:g=1.5,equalizer=f=450:t=q:w=1:g=-2,"
+    "equalizer=f=2800:t=q:w=1.2:g=2,equalizer=f=6000:t=q:w=1:g=-4,lowpass=f=10000,"
+    "acompressor=threshold=-24dB:ratio=4.5:attack=4:release=110:makeup=4,"
+    "aecho=0.85:0.45:18|29:0.05|0.03,loudnorm=I=-16:TP=-1.5:LRA=5"
+)
+
 DOC_CHAIN = (
     "highpass=f=65,equalizer=f=115:t=q:w=0.9:g=3.5,equalizer=f=300:t=q:w=1:g=-1.5,"
     "equalizer=f=3300:t=q:w=1.1:g=2.5,equalizer=f=7500:t=q:w=1:g=-2.5,"
@@ -105,6 +113,8 @@ def assemble(sents, name: str, pitch: float, chain: str = DOC_CHAIN) -> Path:
 
 
 VARIANTS = [
+    ("8_denis_kak_v_referense", lambda: piper("denis", 1.22, 0.72, 0.95), -3.4),
+    ("9_denis_kak_v_referense_nizhe", lambda: piper("denis", 1.2, 0.8, 1.0), -4.2),
     ("1_ruslan_dokumentalny", lambda: piper("ruslan", 1.16, 0.58, 0.7), -2.0),
     ("2_dmitri_dokumentalny", lambda: piper("dmitri", 1.14, 0.6, 0.72), -2.2),
     ("3_denis_nizkiy", lambda: piper("denis", 1.12, 0.62, 0.75), -3.0),
@@ -120,13 +130,13 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     TMP.mkdir(parents=True, exist_ok=True)
     only = set(sys.argv[1:])
-    report = {}
+    report = json.loads((OUT / "report.json").read_text()) if (OUT / "report.json").exists() else {}
     ref = " ".join(TEXT)
     for name, gen, pitch in VARIANTS:
         if only and name not in only:
             continue
         try:
-            wav = assemble(gen(), name, pitch)
+            wav = assemble(gen(), name, pitch, REF_CHAIN if "referense" in name else DOC_CHAIN)
         except Exception as e:  # engine missing → skip
             print(f"{name}: skipped ({e})")
             continue
