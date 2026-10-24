@@ -263,10 +263,16 @@ def asr_text(wav: Path) -> str | None:
             decoding_method="greedy_search",
         )
     data, sr = read_wav(wav)
-    s = _asr.create_stream()
-    s.accept_waveform(sr, data)
-    _asr.decode_stream(s)
-    return s.result.text.strip()
+    parts = []
+    step = sr * 15  # the zipformer model fails on very long inputs
+    for i in range(0, len(data), step):
+        if len(data) - i < sr // 2:
+            break
+        s = _asr.create_stream()
+        s.accept_waveform(sr, data[i : i + step])
+        _asr.decode_stream(s)
+        parts.append(s.result.text.strip())
+    return " ".join(p for p in parts if p)
 
 
 def word_accuracy(ref: str, hyp: str) -> float:

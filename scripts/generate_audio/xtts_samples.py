@@ -20,9 +20,11 @@ tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to("cpu")
 if sys.argv[2] == "--list":
     print(tts.speakers)
     raise SystemExit
+speed = float(os.environ.get("XTTS_SPEED", "0.92"))
+suffix = os.environ.get("XTTS_SUFFIX", "")
 for spk in sys.argv[2:]:
     for i, t in enumerate(TEXT):
-        p = f"{out}/xtts_{spk.replace(' ', '_')}_{i}.wav"
+        p = f"{out}/xtts_{spk.replace(' ', '_')}{suffix}_{i}.wav"
         if not os.path.exists(p):
-            tts.tts_to_file(text=t, speaker=spk, language="ru", file_path=p, temperature=0.6, speed=0.92)
+            tts.tts_to_file(text=t, speaker=spk, language="ru", file_path=p, temperature=0.6, speed=speed)
     print("done", spk, flush=True)

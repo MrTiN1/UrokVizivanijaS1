@@ -17,60 +17,20 @@
  },
  "ranking": [
   {
-   "distance": 1.66,
-   "file": "32_freetts_german_kak_v_referense.mp3",
-   "f0_median_hz": 103.8,
-   "f0_range_semitones": 12.4,
-   "words_per_min_speech": 131.0,
-   "spectral_centroid_hz": 1130.0
+   "distance": 2.51,
+   "file": "63_xtts_filip_traverse.mp3",
+   "f0_median_hz": 105.6,
+   "f0_range_semitones": 15.8,
+   "words_per_min_speech": 168.0,
+   "spectral_centroid_hz": 797.0
   },
   {
-   "distance": 1.81,
-   "file": "34_ms_remy_kak_v_referense.mp3",
-   "f0_median_hz": 103.2,
-   "f0_range_semitones": 12.2,
-   "words_per_min_speech": 129.0,
-   "spectral_centroid_hz": 1112.0
-  },
-  {
-   "distance": 1.87,
-   "file": "9_denis_kak_v_referense_nizhe.mp3",
-   "f0_median_hz": 106.3,
-   "f0_range_semitones": 12.0,
-   "words_per_min_speech": 140.0,
-   "spectral_centroid_hz": 820.0
-  },
-  {
-   "distance": 1.88,
-   "file": "12_ms_andrew.mp3",
-   "f0_median_hz": 106.9,
-   "f0_range_semitones": 9.7,
-   "words_per_min_speech": 132.0,
-   "spectral_centroid_hz": 1073.0
-  },
-  {
-   "distance": 2.42,
-   "file": "33_freetts_eduard_kak_v_referense.mp3",
-   "f0_median_hz": 106.3,
-   "f0_range_semitones": 9.3,
-   "words_per_min_speech": 129.0,
-   "spectral_centroid_hz": 1168.0
-  },
-  {
-   "distance": 2.42,
-   "file": "31_ms_dmitry_kak_v_referense.mp3",
-   "f0_median_hz": 103.2,
-   "f0_range_semitones": 9.8,
-   "words_per_min_speech": 133.0,
-   "spectral_centroid_hz": 1197.0
-  },
-  {
-   "distance": 2.67,
-   "file": "30_ms_andrew_medlenee.mp3",
-   "f0_median_hz": 106.3,
-   "f0_range_semitones": 9.2,
-   "words_per_min_speech": 123.0,
-   "spectral_centroid_hz": 1136.0
+   "distance": 3.53,
+   "file": "64_xtts_filip_traverse_medlenee.mp3",
+   "f0_median_hz": 105.6,
+   "f0_range_semitones": 6.5,
+   "words_per_min_speech": 144.0,
+   "spectral_centroid_hz": 811.0
   }
  ]
 }

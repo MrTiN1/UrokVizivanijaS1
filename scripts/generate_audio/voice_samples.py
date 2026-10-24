@@ -139,6 +139,11 @@ def freetts(voice_id: str):
     return [read_wav(wav)]
 
 
+def xtts(speaker: str):
+    """Pre-rendered XTTS-v2 sentences (scripts/generate_audio/xtts_samples.py, .venv-xtts)."""
+    return [read_wav(TMP / f"xtts_{speaker.replace(' ', '_')}_{i}.wav") for i in range(len(TEXT))]
+
+
 def mms(speed: float):
     import sherpa_onnx
 
@@ -194,6 +199,21 @@ def assemble(sents, name: str, pitch: float, chain: str = DOC_CHAIN, tempo: floa
 
 
 VARIANTS = [
+    ("64_xtts_filip_traverse_medlenee", lambda: xtts("Filip Traverse_slow"), 0, 1.0, "clean"),
+    ("50_xtts_damien_black", lambda n="Damien Black": xtts(n), 0, 1.0, "clean"),
+    ("51_xtts_craig_gutsy", lambda n="Craig Gutsy": xtts(n), 0, 1.0, "clean"),
+    ("52_xtts_viktor_eka", lambda n="Viktor Eka": xtts(n), 0, 1.0, "clean"),
+    ("53_xtts_viktor_menelaos", lambda n="Viktor Menelaos": xtts(n), 0, 1.0, "clean"),
+    ("54_xtts_baldur_sanjin", lambda n="Baldur Sanjin": xtts(n), 0, 1.0, "clean"),
+    ("55_xtts_torcull_diarmuid", lambda n="Torcull Diarmuid": xtts(n), 0, 1.0, "clean"),
+    ("56_xtts_ludvig_milivoj", lambda n="Ludvig Milivoj": xtts(n), 0, 1.0, "clean"),
+    ("57_xtts_badr_odhiambo", lambda n="Badr Odhiambo": xtts(n), 0, 1.0, "clean"),
+    ("58_xtts_aaron_dreschner", lambda n="Aaron Dreschner": xtts(n), 0, 1.0, "clean"),
+    ("59_xtts_wulf_carlevaro", lambda n="Wulf Carlevaro": xtts(n), 0, 1.0, "clean"),
+    ("60_xtts_abrahan_mack", lambda n="Abrahan Mack": xtts(n), 0, 1.0, "clean"),
+    ("61_xtts_marcos_rudaski", lambda n="Marcos Rudaski": xtts(n), 0, 1.0, "clean"),
+    ("62_xtts_royston_min", lambda n="Royston Min": xtts(n), 0, 1.0, "clean"),
+    ("63_xtts_filip_traverse", lambda n="Filip Traverse": xtts(n), 0, 1.0, "clean"),
     ("40_chisty_ms_dmitry", lambda: edge("ru-RU-DmitryNeural", "-15%", "-4Hz", "_c"), 0, 1.0, "clean"),
     ("41_chisty_ms_remy", lambda: edge("fr-FR-RemyMultilingualNeural", "-12%", "-4Hz", "_c"), 0, 1.0, "clean"),
     ("42_chisty_freetts_german", lambda: freetts_sentences("QnWmRxTpUdSj"), 0, 1.0, "clean"),
