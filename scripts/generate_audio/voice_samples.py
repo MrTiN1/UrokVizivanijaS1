@@ -58,6 +58,65 @@ def piper(model: str, length: float, noise: float, noise_w: float):
     return sents
 
 
+def edge(voice: str, rate: str, pitch: str):
+    """Microsoft neural voices via edge-tts (free, no key)."""
+    import asyncio
+
+    import edge_tts
+
+    out = []
+    for i, s in enumerate(TEXT):
+        mp3 = TMP / f"edge_{voice}_{i}.mp3"
+        wav = TMP / f"edge_{voice}_{i}.wav"
+        for attempt in range(6):
+            try:
+                asyncio.run(edge_tts.Communicate(s, voice, rate=rate, pitch=pitch, proxy=os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")).save(str(mp3)))
+                break
+            except Exception:
+                if attempt == 5:
+                    raise
+                import time
+
+                time.sleep(2 + attempt * 2)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(mp3), "-ac", "1", "-ar", "48000", str(wav)], check=True)
+        out.append(read_wav(wav))
+    return out
+
+
+_SILERO = {}
+
+
+def silero(model: str, speaker: str, rate: str = "slow", pitch: str = "medium"):
+    """Silero TTS (v4/v5 Russian) with SSML prosody."""
+    import torch
+
+    if model not in _SILERO:
+        imp = torch.package.PackageImporter(str(ROOT / "assets" / "voices" / "models" / "silero" / f"{model}.pt"))
+        m = imp.load_pickle("tts_models", "model")
+        m.to("cpu")
+        _SILERO[model] = m
+    m = _SILERO[model]
+    out = []
+    for snt in TEXT:
+        ssml = f'<speak><prosody rate="{rate}" pitch="{pitch}">{snt}</prosody></speak>'
+        a = m.apply_tts(ssml_text=ssml, speaker=speaker, sample_rate=48000, put_accent=True, put_yo=True)
+        out.append((a.numpy().astype(np.float32), 48000))
+    return out
+
+
+def freetts(voice_id: str):
+    """freetts.ru voice — one request for the whole narration (polite usage)."""
+    import time
+
+    mp3 = TMP / f"ft_{voice_id}.mp3"
+    wav = TMP / f"ft_{voice_id}.wav"
+    if not mp3.exists() or mp3.stat().st_size < 1000:
+        subprocess.run([sys.executable, str(Path(__file__).parent / "freetts_client.py"), voice_id, str(mp3), " ".join(TEXT)], check=True, stdout=subprocess.DEVNULL, timeout=240)
+        time.sleep(3)
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(mp3), "-ac", "1", "-ar", "48000", str(wav)], check=True)
+    return [read_wav(wav)]
+
+
 def mms(speed: float):
     import sherpa_onnx
 
@@ -90,7 +149,7 @@ def rhvoice(voice: str, rate: int):
     return out
 
 
-def assemble(sents, name: str, pitch: float, chain: str = DOC_CHAIN) -> Path:
+def assemble(sents, name: str, pitch: float, chain: str = DOC_CHAIN, tempo: float = 1.0) -> Path:
     from scipy.signal import resample_poly
 
     parts = []
@@ -105,7 +164,7 @@ def assemble(sents, name: str, pitch: float, chain: str = DOC_CHAIN) -> Path:
     write_wav(raw, np.concatenate([np.zeros(4800, np.float32), *parts, np.zeros(9600, np.float32)]), 48000)
     pf = 2 ** (pitch / 12)
     wav = TMP / f"{name}.wav"
-    af = (f"rubberband=pitch={pf:.5f}:formant=preserved:transients=smooth," if pitch else "") + chain
+    af = (f"rubberband=pitch={pf:.5f}:tempo={tempo:.4f}:formant=preserved:transients=smooth," if (pitch or tempo != 1.0) else "") + chain
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(raw), "-af", af, "-ar", "48000", "-ac", "1", str(wav)], check=True)
     mp3 = OUT / f"{name}.mp3"
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(wav), "-c:a", "libmp3lame", "-b:a", "160k", str(mp3)], check=True)
@@ -113,6 +172,30 @@ def assemble(sents, name: str, pitch: float, chain: str = DOC_CHAIN) -> Path:
 
 
 VARIANTS = [
+    ("30_ms_andrew_medlenee", lambda: [read_wav(TMP / f"edge_en-US-AndrewMultilingualNeural_{i}.wav") for i in range(len(TEXT))], -0.4, 0.97),
+    ("31_ms_dmitry_kak_v_referense", lambda: [read_wav(TMP / f"edge_ru-RU-DmitryNeural_{i}.wav") for i in range(len(TEXT))], -0.5, 0.88),
+    ("32_freetts_german_kak_v_referense", lambda: freetts("QnWmRxTpUdSj"), 0.6, 0.87),
+    ("33_freetts_eduard_kak_v_referense", lambda: freetts("HqTjPmFaErVk"), -1.0, 0.92),
+    ("34_ms_remy_kak_v_referense", lambda: [read_wav(TMP / f"edge_fr-FR-RemyMultilingualNeural_{i}.wav") for i in range(len(TEXT))], 1.5, 0.95),
+    ("20_freetts_dmitriy", lambda: freetts("vgpkhgZWTwnh"), 0),
+    ("21_freetts_eduard", lambda: freetts("HqTjPmFaErVk"), 0),
+    ("22_freetts_robert", lambda: freetts("GcVzRnLkPoTe"), 0),
+    ("23_freetts_german", lambda: freetts("QnWmRxTpUdSj"), 0),
+    ("24_freetts_emil", lambda: freetts("LkNrBvCxZtWu"), 0),
+    ("25_freetts_vitaliy", lambda: freetts("VbNqRtKmLpOz"), 0),
+    ("26_freetts_yura", lambda: freetts("SkYhUtRePmLo"), 0),
+    ("27_freetts_aydar", lambda: freetts("bd30c95c59d3"), 0),
+    ("28_freetts_kirill", lambda: freetts("rus_Kirill"), 0),
+    ("16_silero5_aidar", lambda: silero("v5_ru", "aidar", "slow", "low"), -1.0),
+    ("17_silero5_eugene", lambda: silero("v5_ru", "eugene", "slow", "low"), -1.0),
+    ("18_silero4_aidar", lambda: silero("v4_ru", "aidar", "slow", "low"), -1.0),
+    ("19_silero4_eugene", lambda: silero("v4_ru", "eugene", "slow", "low"), -1.0),
+    ("10_ms_dmitry", lambda: edge("ru-RU-DmitryNeural", "-10%", "-6Hz"), 0),
+    ("11_ms_dmitry_nizkiy", lambda: [read_wav(TMP / f"edge_ru-RU-DmitryNeural_{i}.wav") for i in range(len(TEXT))], -1.8),
+    ("12_ms_andrew", lambda: edge("en-US-AndrewMultilingualNeural", "-10%", "-8Hz"), 0),
+    ("13_ms_brian", lambda: edge("en-US-BrianMultilingualNeural", "-10%", "-8Hz"), 0),
+    ("14_ms_florian", lambda: edge("de-DE-FlorianMultilingualNeural", "-10%", "-8Hz"), 0),
+    ("15_ms_remy", lambda: edge("fr-FR-RemyMultilingualNeural", "-10%", "-8Hz"), 0),
     ("8_denis_kak_v_referense", lambda: piper("denis", 1.22, 0.72, 0.95), -3.4),
     ("9_denis_kak_v_referense_nizhe", lambda: piper("denis", 1.2, 0.8, 1.0), -4.2),
     ("1_ruslan_dokumentalny", lambda: piper("ruslan", 1.16, 0.58, 0.7), -2.0),
@@ -132,11 +215,13 @@ def main():
     only = set(sys.argv[1:])
     report = json.loads((OUT / "report.json").read_text()) if (OUT / "report.json").exists() else {}
     ref = " ".join(TEXT)
-    for name, gen, pitch in VARIANTS:
+    for v in VARIANTS:
+        name, gen, pitch = v[:3]
+        tempo = v[3] if len(v) > 3 else 1.0
         if only and name not in only:
             continue
         try:
-            wav = assemble(gen(), name, pitch, REF_CHAIN if "referense" in name else DOC_CHAIN)
+            wav = assemble(gen(), name, pitch, tempo=tempo, chain=REF_CHAIN if ("referense" in name or name.split("_")[0] in {"10", "11", "12", "13", "14", "15", "30", "31", "32", "33", "34"}) else DOC_CHAIN)
         except Exception as e:  # engine missing → skip
             print(f"{name}: skipped ({e})")
             continue
