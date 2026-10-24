@@ -429,8 +429,8 @@ const Eye: React.FC<{
           d={`M${-s * ew * 0.25} ${eh * 0.55} Q${s * ew * 0.05} ${eh * 0.72} ${s * ew * 0.35} ${eh * 0.5}`}
           fill="none"
           stroke={design.skinShade}
-          strokeWidth={1.4}
-          opacity={0.8}
+          strokeWidth={1.2}
+          opacity={0.45}
         />
       )}
     </g>
@@ -747,8 +747,7 @@ const HairFront: React.FC<{g: HeadGeo; design: Design; pose: Pose; idp: string}>
     const top = g.edge(-166, vol);
     const c = (top.l + top.r) / 2;
     spikes.push(
-      <path key="s1" d={`M${c - 22} ${-168} Q${c - 16} ${-184} ${c - 28} ${-186} Q${c - 6} ${-186} ${c + 2} ${-172}Z`} fill={design.hair} />,
-      <path key="s2" d={`M${c + 6} ${-172} Q${c + 20} ${-182} ${c + 30} ${-180} Q${c + 26} ${-170} ${c + 24} ${-160}Z`} fill={design.hair} />,
+      <path key="s1" d={`M${c - 6} ${-170} Q${c + 4} ${-188} ${c + 18} ${-186} Q${c + 10} ${-178} ${c + 12} ${-168}Z`} fill={design.hair} />,
       <path key="s3" d={`M${top.r - 10} ${-150} Q${top.r + 10} ${-160} ${top.r + 14} ${-148} Q${top.r + 6} ${-142} ${top.r - 2} ${-132}Z`} fill={design.hair} />,
     );
   }
@@ -813,16 +812,16 @@ const Helmet: React.FC<{g: HeadGeo; design: Design; pose: Pose; idp: string; lig
   const e = g.edge(-128, 0);
   const cxh = (e.l + e.r) / 2 + Math.sin(g.b) * 4;
   const rx = (e.r - e.l) / 2 + 22;
-  const brimY = -104;
+  const brimY = -110;
   const dome = `M${cxh - rx} ${brimY} C${cxh - rx} ${-178} ${cxh - rx * 0.55} ${-200} ${cxh} ${-200} C${cxh + rx * 0.55} ${-200} ${cxh + rx} ${-178} ${cxh + rx} ${brimY} Q${cxh} ${brimY - 14} ${cxh - rx} ${brimY}Z`;
   const front = {x: cxh + Math.sin(g.b) * rx * 0.3};
   const brim = `M${cxh - rx - 4} ${brimY + 2} Q${cxh} ${brimY - 14} ${cxh + rx + 4} ${brimY + 2} L${cxh + rx + 3} ${brimY + 10} Q${cxh} ${brimY - 4} ${cxh - rx - 3} ${brimY + 10}Z`;
   const strap = (side: number) => {
-    const ear = g.pt(side * 1.5, -98, 4);
-    const jaw = g.pt(side * 1.1, -34, 3);
-    const chin = g.pt(side * 0.2, 2, 3);
-    if (ear.z < -40) return null;
-    return <path key={side} d={`M${ear.x} ${ear.y} Q${jaw.x} ${jaw.y} ${chin.x} ${chin.y}`} fill="none" stroke="#2c2f22" strokeWidth={5} strokeLinecap="round" />;
+    const ear = g.pt(side * 1.45, -100, 3);
+    const jaw = g.pt(side * 1.3, -40, 2);
+    const chin = g.pt(side * 0.75, 4, 1);
+    if (ear.z < -40 || jaw.z < -30) return null;
+    return <path key={side} d={`M${ear.x} ${ear.y} Q${jaw.x} ${jaw.y} ${chin.x} ${chin.y}`} fill="none" stroke="#2c2f22" strokeWidth={3.6} strokeLinecap="round" opacity={0.9} />;
   };
   const hlx = light.x >= 0 ? 1 : -1;
   // a few hair strands peeking under the brim
@@ -842,6 +841,7 @@ const Helmet: React.FC<{g: HeadGeo; design: Design; pose: Pose; idp: string; lig
           <path d={dome} />
         </clipPath>
       </defs>
+      <path d={`M${cxh - rx + 10} ${brimY + 4} Q${cxh} ${brimY + 26} ${cxh + rx - 10} ${brimY + 4} L${cxh + rx - 10} ${brimY - 4} L${cxh - rx + 10} ${brimY - 4}Z`} fill="#2a1d16" opacity={0.35} />
       {peeks}
       {strap(-1)}
       {strap(1)}

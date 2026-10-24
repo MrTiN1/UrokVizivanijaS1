@@ -225,3 +225,11 @@ export const RECRUITS: Design[] = STUDENTS.map((s, i) =>
 );
 
 export const CAST = {GLEB_CIVIL, GLEB_MILITARY, REPRESENTATIVE, INSTRUCTOR, COMMANDER, CLASSMATE};
+
+/** Gleb at the training centre: field uniform, no helmet or vest. */
+export const GLEB_RECRUIT: Design = {
+  ...GLEB_MILITARY,
+  id: 'gleb_rec',
+  outfit: 'field',
+  colors: {...GLEB_MILITARY.colors, under: '#4a5236', underShade: '#333a25'},
+};

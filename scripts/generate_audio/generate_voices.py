@@ -276,11 +276,38 @@ def word_accuracy(ref: str, hyp: str) -> float:
     return sum(b.size for b in sm.get_matching_blocks()) / max(1, len(r))
 
 
+def external_line(wav: Path, line: dict, episode: str, use_asr: bool) -> dict:
+    """Timing + lip sync for a voice file that was not produced by our TTS."""
+    data, sr = read_wav(wav)
+    dur = len(data) / sr
+    hop = int(sr * 0.01)
+    env = np.array([np.sqrt(np.mean(data[i : i + hop] ** 2)) for i in range(0, len(data) - hop, hop)])
+    voiced = np.where(env > max(env.max() * 0.08, 1e-4))[0]
+    t0, t1 = (voiced[0] * 0.01, voiced[-1] * 0.01) if len(voiced) else (0, dur)
+    words = [w for w in line["text"].split() if norm_word(w)]
+    total = sum(len(norm_word(w)) for w in words)
+    t, out = t0, []
+    for w in words:
+        d = (t1 - t0) * len(norm_word(w)) / max(1, total)
+        out.append({"w": w, "start": round(t, 3), "end": round(t + d, 3)})
+        t += d
+    vis = rhubarb_cues(wav, line["text"]) or [{"v": "X", "start": 0, "end": dur}]
+    entry = {"speaker": line["speaker"], "text": line["text"], "file": f"voices/{episode}/{wav.name}", "duration": round(dur, 3),
+             "words": out, "visemes": vis, "rhubarb": vis, "lipsyncSource": "rhubarb"}
+    if use_asr:
+        hyp = asr_text(wav)
+        if hyp is not None:
+            entry["asr"], entry["asrWordAccuracy"] = hyp, round(word_accuracy(line["text"], hyp), 3)
+    print(f"   external: {dur:.2f}s, rhubarb visemes {len(vis)}")
+    return entry
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("episode")
     ap.add_argument("--only", default="")
     ap.add_argument("--no-asr", action="store_true")
+    ap.add_argument("--external", action="store_true", help="use existing WAVs in assets/voices/<ep>/ (recorded / ElevenLabs); lip sync via Rhubarb")
     args = ap.parse_args()
 
     ep_dir = ROOT / "episodes" / args.episode
@@ -301,6 +328,9 @@ def main() -> None:
                 continue
             vcfg = ep["voices"][line["speaker"]]
             print(f"[{lid}] {line['speaker']}: {line['text']}")
+            if args.external and (out_dir / f"{lid}.wav").exists():
+                meta[lid] = external_line(out_dir / f"{lid}.wav", line, args.episode, not args.no_asr)
+                continue
             best = None
             for take in range(1 if args.no_asr else 4):
                 data, sr, words, phones = synth_line(line["text"], vcfg)
