@@ -17,3 +17,4 @@ assets/voices/models/silero/
 # Local secrets written by `elevenlabs onboard`
 /.env.local
 .env.local
+output/*.bundle
