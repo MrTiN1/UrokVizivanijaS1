@@ -155,7 +155,7 @@ def main() -> None:
                 check(f"line {ln['id']} fits its scene", False, f"ends {end:.2f}s after scene cut {nxt[0]}s")
     check("subtitle ↔ voice sync (≤ 100 ms)", max(offs) <= 0.1, f"max offset {max(offs) * 1000:.0f} ms across {len(offs)} lines")
     lipsrc = {v_["lipsyncSource"] for v_ in vo.values()}
-    check("lip sync from phoneme alignment / Rhubarb", lipsrc <= {"piper-alignment", "rhubarb"}, f"sources: {sorted(lipsrc)}; visemes/line ≥ {min(len(v_['visemes']) for v_ in vo.values())}")
+    check("lip sync from phoneme alignment / Rhubarb", lipsrc <= {"piper-alignment", "elevenlabs-alignment", "rhubarb"}, f"sources: {sorted(lipsrc)}; visemes/line ≥ {min(len(v_['visemes']) for v_ in vo.values())}")
 
     mi = ep_dir / "build" / "mix_intelligibility.json"
     if mi.exists():

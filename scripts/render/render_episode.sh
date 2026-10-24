@@ -11,6 +11,7 @@ mkdir -p output/tmp
 VID=output/tmp/${EP}${SUFFIX}_video.mp4
 npx remotion render src/index.ts Episode "$VID" --codec=h264 --crf=17 --pixel-format=yuv420p \
   --muted --concurrency=4 --browser-executable="$B" --props="{\"subtitles\":$SUBS}" --log=error
+# Re-encode: film grain makes the CRF-17 master ~150 MB; CRF 21 keeps it near 50 MB (GitHub limit 100 MB)
 ffmpeg -y -v error -i "$VID" -i "episodes/$EP/build/soundtrack.wav" -map 0:v -map 1:a \
-  -c:v copy -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart "output/${EP}${SUFFIX}.mp4"
+  -c:v libx264 -preset medium -crf "${FINAL_CRF:-21}" -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart "output/${EP}${SUFFIX}.mp4"
 echo "output/${EP}${SUFFIX}.mp4"

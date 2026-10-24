@@ -17,8 +17,8 @@
 | subtitle timing valid (ordered, no overlap) | ✅ | 40 captions; issues: [] |
 | subtitles 2–5 words on screen | ✅ | all within 1–5 words |
 | no clipped captions (longest word fits) | ✅ | longest word «беспилотниками» ≈ 808px of 940px |
-| captions inside episode | ✅ | last caption ends 108.48s |
+| captions inside episode | ✅ | last caption ends 109.78s |
 | subtitle ↔ voice sync (≤ 100 ms) | ✅ | max offset 60 ms across 11 lines |
-| lip sync from phoneme alignment / Rhubarb | ✅ | sources: ['piper-alignment']; visemes/line ≥ 10 |
-| dialogue intelligible over music (ASR on final mix) | ✅ | mean word accuracy 92.2% |
+| lip sync from phoneme alignment / Rhubarb | ✅ | sources: ['elevenlabs-alignment']; visemes/line ≥ 12 |
+| dialogue intelligible over music (ASR on final mix) | ✅ | mean word accuracy 97.6% |
 | Gleb uses one canonical model (shared face/hair/proportions) | ✅ | designs used: ['GLEB_CIVIL', 'GLEB_MILITARY', 'GLEB_RECRUIT'] — all derived from GLEB_BASE |
