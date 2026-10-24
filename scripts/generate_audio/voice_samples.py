@@ -27,6 +27,12 @@ TEXT = [
 ]
 PAUSES = [0.55, 0.9, 0.6]  # after each sentence (longer = dramatic beat)
 
+# minimal, transparent chain: no time-stretch, no echo, gentle EQ + level
+CLEAN_CHAIN = (
+    "highpass=f=55,equalizer=f=120:t=q:w=0.9:g=1.5,equalizer=f=6500:t=q:w=1:g=-1,"
+    "acompressor=threshold=-18dB:ratio=2:attack=10:release=200:makeup=1,loudnorm=I=-16:TP=-1.5:LRA=7"
+)
+
 # denser, darker "TikTok documentary" chain matched to the reference narrator
 REF_CHAIN = (
     "highpass=f=60,equalizer=f=110:t=q:w=0.8:g=4,equalizer=f=220:t=q:w=1:g=1.5,equalizer=f=450:t=q:w=1:g=-2,"
@@ -58,7 +64,7 @@ def piper(model: str, length: float, noise: float, noise_w: float):
     return sents
 
 
-def edge(voice: str, rate: str, pitch: str):
+def edge(voice: str, rate: str, pitch: str, tag: str = ""):
     """Microsoft neural voices via edge-tts (free, no key)."""
     import asyncio
 
@@ -66,8 +72,8 @@ def edge(voice: str, rate: str, pitch: str):
 
     out = []
     for i, s in enumerate(TEXT):
-        mp3 = TMP / f"edge_{voice}_{i}.mp3"
-        wav = TMP / f"edge_{voice}_{i}.wav"
+        mp3 = TMP / f"edge_{voice}{tag}_{i}.mp3"
+        wav = TMP / f"edge_{voice}{tag}_{i}.wav"
         for attempt in range(6):
             try:
                 asyncio.run(edge_tts.Communicate(s, voice, rate=rate, pitch=pitch, proxy=os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")).save(str(mp3)))
@@ -101,6 +107,22 @@ def silero(model: str, speaker: str, rate: str = "slow", pitch: str = "medium"):
         ssml = f'<speak><prosody rate="{rate}" pitch="{pitch}">{snt}</prosody></speak>'
         a = m.apply_tts(ssml_text=ssml, speaker=speaker, sample_rate=48000, put_accent=True, put_yo=True)
         out.append((a.numpy().astype(np.float32), 48000))
+    return out
+
+
+def freetts_sentences(voice_id: str):
+    """freetts.ru, one request per sentence so pauses can be set exactly (no stretching)."""
+    import time
+
+    out = []
+    for i, snt in enumerate(TEXT):
+        mp3 = TMP / f"fts_{voice_id}_{i}.mp3"
+        wav = TMP / f"fts_{voice_id}_{i}.wav"
+        if not mp3.exists() or mp3.stat().st_size < 1000:
+            subprocess.run([sys.executable, str(Path(__file__).parent / "freetts_client.py"), voice_id, str(mp3), snt], check=True, stdout=subprocess.DEVNULL, timeout=240)
+            time.sleep(3)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(mp3), "-ac", "1", "-ar", "48000", str(wav)], check=True)
+        out.append(read_wav(wav))
     return out
 
 
@@ -167,11 +189,15 @@ def assemble(sents, name: str, pitch: float, chain: str = DOC_CHAIN, tempo: floa
     af = (f"rubberband=pitch={pf:.5f}:tempo={tempo:.4f}:formant=preserved:transients=smooth," if (pitch or tempo != 1.0) else "") + chain
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(raw), "-af", af, "-ar", "48000", "-ac", "1", str(wav)], check=True)
     mp3 = OUT / f"{name}.mp3"
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(wav), "-c:a", "libmp3lame", "-b:a", "160k", str(mp3)], check=True)
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(wav), "-c:a", "libmp3lame", "-b:a", "256k", str(mp3)], check=True)
     return wav
 
 
 VARIANTS = [
+    ("40_chisty_ms_dmitry", lambda: edge("ru-RU-DmitryNeural", "-15%", "-4Hz", "_c"), 0, 1.0, "clean"),
+    ("41_chisty_ms_remy", lambda: edge("fr-FR-RemyMultilingualNeural", "-12%", "-4Hz", "_c"), 0, 1.0, "clean"),
+    ("42_chisty_freetts_german", lambda: freetts_sentences("QnWmRxTpUdSj"), 0, 1.0, "clean"),
+    ("43_chisty_silero_aidar", lambda: silero("v5_ru", "aidar", "slow", "medium"), 0, 1.0, "clean"),
     ("30_ms_andrew_medlenee", lambda: [read_wav(TMP / f"edge_en-US-AndrewMultilingualNeural_{i}.wav") for i in range(len(TEXT))], -0.4, 0.97),
     ("31_ms_dmitry_kak_v_referense", lambda: [read_wav(TMP / f"edge_ru-RU-DmitryNeural_{i}.wav") for i in range(len(TEXT))], -0.5, 0.88),
     ("32_freetts_german_kak_v_referense", lambda: freetts("QnWmRxTpUdSj"), 0.6, 0.87),
@@ -218,10 +244,11 @@ def main():
     for v in VARIANTS:
         name, gen, pitch = v[:3]
         tempo = v[3] if len(v) > 3 else 1.0
+        forced = v[4] if len(v) > 4 else None
         if only and name not in only:
             continue
         try:
-            wav = assemble(gen(), name, pitch, tempo=tempo, chain=REF_CHAIN if ("referense" in name or name.split("_")[0] in {"10", "11", "12", "13", "14", "15", "30", "31", "32", "33", "34"}) else DOC_CHAIN)
+            wav = assemble(gen(), name, pitch, tempo=tempo, chain=CLEAN_CHAIN if forced == "clean" else REF_CHAIN if ("referense" in name or name.split("_")[0] in {"10", "11", "12", "13", "14", "15", "30", "31", "32", "33", "34"}) else DOC_CHAIN)
         except Exception as e:  # engine missing → skip
             print(f"{name}: skipped ({e})")
             continue

@@ -13,3 +13,4 @@ assets/music/*.wav
 assets/sfx/*_fx.wav
 assets/voices/*/*.take*.wav
 assets/voices/models/silero/
+.venv-xtts/
