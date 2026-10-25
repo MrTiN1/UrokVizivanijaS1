@@ -77,7 +77,7 @@ const Face: React.FC<{f: number; t: number; fl: number}> = ({f, t, fl}) => {
   );
 };
 
-const EndCard: React.FC<{t: number}> = ({t}) => {
+export const EndCard: React.FC<{t: number}> = ({t}) => {
   const a = ease.out(clamp((t - 0.15) / 0.5));
   const b = ease.out(clamp((t - 0.7) / 0.5));
   const c = clamp((t - 1.2) / 0.5);

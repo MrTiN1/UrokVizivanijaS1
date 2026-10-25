@@ -15,6 +15,14 @@ import {LbLoop} from './bus/S5Loop';
 import {LbDriver} from './bus/S6Driver';
 import {LbPhoto} from './bus/S7Photo';
 import {LbFinal} from './bus/S8Final';
+import {PmHook} from './bus2/P1Hook';
+import {PmMirror} from './bus2/P2Mirror';
+import {PmPassengers} from './bus2/P3Passengers';
+import {PmRear} from './bus2/P4Rear';
+import {PmAfter} from './bus2/P5After';
+import {PmTicket} from './bus2/P6Ticket';
+import {PmPhotos} from './bus2/P7Photos';
+import {PmFinal} from './bus2/P8Final';
 
 /** Scene registry: episode.json "component" → React component. */
 export const SCENES: Record<string, React.FC> = {
@@ -36,4 +44,13 @@ export const SCENES: Record<string, React.FC> = {
   LbDriver,
   LbPhoto,
   LbFinal,
+  // «Пустое место»
+  PmHook,
+  PmMirror,
+  PmPassengers,
+  PmRear,
+  PmAfter,
+  PmTicket,
+  PmPhotos,
+  PmFinal,
 };

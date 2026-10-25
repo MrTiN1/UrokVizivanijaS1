@@ -394,3 +394,45 @@ def sting(rng=RNG):
     env = np.minimum(1, t / 0.04) * np.exp(-t / 1.0)
     low = lp(white(dur, rng), 120) * np.exp(-t / 0.4)
     return ((bp(tones, 150, 4000) * 0.12 + low * 0.6) * env).astype(np.float32)
+
+
+# ---------------- episode 2 «Пустое место» ----------------
+def tyres_wet(dur, rng=RNG):
+    """Continuous swish of tyres on a wet road (slowly varying)."""
+    n = secs(dur)
+    t = np.arange(n) / SR
+    x = bp(pink(dur, rng), 600, 6000)
+    mod = 0.75 + 0.25 * np.sin(2 * np.pi * 0.13 * t) * np.sin(2 * np.pi * 0.05 * t + 1)
+    return (x * mod * 0.35).astype(np.float32)
+
+
+def brake_squeal(rng=RNG):
+    """Hard stop: tyre hiss + brake squeal + body thump."""
+    dur = 1.8
+    n = secs(dur)
+    t = np.arange(n) / SR
+    hiss = bp(white(dur, rng), 1500, 8000) * np.exp(-t / 0.6) * 0.3
+    squeal = sine(np.linspace(1900, 1500, n), dur) * np.exp(-((t - 0.5) ** 2) / 0.12) * 0.06
+    thump = lp(white(dur, rng), 140) * np.exp(-np.maximum(0, t - 1.1) / 0.12) * (t > 1.1) * 0.9
+    return (hiss + squeal + thump).astype(np.float32)
+
+
+def glass_squeak(rng=RNG):
+    """A palm pressed / dragged on wet glass."""
+    dur = 0.6
+    n = secs(dur)
+    t = np.arange(n) / SR
+    f = 700 + 300 * np.sin(2 * np.pi * 2.2 * t)
+    sq = bp(saw(f, dur), 500, 3500) * np.exp(-((t - 0.25) ** 2) / 0.02) * 0.12
+    press = lp(white(dur, rng), 300) * np.exp(-t / 0.04) * 0.4
+    return (sq + press).astype(np.float32)
+
+
+def whoosh_hit(rng=RNG):
+    """Fast camera whip: short whoosh into a soft low hit (not a scare)."""
+    dur = 1.2
+    n = secs(dur)
+    t = np.arange(n) / SR
+    w = bp(pink(dur, rng), 300, 4000) * np.exp(-((t - 0.18) ** 2) / 0.006) * 0.6
+    hit = lp(white(dur, rng), 160) * np.exp(-np.maximum(0, t - 0.22) / 0.25) * (t > 0.22) * 0.6
+    return (w + hit).astype(np.float32)

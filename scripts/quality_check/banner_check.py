@@ -23,6 +23,11 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def outp(ep: str, name: str) -> Path:
+    """Per-episode report path: episode_01 keeps the historic names, later episodes get a prefix."""
+    return ROOT / "output" / (name if ep == "episode_01" else f"{ep}_{name}")
 TMP = ROOT / "output" / "tmp" / "banner_qc"
 W, H = 1080, 1920
 
@@ -188,7 +193,7 @@ def run(ep_name: str) -> list[dict]:
                 vl.append(ln["id"])
     check("narration not masked by the banner (no lines during it)", not vl, f"voice lines overlapping banner: {vl or 'none'}")
     check("single banner used", True, "one NatriaBanner instance in Episode.tsx")
-    (ROOT / "output" / "banner_report.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
+    outp(ep_name, "banner_report.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     return res
 
 

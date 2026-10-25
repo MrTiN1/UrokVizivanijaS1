@@ -16,19 +16,26 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
+
+def outp(ep: str, name: str) -> Path:
+    """Per-episode report path: episode_01 keeps the historic names, later episodes get a prefix."""
+    return ROOT / "output" / (name if ep == "episode_01" else f"{ep}_{name}")
+
 POLITICAL = r"войн|арми|военн|фронт|солдат|президент|правительств|парти[яи]|выбор|митинг|санкци|полити|пропаганд|нацист|оккупа|мобилиз|флаг"
 SHOCK = r"кров|убий|убит|труп|смерт|мертв|расчлен|пытк|самоубий|скример|крик ужаса"
 ADS = r"купи|скидк|промокод|подпиш|казино|\bбет\b|кредит|займ|реклама|sponsored|vk\.com|t\.me/(?!natriavpnbot)"
 ENGAGEMENT_BAIT = r"отметь друз|отметьте друз|лайк|ставьте лайк|пиши в комментар|репост"
 # On-screen strings allowed in the artwork (fiction world, no brands)
 ALLOWED_SIGNS = {"КОЛЛЕДЖ", "УЛИЦА ЛЕСНАЯ", "ПРОСПЕКТ МИРА", "БЕРЕГИТЕ ЛЕС", "13", "13 · 21 · 47", "A", "Нет сети", "Галерея", "‹ Галерея",
-                 "Сегодня, 20:47", "Автобус № 13 · IMG_2047", "Новое фото · 20:47"}
+                 "Сегодня, 20:47", "Автобус № 13 · IMG_2047", "Новое фото · 20:47",
+                 "АВТОБУСНЫЙ БИЛЕТ · № 000013", "МАРШРУТ №13", "ПАССАЖИР: ГЛЕБ", "ДАТА: ЗАВТРА", "ГОРТРАНС",
+                 "15 ноября · 20 лет назад", "15 ноября · 15 лет назад", "ЗАВТРА, 00:13"}
 
 
 def main() -> None:
     ep_name = sys.argv[1] if len(sys.argv) > 1 else "episode_01"
     ep = json.loads((ROOT / "episodes" / ep_name / "episode.json").read_text(encoding="utf-8"))
-    qc = json.loads((ROOT / "output" / "qc_report.json").read_text(encoding="utf-8"))
+    qc = json.loads(outp(ep_name, "qc_report.json").read_text(encoding="utf-8"))
     qcc = {c["check"]: c for c in qc["checks"]}
     items: list[dict] = []
 
@@ -56,12 +63,12 @@ def main() -> None:
     sh = sorted(set(re.findall(SHOCK, text.lower())))
     item("Нет шок-контента", ok(not sh), f"словарь шок-тем: {sh or 'совпадений нет'}; нет скримеров, резких громких звуков (true peak {qcc['no clipping (true peak ≤ -1 dBFS)']['detail']}), насилия и крови")
 
-    src_files = list((ROOT / "src" / "scenes" / "bus").rglob("*.tsx")) + [ROOT / "src" / "Episode.tsx", ROOT / "src" / "components" / "NatriaBanner.tsx"]
+    src_files = list((ROOT / "src" / "scenes" / "bus").rglob("*.tsx")) + list((ROOT / "src" / "scenes" / "bus2").rglob("*.tsx")) + [ROOT / "src" / "Episode.tsx", ROOT / "src" / "components" / "NatriaBanner.tsx"]
     src = "\n".join(p.read_text(encoding="utf-8") for p in src_files)
     signs = set()
     for mt in re.findall(r"<text[^>]*>\s*([^<{]+?)\s*</text>", src):
         signs.add(mt.strip())
-    for mt in re.findall(r"(?:note|name|time)=\"([^\"]+)\"", src):
+    for mt in re.findall(r"(?:note|name|time|caption)(?:=|: )['\"]([^'\"]+)['\"]", src):
         signs.add(mt.strip())
     signs.discard("NATRIA VPN banner")  # Remotion sequence label, not drawn on screen
     unknown = sorted(s for s in signs if s not in ALLOWED_SIGNS and not re.fullmatch(r"[\d:·\s]+", s) and len(s) > 1 and not re.fullmatch(r"\d\d:\d\d", s))
@@ -88,12 +95,13 @@ def main() -> None:
     item("Официальный баннер NATRIA VPN в требуемом месте", ok(banner_ok), "; ".join(f"{k}: {br[k]['detail']}" for k in need if k in br) + (f"; не проверено: {missing}" if missing else ""))
 
     passed = all(i["status"] == "OK" for i in items)
-    (ROOT / "output" / "compliance_report.json").write_text(json.dumps({"episode": ep_name, "passed": passed, "items": items}, ensure_ascii=False, indent=1), encoding="utf-8")
+    outp(ep_name, "compliance_report.json").write_text(json.dumps({"episode": ep_name, "passed": passed, "items": items}, ensure_ascii=False, indent=1), encoding="utf-8")
     md = [f"# Соответствие правилам рекламной программы NATRIA VPN — {ep['series']}, серия {ep['number']}", "",
           f"Видео: `output/{ep_name}.mp4` · итог: **{'ГОТОВО К ПУБЛИКАЦИИ' if passed else 'ЕСТЬ ЗАМЕЧАНИЯ'}**", "", "| Требование | Статус | Проверено |", "|---|---|---|"]
     md += [f"| {i['rule']} | {'✅' if i['status'] == 'OK' else '❌'} | {i['detail']} |" for i in items]
-    md += ["", "Шапка профиля: обязательно разместить **@natriavpnbot**. Описание публикации: `output/publication_description.txt` (с #natriavpn)."]
-    (ROOT / "output" / "compliance_report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    desc = "publication_description.txt" if ep_name == "episode_01" else f"{ep_name}_publication_description.txt"
+    md += ["", f"Шапка профиля: обязательно разместить **@natriavpnbot**. Описание публикации: `output/{desc}` (с #natriavpn). Окончательное решение о соответствии принимает рекламодатель."]
+    outp(ep_name, "compliance_report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print(f"\nCOMPLIANCE PASSED: {passed}")
 
 

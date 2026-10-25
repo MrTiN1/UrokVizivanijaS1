@@ -36,9 +36,15 @@ SPEAKERS = {
     "инструктор": "instructor",
     "представитель": "rep",
     "водитель": "driver",
+    "женщина": "woman",
+    "двойник": "twin",
 }
 COMPONENT_HINTS = [
     # «Последний автобус» kit (checked first)
+    ("зеркал", "PmMirror"),
+    ("заднее окно", "PmRear"),
+    ("билет", "PmTicket"),
+    ("фотограф", "PmPhotos"),
     ("повторяющ", "LbLoop"),
     ("пассажир", "LbPassengers"),
     ("водител", "LbDriver"),

@@ -1,0 +1,867 @@
+{
+  "id": "episode_02",
+  "series": "УРОКИ ВЫЖИВАНИЯ",
+  "number": 2,
+  "title": "ПУСТОЕ МЕСТО",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "duration": 110,
+  "disclaimer": "История вымышлена. Совпадения случайны.",
+  "next": "СЕРИЯ 3 — ДВОЙНИК",
+  "banner": {
+    "enabled": true,
+    "source": "banner/NATRIA_VPN.mp4",
+    "video": "banner/natria_keyed.webm",
+    "audio": "banner/natria_audio.wav",
+    "meta": "banner/banner_meta.json",
+    "at": 55.0,
+    "duration": 7.2,
+    "speed": 1.0,
+    "center": [
+      540,
+      960
+    ],
+    "width": 1140,
+    "minAreaRatio": 0.25,
+    "audioMode": "original"
+  },
+  "captions": {
+    "defaultY": 1330,
+    "y": [
+      [
+        0,
+        8,
+        1420
+      ],
+      [
+        23,
+        38,
+        1440
+      ],
+      [
+        38,
+        53,
+        1540
+      ],
+      [
+        68,
+        85,
+        1460
+      ],
+      [
+        85,
+        103,
+        1480
+      ],
+      [
+        103,
+        110,
+        1640
+      ]
+    ],
+    "hide": [
+      [
+        54.8,
+        62.4
+      ]
+    ]
+  },
+  "qcAllowedBlack": [
+    [
+      107.6,
+      110.5
+    ]
+  ],
+  "voices": {
+    "narrator": {
+      "model": "ruslan",
+      "lengthScale": 1.1,
+      "noiseScale": 0.62,
+      "noiseW": 0.75,
+      "pitch": -1.0,
+      "sentencePause": 0.42,
+      "eq": "warm",
+      "elevenlabs": {
+        "voiceId": "nPczCjzI2devNBz1zQrb",
+        "name": "Brian",
+        "model": "eleven_v4",
+        "stability": 0.5,
+        "style": 0.3,
+        "speed": 0.9,
+        "eq": "warm"
+      }
+    },
+    "gleb": {
+      "model": "denis",
+      "lengthScale": 1.02,
+      "noiseScale": 0.72,
+      "noiseW": 0.85,
+      "pitch": 1.2,
+      "sentencePause": 0.3,
+      "eq": "young",
+      "elevenlabs": {
+        "voiceId": "bIHbv24MWmeRgasZH58o",
+        "name": "Will",
+        "model": "eleven_v4",
+        "stability": 0.3,
+        "style": 0.5,
+        "speed": 0.98
+      }
+    },
+    "woman": {
+      "model": "irina",
+      "lengthScale": 1.25,
+      "noiseScale": 0.6,
+      "noiseW": 0.7,
+      "pitch": -1.5,
+      "sentencePause": 0.45,
+      "eq": "aged",
+      "elevenlabs": {
+        "voiceId": "pFZP5JQG7iQjIQuC4Bku",
+        "name": "Lily",
+        "model": "eleven_v4",
+        "stability": 0.65,
+        "style": 0.2,
+        "speed": 0.8,
+        "eq": "aged"
+      }
+    },
+    "twin": {
+      "model": "denis",
+      "lengthScale": 1.1,
+      "noiseScale": 0.5,
+      "noiseW": 0.6,
+      "pitch": 0.6,
+      "sentencePause": 0.4,
+      "eq": "cold",
+      "elevenlabs": {
+        "voiceId": "bIHbv24MWmeRgasZH58o",
+        "name": "Will (двойник)",
+        "model": "eleven_v4",
+        "stability": 0.75,
+        "style": 0.08,
+        "speed": 0.88,
+        "eq": "cold"
+      }
+    },
+    "driver": {
+      "model": "dmitri",
+      "lengthScale": 1.25,
+      "noiseScale": 0.55,
+      "noiseW": 0.6,
+      "pitch": -3.5,
+      "sentencePause": 0.4,
+      "eq": "deep",
+      "elevenlabs": {
+        "voiceId": "pqHfZKP75CvOlQylNhV4",
+        "name": "Bill",
+        "model": "eleven_v4",
+        "stability": 0.6,
+        "style": 0.2,
+        "speed": 0.8,
+        "eq": "deep"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "id": "p1_hook",
+      "name": "Хук",
+      "component": "PmHook",
+      "start": 0,
+      "duration": 8,
+      "music": "lb_hook",
+      "ambience": [
+        [
+          "bus_interior",
+          0.7
+        ],
+        [
+          "rain_window",
+          0.3
+        ],
+        [
+          "tyres_wet",
+          0.35
+        ]
+      ],
+      "lines": [
+        {
+          "id": "p1_n1",
+          "speaker": "narrator",
+          "at": 0.3,
+          "text": "Водитель исчез. Но автобус продолжал ехать. А самое страшное Глеб заметил только сейчас.",
+          "keywords": [
+            "исчез",
+            "продолжал ехать",
+            "самое страшное"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.0,
+          "Пустое водительское кресло, руль крутится сам"
+        ],
+        [
+          3.0,
+          4.6,
+          "Глеб стоит в проходе"
+        ],
+        [
+          4.6,
+          6.4,
+          "Рывок камеры: зеркало, в отражении водитель"
+        ],
+        [
+          6.4,
+          8,
+          "Название серии"
+        ]
+      ],
+      "events": {
+        "mirror": 4.6,
+        "cut": 6.4,
+        "titleHit": 6.4,
+        "whoosh": 7.55
+      },
+      "sfx": [
+        [
+          4.55,
+          "whoosh_hit",
+          0.6
+        ],
+        [
+          1.0,
+          "lamp_buzz",
+          0.3
+        ]
+      ]
+    },
+    {
+      "id": "p2_mirror",
+      "name": "Зеркало",
+      "component": "PmMirror",
+      "start": 8,
+      "duration": 15,
+      "music": "pm_mirror",
+      "ambience": [
+        [
+          "bus_interior",
+          0.7
+        ],
+        [
+          "rain_window",
+          0.3
+        ],
+        [
+          "tyres_wet",
+          0.3
+        ]
+      ],
+      "lines": [
+        {
+          "id": "p2_g1",
+          "speaker": "gleb",
+          "at": 4.8,
+          "text": "Как это возможно?..",
+          "keywords": [
+            "возможно"
+          ],
+          "gain": 1.5
+        },
+        {
+          "id": "p2_n1",
+          "speaker": "narrator",
+          "at": 9.5,
+          "text": "В зеркале водитель был. Но стоило Глебу посмотреть прямо — он исчезал.",
+          "keywords": [
+            "в зеркале",
+            "исчезал"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.4,
+          "Глеб медленно идёт к кабине"
+        ],
+        [
+          3.4,
+          6.6,
+          "Глеб смотрит на пустое кресло, потом в зеркало"
+        ],
+        [
+          6.6,
+          9.4,
+          "В зеркале — водитель"
+        ],
+        [
+          9.4,
+          11.0,
+          "Отражение медленно поворачивает голову"
+        ],
+        [
+          11.0,
+          15,
+          "Глеб резко оборачивается: кресло пустое, свет мигает"
+        ]
+      ],
+      "events": {
+        "walkEnd": 3.2,
+        "lookUp": 4.4,
+        "reflTurn": 9.6,
+        "whip": 11.0,
+        "flicker": [
+          [
+            11.0,
+            11.6
+          ],
+          [
+            13.4,
+            13.8
+          ]
+        ]
+      },
+      "sfx": [
+        [
+          11.0,
+          "lamp_buzz",
+          0.5
+        ],
+        [
+          13.4,
+          "lamp_buzz",
+          0.4
+        ],
+        [
+          11.0,
+          "whoosh_hit",
+          0.45
+        ]
+      ],
+      "steps": [
+        [
+          0.1,
+          3.2,
+          1.4,
+          "floor"
+        ]
+      ]
+    },
+    {
+      "id": "p3_passengers",
+      "name": "Пассажиры",
+      "component": "PmPassengers",
+      "start": 23,
+      "duration": 15,
+      "music": "lb_unease",
+      "ambience": [
+        [
+          "bus_interior",
+          0.7
+        ],
+        [
+          "rain_window",
+          0.3
+        ]
+      ],
+      "lines": [
+        {
+          "id": "p3_g1",
+          "speaker": "gleb",
+          "at": 0.8,
+          "text": "Вы вообще видите, что происходит?!",
+          "keywords": [
+            "видите"
+          ]
+        },
+        {
+          "id": "p3_w1",
+          "speaker": "woman",
+          "at": 7.6,
+          "text": "Глеб… Не смотри в заднее окно.",
+          "keywords": [
+            "глеб",
+            "заднее окно"
+          ]
+        },
+        {
+          "id": "p3_n1",
+          "speaker": "narrator",
+          "at": 11.0,
+          "text": "Он никому в автобусе не называл своего имени.",
+          "keywords": [
+            "не называл",
+            "имени"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.6,
+          "Глеб кричит пассажирам"
+        ],
+        [
+          3.6,
+          6.6,
+          "Неподвижные лица, никто не отвечает"
+        ],
+        [
+          6.6,
+          10.6,
+          "Женщина медленно поднимает голову"
+        ],
+        [
+          10.6,
+          15,
+          "Испуганное лицо Глеба крупно"
+        ]
+      ],
+      "events": {
+        "silence": 3.6,
+        "womanUp": 6.8,
+        "fear": 10.6
+      },
+      "sfx": [
+        [
+          6.8,
+          "seat_creak",
+          0.35
+        ],
+        [
+          10.6,
+          "sub_drop",
+          0.4
+        ]
+      ]
+    },
+    {
+      "id": "p4_rear",
+      "name": "Заднее окно",
+      "component": "PmRear",
+      "start": 38,
+      "duration": 15,
+      "music": "lb_drop",
+      "musicDrop": {
+        "at": 11.6,
+        "length": 1.6
+      },
+      "ambience": [
+        [
+          "bus_interior",
+          0.75
+        ],
+        [
+          "rain_window",
+          0.4
+        ],
+        [
+          "tyres_wet",
+          0.4
+        ]
+      ],
+      "lines": [
+        {
+          "id": "p4_n1",
+          "speaker": "narrator",
+          "at": 6.6,
+          "text": "За автобусом кто-то шёл. И этот человек выглядел точно как Глеб.",
+          "keywords": [
+            "кто-то шёл",
+            "точно как глеб"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.2,
+          "Глеб идёт в конец салона, свет мигает"
+        ],
+        [
+          3.2,
+          6.2,
+          "На стекле проступают следы ладоней"
+        ],
+        [
+          6.2,
+          10.4,
+          "За автобусом идёт человек в серой толстовке"
+        ],
+        [
+          10.4,
+          12.6,
+          "Он поднимает голову — лицо Глеба"
+        ],
+        [
+          12.6,
+          15,
+          "Глеб отступает назад"
+        ]
+      ],
+      "events": {
+        "prints": [
+          3.5,
+          4.1,
+          4.7,
+          5.3
+        ],
+        "twinUp": 9.6,
+        "flicker": [
+          [
+            1.2,
+            1.6
+          ],
+          [
+            2.4,
+            2.6
+          ]
+        ],
+        "stepBack": 12.6
+      },
+      "sfx": [
+        [
+          1.2,
+          "lamp_buzz",
+          0.4
+        ],
+        [
+          3.5,
+          "glass_squeak",
+          0.35
+        ],
+        [
+          4.1,
+          "glass_squeak",
+          0.3
+        ],
+        [
+          4.7,
+          "glass_squeak",
+          0.35
+        ],
+        [
+          5.3,
+          "glass_squeak",
+          0.3
+        ],
+        [
+          11.6,
+          "sub_drop",
+          0.6
+        ]
+      ],
+      "steps": [
+        [
+          0.1,
+          3.0,
+          1.5,
+          "floor"
+        ],
+        [
+          12.7,
+          14.2,
+          2.2,
+          "floor"
+        ]
+      ]
+    },
+    {
+      "id": "p5_after",
+      "name": "Салон",
+      "component": "PmAfter",
+      "start": 53,
+      "duration": 15,
+      "music": "pm_after",
+      "ambience": [
+        [
+          "bus_interior",
+          0.7
+        ],
+        [
+          "rain_window",
+          0.3
+        ]
+      ],
+      "lines": [],
+      "shots": [
+        [
+          0,
+          2,
+          "Глеб резко отходит от окна"
+        ],
+        [
+          2,
+          9.2,
+          "Салон, общий план (баннер по центру)"
+        ],
+        [
+          9.2,
+          15,
+          "Глеб тяжело дышит, женщина смотрит на него"
+        ]
+      ],
+      "events": {},
+      "sfx": [
+        [
+          0.3,
+          "seat_creak",
+          0.4
+        ]
+      ],
+      "steps": [
+        [
+          0.0,
+          1.6,
+          2.6,
+          "floor"
+        ]
+      ]
+    },
+    {
+      "id": "p6_ticket",
+      "name": "Билет",
+      "component": "PmTicket",
+      "start": 68,
+      "duration": 17,
+      "music": "pm_ticket",
+      "ambience": [
+        [
+          "bus_interior",
+          0.65
+        ],
+        [
+          "rain_window",
+          0.3
+        ]
+      ],
+      "lines": [
+        {
+          "id": "p6_g1",
+          "speaker": "gleb",
+          "at": 6.6,
+          "text": "Почему здесь завтрашняя дата?",
+          "keywords": [
+            "завтрашняя дата"
+          ]
+        },
+        {
+          "id": "p6_w1",
+          "speaker": "woman",
+          "at": 9.6,
+          "text": "Потому что ты ещё не доехал.",
+          "keywords": [
+            "не доехал"
+          ]
+        },
+        {
+          "id": "p6_g2",
+          "speaker": "gleb",
+          "at": 12.8,
+          "text": "До чего?",
+          "keywords": [
+            "до чего"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.0,
+          "Женщина протягивает старый билет"
+        ],
+        [
+          3.0,
+          6.4,
+          "Билет в руках Глеба"
+        ],
+        [
+          6.4,
+          9.4,
+          "Глеб: «Почему завтрашняя дата?»"
+        ],
+        [
+          9.4,
+          12.6,
+          "Женщина отвечает"
+        ],
+        [
+          12.6,
+          14.0,
+          "Глеб: «До чего?»"
+        ],
+        [
+          14.0,
+          17,
+          "Женщина молчит, камера приближается к билету"
+        ]
+      ],
+      "events": {
+        "hand": 0.6,
+        "take": 2.6
+      },
+      "sfx": [
+        [
+          1.2,
+          "paper",
+          0.6
+        ],
+        [
+          2.7,
+          "paper",
+          0.7
+        ],
+        [
+          5.0,
+          "paper",
+          0.4
+        ]
+      ]
+    },
+    {
+      "id": "p7_photos",
+      "name": "Старые фотографии",
+      "component": "PmPhotos",
+      "start": 85,
+      "duration": 18,
+      "music": "lb_photo",
+      "ambience": [
+        [
+          "bus_interior",
+          0.6
+        ],
+        [
+          "rain_window",
+          0.25
+        ]
+      ],
+      "lines": [
+        {
+          "id": "p7_n1",
+          "speaker": "narrator",
+          "at": 11.2,
+          "text": "Все эти люди когда-то ехали на тринадцатом маршруте. И теперь среди их фотографий оказался он.",
+          "keywords": [
+            "тринадцатом маршруте",
+            "оказался он"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.0,
+          "Глеб замечает фотографии на стенке"
+        ],
+        [
+          3.0,
+          6.4,
+          "Фото женщины: 20 лет назад"
+        ],
+        [
+          6.4,
+          9.4,
+          "Фото мужчины в пальто: 15 лет назад"
+        ],
+        [
+          9.4,
+          13.0,
+          "Последнее фото — Глеб: «ЗАВТРА, 00:13»"
+        ],
+        [
+          13.0,
+          18,
+          "Глеб смотрит на свою фотографию"
+        ]
+      ],
+      "events": {
+        "screenOn": 0.4,
+        "photo": 9.4,
+        "push": 13.0
+      },
+      "sfx": [
+        [
+          9.5,
+          "sub_drop",
+          0.35
+        ]
+      ]
+    },
+    {
+      "id": "p8_final",
+      "name": "Финал",
+      "component": "PmFinal",
+      "start": 103,
+      "duration": 7,
+      "music": "lb_final",
+      "ambience": [
+        [
+          "bus_interior",
+          0.6
+        ],
+        [
+          "rain",
+          0.5
+        ]
+      ],
+      "lines": [
+        {
+          "id": "p8_t1",
+          "speaker": "twin",
+          "at": 2.3,
+          "text": "Не выходи. Я уже пробовал.",
+          "keywords": [
+            "не выходи",
+            "уже пробовал"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          1.0,
+          "Автобус резко тормозит"
+        ],
+        [
+          1.0,
+          2.2,
+          "Двери открываются — та самая остановка"
+        ],
+        [
+          2.2,
+          4.8,
+          "На остановке стоит второй Глеб"
+        ],
+        [
+          4.8,
+          7,
+          "Затемнение: ПРОДОЛЖЕНИЕ СЛЕДУЕТ"
+        ]
+      ],
+      "events": {
+        "brake": 0.0,
+        "doors": 1.0,
+        "twin": 2.2,
+        "black": 4.8,
+        "hit": 4.8
+      },
+      "sfx": [
+        [
+          0.0,
+          "brake_squeal",
+          0.8
+        ],
+        [
+          1.0,
+          "door_pneumatic",
+          0.9
+        ]
+      ]
+    }
+  ]
+}

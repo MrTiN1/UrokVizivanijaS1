@@ -46,6 +46,10 @@ EQ = {
     "young": "highpass=f=90,equalizer=f=250:t=q:w=1:g=-1.5,equalizer=f=3500:t=q:w=1:g=2",
     "deep": "highpass=f=60,equalizer=f=140:t=q:w=1:g=3.5,equalizer=f=2500:t=q:w=1:g=1,equalizer=f=8000:t=q:w=1:g=-3",
     "hall": "highpass=f=90,equalizer=f=1800:t=q:w=1:g=2,aecho=0.8:0.55:48|91:0.18|0.1",
+    # elderly woman: softer top, a little chest, very slight tremor
+    "aged": "highpass=f=110,equalizer=f=320:t=q:w=1:g=2,equalizer=f=4500:t=q:w=1:g=-3,lowpass=f=7000,vibrato=f=5.5:d=0.04",
+    # the double: thinner, colder, slightly distant
+    "cold": "highpass=f=140,equalizer=f=250:t=q:w=1:g=-2,equalizer=f=2600:t=q:w=1:g=2,aecho=0.7:0.45:70:0.12",
 }
 
 # IPA phoneme → Rhubarb-style mouth shape

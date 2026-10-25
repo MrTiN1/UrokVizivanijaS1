@@ -284,6 +284,44 @@ def score_lb_photo(T: Track, t0: float, sc: dict):
         k += 1
 
 
+# ---- «Пустое место» ----
+def score_pm_mirror(T: Track, t0: float, sc: dict):
+    """Glassy, reflective: high detuned strings over a low drone, swell into the head turn."""
+    d = sc["duration"]
+    ev = sc["events"]
+    T.add(reverb(pad([m("D1"), m("A1")], d + 1, cutoff=300, attack=2, release=2), 4, 0.4), t0, 0.42)
+    T.add(reverb(strings([m("E6"), m("F6")], ev["reflTurn"] + 1, cutoff=7000, attack=3, release=1), 5, 0.6), t0 + 0.5, 0.05)
+    for k, nn in enumerate(["A5", "E5", "F5"]):
+        T.add(reverb(piano(m(nn), 3, 0.26, 0.7), 4, 0.6), t0 + 0.4 + k * 1.1, 0.14, 0.4 * ((-1) ** k))
+    T.add(reverb(riser(ev["whip"] - ev["reflTurn"], f0=200, f1=3000, vel=0.35), 3, 0.35), t0 + ev["reflTurn"], 0.3)
+    T.add(reverb(impact(3.5, 46, 0.55), 4, 0.45), t0 + ev["whip"], 0.5)
+    T.add(reverb(pad([m("C#2"), m("G2")], d - ev["whip"] + 1, cutoff=420, attack=0.3, release=2), 4, 0.45), t0 + ev["whip"], 0.34)
+
+
+def score_pm_after(T: Track, t0: float, sc: dict):
+    """After the double: low pulse and breath-like swells (bed stays quiet under the banner)."""
+    d = sc["duration"]
+    T.add(reverb(pad([m("D1"), m("Ab1")], d + 1, cutoff=280, attack=1, release=2), 4, 0.45), t0, 0.4)
+    k = 0
+    while 0.4 + k * 0.9 < d - 0.5:
+        T.add(heartbeat(0.55), t0 + 0.4 + k * 0.9, 0.35)
+        k += 1
+    T.add(reverb(strings(chord("D4 Eb4 A4"), 6, cutoff=3000, attack=3, release=2), 4, 0.5), t0 + 9.2, 0.12)
+
+
+def score_pm_ticket(T: Track, t0: float, sc: dict):
+    """Old music-box waltz fragment, slightly out of tune — the woman's world."""
+    d = sc["duration"]
+    T.add(reverb(pad([m("D2"), m("A2"), m("F3")], d + 1, cutoff=600, attack=2, release=2), 4, 0.45), t0, 0.28)
+    tune = ["A5", "F5", "D5", "E5", "F5", "E5", "D5", "C#5", "D5"]
+    for k, nn in enumerate(tune * 2):
+        tt = 0.5 + k * 0.85
+        if tt > d - 1:
+            break
+        T.add(reverb(piano(m(nn) + 0.15 * np.sin(k), 2.5, 0.25, 0.9), 4, 0.6), t0 + tt, 0.16, 0.3 * np.sin(k * 1.7))
+    T.add(reverb(strings(chord("D3 A3 F4"), d - 12, cutoff=2400, attack=3, release=2), 4, 0.5), t0 + 12.6, 0.14)
+
+
 SCORES = {
     "tension": score_tension,
     "calm": score_calm,
@@ -301,6 +339,9 @@ SCORES = {
     "lb_drop": score_drama,
     "lb_photo": score_lb_photo,
     "lb_final": score_tail,
+    "pm_mirror": score_pm_mirror,
+    "pm_after": score_pm_after,
+    "pm_ticket": score_pm_ticket,
 }
 
 
@@ -378,6 +419,7 @@ AMBIENCE = {
     "rain_window": lambda d: sfx.rain_window(d),
     "wind": lambda d: sfx.wind(d, 0.8),
     "bus_interior": lambda d: sfx.bus_interior(d),
+    "tyres_wet": lambda d: sfx.tyres_wet(d),
 }
 ONESHOTS = {
     "lamp_buzz": lambda: sfx.lamp_buzz(0.6),
@@ -393,6 +435,10 @@ ONESHOTS = {
     "pass_by": lambda: sfx.pass_by(2.2),
     "sub_drop": sfx.sub_drop,
     "sting": sfx.sting,
+    "paper": lambda: sfx.paper_rustle(0.7),
+    "brake_squeal": sfx.brake_squeal,
+    "glass_squeak": sfx.glass_squeak,
+    "whoosh_hit": sfx.whoosh_hit,
 }
 
 
@@ -504,11 +550,12 @@ def main():
             x = read_mono(ROOT / "assets" / info["file"])
             at = t0 + line["at"]
             spk = line["speaker"]
+            lg = line.get("gain", 1.0)  # per-line level trim (episode.json)
             if spk == "narrator":
-                V.add(x, at, 1.0)
+                V.add(x, at, lg)
             else:
                 room = {"s3_agitation": (1.6, 0.18), "s6_assignment": (0.7, 0.14), "s5_training": (1.0, 0.08)}.get(sc["id"], (0.6, 0.08))
-                V.add(reverb(x, room[0], room[1]), at, 1.0)
+                V.add(reverb(x, room[0], room[1]), at, lg)
             s = secs(at)
             voice_env[s : s + len(x)] = np.maximum(voice_env[s : s + len(x)], (np.abs(x) > 0.01).astype(np.float32))
 
@@ -517,7 +564,7 @@ def main():
 
     pres = maximum_filter1d(voice_env, secs(0.35))
     pres = uniform_filter1d(pres, secs(0.25))
-    duck_m = 1 - 0.62 * pres  # ≈ -8.4 dB
+    duck_m = 1 - 0.7 * pres  # ≈ -10.5 dB
     duck_f = 1 - 0.38 * pres
     music = M.buf * duck_m
     fxs = F.buf * duck_f

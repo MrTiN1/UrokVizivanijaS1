@@ -23,6 +23,11 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def outp(ep: str, name: str) -> Path:
+    """Per-episode report path: episode_01 keeps the historic names, later episodes get a prefix."""
+    return ROOT / "output" / (name if ep == "episode_01" else f"{ep}_{name}")
+
+
 def sh(cmd: list[str]) -> str:
     r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     return r.stdout + r.stderr
@@ -118,7 +123,7 @@ def main() -> None:
     for i, im in enumerate(tiles):
         r, c = divmod(i, cols)
         sheet.paste(im, (6 + c * (W + 6), 76 + r * (H + 6)))
-    sheet_path = ROOT / "output" / "contact_sheet.jpg"
+    sheet_path = outp(ep_name, "contact_sheet.jpg")
     sheet.save(sheet_path, quality=88)
 
     # ---------- subtitles ----------
@@ -181,10 +186,10 @@ def main() -> None:
             checks.append(c)
 
     report = {"episode": ep_name, "video": str(video.relative_to(ROOT)), "duration": dur, "checks": checks, "frames": stats, "passed": all(c["ok"] for c in checks)}
-    (ROOT / "output" / "qc_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+    outp(ep_name, "qc_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
     md = [f"# QC — {ep['series']}, серия {ep['number']}", "", f"Видео: `{video.name}`, {dur:.2f} с", "", "| Проверка | Результат | Детали |", "|---|---|---|"]
     md += [f"| {c['check']} | {'✅' if c['ok'] else '❌'} | {c['detail']} |" for c in checks]
-    (ROOT / "output" / "qc_report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    outp(ep_name, "qc_report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print(f"\ncontact sheet: {sheet_path}\nPASSED: {report['passed']}")
 
 

@@ -3,7 +3,7 @@
 import React from 'react';
 import {Design, Light, Pose} from './types';
 import {Head, MouthParams, TURN_MAX} from './Head';
-import {ArmView, LegView, Neck, Torso, makeBodyGeo} from './Body';
+import {ArmView, LegView, Neck, Torso, armJoints, makeBodyGeo} from './Body';
 import {mixHex} from './Head';
 
 export type CharacterProps = {
@@ -137,4 +137,16 @@ const Backpack: React.FC<{bg: ReturnType<typeof makeBodyGeo>; design: Design; ba
       <path d={`M${x + back * 10} ${-300} L${x + back * 30} ${-150}`} stroke={mixHex(c, '#000', 0.4)} strokeWidth={3} />
     </g>
   );
+};
+
+/** World position of a character's wrist (to attach props: ticket, phone…). side: -1 = character's right arm, 1 = left. */
+export const handWorld = (design: Design, pose: Pose, x: number, y: number, scale: number, side: number) => {
+  const bg = makeBodyGeo(design, pose);
+  const arm = side < 0 ? pose.armR : pose.armL;
+  const j = armJoints(bg, side, arm, design.height);
+  const a = (pose.lean * Math.PI) / 180;
+  const rx = j.wrist[0] * Math.cos(a) - j.wrist[1] * Math.sin(a);
+  const ry = j.wrist[0] * Math.sin(a) + j.wrist[1] * Math.cos(a);
+  const k = scale * design.height;
+  return {x: x + rx * k, y: y + ry * k, angle: j.a3 + pose.lean};
 };
