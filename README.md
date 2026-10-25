@@ -51,6 +51,12 @@
 scripts/produce.sh episode_02 --skip-voices --preview   # пересборка серии 2
 ```
 
+## «Последний кадр» — «Звонок от себя»
+
+Отдельный мистический триллер на том же конвейере. Итог: `output/zvonok_ot_sebya.mp4`;
+субтитры, сценарий, контактный лист, описание и README ролика — в
+`output/zvonok_ot_sebya/`. Сцены: `src/scenes/zvonok/`, персонажи `ARTEM`, `ARTEM_WET`.
+
 ## Технологический стек
 
 Аудит машины: Linux x86-64, 4 CPU, 15 ГБ RAM, **без GPU**, без Blender.

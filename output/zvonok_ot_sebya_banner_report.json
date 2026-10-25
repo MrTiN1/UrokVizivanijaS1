@@ -1,0 +1,74 @@
+[
+ {
+  "check": "official banner file supplied",
+  "ok": true,
+  "detail": "banner/NATRIA_VPN.mp4 → banner/natria_keyed.webm (1770×750, 7.2 s)"
+ },
+ {
+  "check": "banner speed ≤ 1.3×",
+  "ok": true,
+  "detail": "playbackRate 1.0"
+ },
+ {
+  "check": "aspect ratio preserved",
+  "ok": true,
+  "detail": "1140.0×483.1 (source 1770×750)"
+ },
+ {
+  "check": "banner centred (config)",
+  "ok": true,
+  "detail": "centre [540, 960] vs frame centre [540, 960]"
+ },
+ {
+  "check": "banner height fits frame (no vertical crop)",
+  "ok": true,
+  "detail": "y 718.5…1201.5"
+ },
+ {
+  "check": "visible banner area ≥ 25 % of frame",
+  "ok": true,
+  "detail": "25.16% (521640 px of 2073600); box 1140×483, 30 px beyond each side edge",
+  "value": 0.2516
+ },
+ {
+  "check": "banner not distorted; side overscan small",
+  "ok": true,
+  "detail": "30 px per side = 2.6% of width (needed to reach 25 % on a 9:16 frame)"
+ },
+ {
+  "check": "banner appears at 00:55 (measured)",
+  "ok": true,
+  "detail": "measured start 55.000 s (config 55.0 s), frame error 5.1/255",
+  "value": 55.0
+ },
+ {
+  "check": "banner centred (measured)",
+  "ok": true,
+  "detail": "best alignment shift dx=0 dy=0 px"
+ },
+ {
+  "check": "original animation timing kept (end frame matches)",
+  "ok": true,
+  "detail": "last opaque frame at 61.633 s (expected 61.633 s), error 4.4/255 → speed 1.0×"
+ },
+ {
+  "check": "no visible chroma key (green residue)",
+  "ok": true,
+  "detail": "pure-green pixels in banner band: 0.0000%"
+ },
+ {
+  "check": "no subtitles over the banner",
+  "ok": true,
+  "detail": "captions overlapping 55.0–62.2s: none (+ captions hidden in that window by design)"
+ },
+ {
+  "check": "narration not masked by the banner (no lines during it)",
+  "ok": true,
+  "detail": "voice lines overlapping banner: none"
+ },
+ {
+  "check": "single banner used",
+  "ok": true,
+  "detail": "one NatriaBanner instance in Episode.tsx"
+ }
+]

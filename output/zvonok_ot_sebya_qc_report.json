@@ -1,0 +1,634 @@
+{
+ "episode": "zvonok_ot_sebya",
+ "video": "output/zvonok_ot_sebya.mp4",
+ "duration": 110.0,
+ "checks": [
+  {
+   "check": "resolution",
+   "ok": true,
+   "detail": "1080×1920"
+  },
+  {
+   "check": "frame rate",
+   "ok": true,
+   "detail": "30.000 fps"
+  },
+  {
+   "check": "duration 110 s",
+   "ok": true,
+   "detail": "110.000 s (script 110 s)"
+  },
+  {
+   "check": "video codec H.264",
+   "ok": true,
+   "detail": "h264 High yuv420p"
+  },
+  {
+   "check": "audio track AAC",
+   "ok": true,
+   "detail": "aac 48000 Hz 2 ch"
+  },
+  {
+   "check": "loudness for Shorts (-14 LUFS ±1.5)",
+   "ok": true,
+   "detail": "I=-14.1 LUFS, true peak -1.9 dBFS"
+  },
+  {
+   "check": "no clipping (true peak ≤ -1 dBFS)",
+   "ok": true,
+   "detail": "-1.9 dBFS"
+  },
+  {
+   "check": "no unintended black frames",
+   "ok": true,
+   "detail": "black segments [(108.4, 109.967)]; allowed = scripted fade-out [(107.4, 110.5)]"
+  },
+  {
+   "check": "no frozen stretches > 2 s (every shot animates)",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "check": "no empty shots",
+   "ok": true,
+   "detail": "66 sampled frames; low-detail: []"
+  },
+  {
+   "check": "subtitle timing valid (ordered, no overlap)",
+   "ok": true,
+   "detail": "27 captions; issues: []"
+  },
+  {
+   "check": "subtitles 2–5 words on screen",
+   "ok": true,
+   "detail": "all within 1–5 words"
+  },
+  {
+   "check": "no clipped captions (longest word fits)",
+   "ok": true,
+   "detail": "longest word «телефонного» ≈ 635px of 940px"
+  },
+  {
+   "check": "captions inside episode",
+   "ok": true,
+   "detail": "last caption ends 105.98s"
+  },
+  {
+   "check": "subtitle ↔ voice sync (≤ 100 ms)",
+   "ok": true,
+   "detail": "max offset 60 ms across 11 lines"
+  },
+  {
+   "check": "lip sync from phoneme alignment / Rhubarb",
+   "ok": true,
+   "detail": "sources: ['elevenlabs-alignment']; visemes/line ≥ 8"
+  },
+  {
+   "check": "dialogue intelligible over music (ASR on final mix)",
+   "ok": true,
+   "detail": "mean word accuracy 99.4%"
+  },
+  {
+   "check": "Gleb uses one canonical model (shared face/hair/proportions)",
+   "ok": true,
+   "detail": "designs used: ['GLEB_CIVIL', 'GLEB_MILITARY', 'GLEB_RECRUIT'] — all derived from GLEB_BASE"
+  },
+  {
+   "check": "official banner file supplied",
+   "ok": true,
+   "detail": "banner/NATRIA_VPN.mp4 → banner/natria_keyed.webm (1770×750, 7.2 s)"
+  },
+  {
+   "check": "banner speed ≤ 1.3×",
+   "ok": true,
+   "detail": "playbackRate 1.0"
+  },
+  {
+   "check": "aspect ratio preserved",
+   "ok": true,
+   "detail": "1140.0×483.1 (source 1770×750)"
+  },
+  {
+   "check": "banner centred (config)",
+   "ok": true,
+   "detail": "centre [540, 960] vs frame centre [540, 960]"
+  },
+  {
+   "check": "banner height fits frame (no vertical crop)",
+   "ok": true,
+   "detail": "y 718.5…1201.5"
+  },
+  {
+   "check": "visible banner area ≥ 25 % of frame",
+   "ok": true,
+   "detail": "25.16% (521640 px of 2073600); box 1140×483, 30 px beyond each side edge",
+   "value": 0.2516
+  },
+  {
+   "check": "banner not distorted; side overscan small",
+   "ok": true,
+   "detail": "30 px per side = 2.6% of width (needed to reach 25 % on a 9:16 frame)"
+  },
+  {
+   "check": "banner appears at 00:55 (measured)",
+   "ok": true,
+   "detail": "measured start 55.000 s (config 55.0 s), frame error 5.1/255",
+   "value": 55.0
+  },
+  {
+   "check": "banner centred (measured)",
+   "ok": true,
+   "detail": "best alignment shift dx=0 dy=0 px"
+  },
+  {
+   "check": "original animation timing kept (end frame matches)",
+   "ok": true,
+   "detail": "last opaque frame at 61.633 s (expected 61.633 s), error 4.4/255 → speed 1.0×"
+  },
+  {
+   "check": "no visible chroma key (green residue)",
+   "ok": true,
+   "detail": "pure-green pixels in banner band: 0.0000%"
+  },
+  {
+   "check": "no subtitles over the banner",
+   "ok": true,
+   "detail": "captions overlapping 55.0–62.2s: none (+ captions hidden in that window by design)"
+  },
+  {
+   "check": "narration not masked by the banner (no lines during it)",
+   "ok": true,
+   "detail": "voice lines overlapping banner: none"
+  },
+  {
+   "check": "single banner used",
+   "ok": true,
+   "detail": "one NatriaBanner instance in Episode.tsx"
+  }
+ ],
+ "frames": [
+  {
+   "t": 1.38,
+   "scene": "z1_hook",
+   "shot": "Телефон: входящий вызов со своего номера",
+   "std": 44.214759826660156,
+   "mean": 40.8083381652832
+  },
+  {
+   "t": 3.68,
+   "scene": "z1_hook",
+   "shot": "Телефон: входящий вызов со своего номера",
+   "std": 41.22520446777344,
+   "mean": 39.02216339111328
+  },
+  {
+   "t": 5.62,
+   "scene": "z1_hook",
+   "shot": "Артём подносит телефон к уху",
+   "std": 55.17051696777344,
+   "mean": 48.526065826416016
+  },
+  {
+   "t": 7.32,
+   "scene": "z1_hook",
+   "shot": "Артём подносит телефон к уху",
+   "std": 55.25542449951172,
+   "mean": 50.64391326904297
+  },
+  {
+   "t": 8.72,
+   "scene": "z2_evening",
+   "shot": "Название: ПОСЛЕДНИЙ КАДР — ЗВОНОК ОТ СЕБЯ",
+   "std": 38.698448181152344,
+   "mean": 19.19729232788086
+  },
+  {
+   "t": 9.92,
+   "scene": "z2_evening",
+   "shot": "Название: ПОСЛЕДНИЙ КАДР — ЗВОНОК ОТ СЕБЯ",
+   "std": 41.585479736328125,
+   "mean": 20.159568786621094
+  },
+  {
+   "t": 11.66,
+   "scene": "z2_evening",
+   "shot": "Квартира, дождь за окном",
+   "std": 43.18077087402344,
+   "mean": 43.13144302368164
+  },
+  {
+   "t": 13.76,
+   "scene": "z2_evening",
+   "shot": "Квартира, дождь за окном",
+   "std": 42.73106384277344,
+   "mean": 43.24793243408203
+  },
+  {
+   "t": 15.8,
+   "scene": "z2_evening",
+   "shot": "Артём за компьютером",
+   "std": 51.01998519897461,
+   "mean": 45.25578689575195
+  },
+  {
+   "t": 17.8,
+   "scene": "z2_evening",
+   "shot": "Артём за компьютером",
+   "std": 45.18747329711914,
+   "mean": 43.866851806640625
+  },
+  {
+   "t": 19.92,
+   "scene": "z2_evening",
+   "shot": "Экран телефона: номер звонящего = номер Артёма",
+   "std": 37.8109016418457,
+   "mean": 30.75060272216797
+  },
+  {
+   "t": 22.12,
+   "scene": "z2_evening",
+   "shot": "Экран телефона: номер звонящего = номер Артёма",
+   "std": 36.6317138671875,
+   "mean": 30.98946762084961
+  },
+  {
+   "t": 24.02,
+   "scene": "z3_warning",
+   "shot": "Артём перезванивает на свой номер",
+   "std": 38.72819137573242,
+   "mean": 30.831741333007812
+  },
+  {
+   "t": 25.72,
+   "scene": "z3_warning",
+   "shot": "Артём перезванивает на свой номер",
+   "std": 38.75033187866211,
+   "mean": 30.849140167236328
+  },
+  {
+   "t": 27.42,
+   "scene": "z3_warning",
+   "shot": "«Невозможно вызвать собственный номер»",
+   "std": 41.033321380615234,
+   "mean": 32.67759323120117
+  },
+  {
+   "t": 29.12,
+   "scene": "z3_warning",
+   "shot": "«Невозможно вызвать собственный номер»",
+   "std": 41.1430778503418,
+   "mean": 32.791908264160156
+  },
+  {
+   "t": 30.82,
+   "scene": "z3_warning",
+   "shot": "Голос из динамика возвращается",
+   "std": 51.68457794189453,
+   "mean": 47.3789176940918
+  },
+  {
+   "t": 32.52,
+   "scene": "z3_warning",
+   "shot": "Голос из динамика возвращается",
+   "std": 52.11094284057617,
+   "mean": 48.759796142578125
+  },
+  {
+   "t": 33.86,
+   "scene": "z3_warning",
+   "shot": "Часы: 23:59",
+   "std": 24.451087951660156,
+   "mean": 21.4628963470459
+  },
+  {
+   "t": 34.96,
+   "scene": "z3_warning",
+   "shot": "Часы: 23:59",
+   "std": 24.44500732421875,
+   "mean": 21.491493225097656
+  },
+  {
+   "t": 36.18,
+   "scene": "z3_warning",
+   "shot": "Шум в коридоре — Артём оборачивается",
+   "std": 44.99768829345703,
+   "mean": 42.2938346862793
+  },
+  {
+   "t": 37.48,
+   "scene": "z3_warning",
+   "shot": "Шум в коридоре — Артём оборачивается",
+   "std": 44.54233169555664,
+   "mean": 41.76458740234375
+  },
+  {
+   "t": 38.54,
+   "scene": "z4_knock",
+   "shot": "Часы: 00:00",
+   "std": 26.343952178955078,
+   "mean": 21.951082229614258
+  },
+  {
+   "t": 39.44,
+   "scene": "z4_knock",
+   "shot": "Часы: 00:00",
+   "std": 26.338882446289062,
+   "mean": 21.99043083190918
+  },
+  {
+   "t": 40.58,
+   "scene": "z4_knock",
+   "shot": "Три медленных удара в дверь",
+   "std": 33.17530822753906,
+   "mean": 57.247501373291016
+  },
+  {
+   "t": 41.88,
+   "scene": "z4_knock",
+   "shot": "Три медленных удара в дверь",
+   "std": 33.14784622192383,
+   "mean": 59.079471588134766
+  },
+  {
+   "t": 43.18,
+   "scene": "z4_knock",
+   "shot": "Артём подходит к двери",
+   "std": 35.288673400878906,
+   "mean": 59.49925231933594
+  },
+  {
+   "t": 44.48,
+   "scene": "z4_knock",
+   "shot": "Артём подходит к двери",
+   "std": 33.583431243896484,
+   "mean": 59.367366790771484
+  },
+  {
+   "t": 46.62,
+   "scene": "z4_knock",
+   "shot": "Глазок: за дверью он сам — старше, промокший",
+   "std": 45.26948547363281,
+   "mean": 38.393489837646484
+  },
+  {
+   "t": 49.32,
+   "scene": "z4_knock",
+   "shot": "Глазок: за дверью он сам — старше, промокший",
+   "std": 51.51667404174805,
+   "mean": 45.68773651123047
+  },
+  {
+   "t": 51.18,
+   "scene": "z4_knock",
+   "shot": "Артём отступает от двери",
+   "std": 46.026275634765625,
+   "mean": 39.93980407714844
+  },
+  {
+   "t": 52.48,
+   "scene": "z4_knock",
+   "shot": "Артём отступает от двери",
+   "std": 45.80814743041992,
+   "mean": 39.66346740722656
+  },
+  {
+   "t": 53.6,
+   "scene": "z5_choice",
+   "shot": "Артём прижимается к стене прихожей",
+   "std": 49.886348724365234,
+   "mean": 43.632469177246094
+  },
+  {
+   "t": 54.6,
+   "scene": "z5_choice",
+   "shot": "Артём прижимается к стене прихожей",
+   "std": 49.7903938293457,
+   "mean": 43.69383239746094
+  },
+  {
+   "t": 57.16,
+   "scene": "z5_choice",
+   "shot": "Прихожая, общий план (баннер по центру)",
+   "std": 45.059085845947266,
+   "mean": 49.59965133666992
+  },
+  {
+   "t": 60.76,
+   "scene": "z5_choice",
+   "shot": "Прихожая, общий план (баннер по центру)",
+   "std": 45.51872253417969,
+   "mean": 48.065032958984375
+  },
+  {
+   "t": 63.94,
+   "scene": "z5_choice",
+   "shot": "Артём смотрит то на дверь, то на телефон",
+   "std": 50.47776794433594,
+   "mean": 45.338645935058594
+  },
+  {
+   "t": 66.84,
+   "scene": "z5_choice",
+   "shot": "Артём смотрит то на дверь, то на телефон",
+   "std": 49.318031311035156,
+   "mean": 45.55569839477539
+  },
+  {
+   "t": 68.66,
+   "scene": "z6_call2",
+   "shot": "Телефон снова звонит: тот же номер",
+   "std": 41.511173248291016,
+   "mean": 35.14884948730469
+  },
+  {
+   "t": 69.76,
+   "scene": "z6_call2",
+   "shot": "Телефон снова звонит: тот же номер",
+   "std": 41.62138748168945,
+   "mean": 35.60898208618164
+  },
+  {
+   "t": 70.98,
+   "scene": "z6_call2",
+   "shot": "Артём отвечает",
+   "std": 55.641845703125,
+   "mean": 47.43582534790039
+  },
+  {
+   "t": 72.28,
+   "scene": "z6_call2",
+   "shot": "Артём отвечает",
+   "std": 53.28309631347656,
+   "mean": 47.01371383666992
+  },
+  {
+   "t": 73.58,
+   "scene": "z6_call2",
+   "shot": "«Там стою я сам!»",
+   "std": 55.22234344482422,
+   "mean": 47.82406997680664
+  },
+  {
+   "t": 74.88,
+   "scene": "z6_call2",
+   "shot": "«Там стою я сам!»",
+   "std": 57.26073455810547,
+   "mean": 49.835693359375
+  },
+  {
+   "t": 76.42,
+   "scene": "z6_call2",
+   "shot": "Голос в трубке",
+   "std": 57.445377349853516,
+   "mean": 50.9255256652832
+  },
+  {
+   "t": 78.12,
+   "scene": "z6_call2",
+   "shot": "Голос в трубке",
+   "std": 58.06031799316406,
+   "mean": 51.14260482788086
+  },
+  {
+   "t": 79.34,
+   "scene": "z6_call2",
+   "shot": "«Кто — он?»",
+   "std": 56.184120178222656,
+   "mean": 50.60219955444336
+  },
+  {
+   "t": 80.24,
+   "scene": "z6_call2",
+   "shot": "«Кто — он?»",
+   "std": 56.99407958984375,
+   "mean": 51.34258270263672
+  },
+  {
+   "t": 81.92,
+   "scene": "z6_call2",
+   "shot": "Тишина в трубке",
+   "std": 39.1313362121582,
+   "mean": 31.275625228881836
+  },
+  {
+   "t": 84.12,
+   "scene": "z6_call2",
+   "shot": "Тишина в трубке",
+   "std": 38.29268264770508,
+   "mean": 31.387720108032227
+  },
+  {
+   "t": 85.21,
+   "scene": "z7_camera",
+   "shot": "Артём открывает приложение камеры",
+   "std": 33.729644775390625,
+   "mean": 22.83169937133789
+  },
+  {
+   "t": 85.56,
+   "scene": "z7_camera",
+   "shot": "Артём открывает приложение камеры",
+   "std": 33.47740936279297,
+   "mean": 29.945022583007812
+  },
+  {
+   "t": 87.59,
+   "scene": "z7_camera",
+   "shot": "Запись 23:54: он сам входит в квартиру",
+   "std": 40.63251495361328,
+   "mean": 38.2140007019043
+  },
+  {
+   "t": 90.74,
+   "scene": "z7_camera",
+   "shot": "Запись 23:54: он сам входит в квартиру",
+   "std": 41.229427337646484,
+   "mean": 38.60524368286133
+  },
+  {
+   "t": 93.68,
+   "scene": "z7_camera",
+   "shot": "Запись 23:58: за спиной Артёма проходит второй Артём",
+   "std": 41.00162887573242,
+   "mean": 40.02486038208008
+  },
+  {
+   "t": 96.48,
+   "scene": "z7_camera",
+   "shot": "Запись 23:58: за спиной Артёма проходит второй Артём",
+   "std": 43.76771545410156,
+   "mean": 49.58073425292969
+  },
+  {
+   "t": 99.22,
+   "scene": "z7_camera",
+   "shot": "Артём медленно оборачивается",
+   "std": 47.63100814819336,
+   "mean": 45.24321365356445
+  },
+  {
+   "t": 101.92,
+   "scene": "z7_camera",
+   "shot": "Артём медленно оборачивается",
+   "std": 48.5750732421875,
+   "mean": 45.88187026977539
+  },
+  {
+   "t": 103.9,
+   "scene": "z8_final",
+   "shot": "За спиной Артёма стоит двойник",
+   "std": 47.41980743408203,
+   "mean": 39.87259292602539
+  },
+  {
+   "t": 105.4,
+   "scene": "z8_final",
+   "shot": "За спиной Артёма стоит двойник",
+   "std": 48.65813446044922,
+   "mean": 40.1101188659668
+  },
+  {
+   "t": 106.36,
+   "scene": "z8_final",
+   "shot": "Входная дверь: всё ещё заперта",
+   "std": 22.240541458129883,
+   "mean": 35.69663619995117
+  },
+  {
+   "t": 106.96,
+   "scene": "z8_final",
+   "shot": "Входная дверь: всё ещё заперта",
+   "std": 22.005796432495117,
+   "mean": 36.32188034057617
+  },
+  {
+   "t": 107.56,
+   "scene": "z8_final",
+   "shot": "Телефон звонит: «АРТЁМ»",
+   "std": 41.5200309753418,
+   "mean": 34.308345794677734
+  },
+  {
+   "t": 108.16,
+   "scene": "z8_final",
+   "shot": "Телефон звонит: «АРТЁМ»",
+   "std": 41.603275299072266,
+   "mean": 34.63338851928711
+  },
+  {
+   "t": 108.88,
+   "scene": "z8_final",
+   "shot": "Затемнение: ПОСЛЕДНИЙ КАДР — КОНЕЦ",
+   "std": 20.927873611450195,
+   "mean": 7.868000507354736
+  },
+  {
+   "t": 109.68,
+   "scene": "z8_final",
+   "shot": "Затемнение: ПОСЛЕДНИЙ КАДР — КОНЕЦ",
+   "std": 29.81361961364746,
+   "mean": 10.198504447937012
+  }
+ ],
+ "passed": true
+}
