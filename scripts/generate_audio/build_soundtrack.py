@@ -548,14 +548,14 @@ def main():
     out = ep_dir / "build" / "soundtrack.wav"
     # two-pass loudness normalisation for Shorts/TikTok (-14 LUFS)
     r = subprocess.run(
-        ["ffmpeg", "-hide_banner", "-i", str(raw), "-af", "loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"],
+        ["ffmpeg", "-hide_banner", "-i", str(raw), "-af", "loudnorm=I=-14:TP=-2.2:LRA=11:print_format=json", "-f", "null", "-"],
         stderr=subprocess.PIPE,
         text=True,
     )
     js = r.stderr[r.stderr.rfind("{") : r.stderr.rfind("}") + 1]
     st = json.loads(js)
     af = (
-        f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={st['input_i']}:measured_TP={st['input_tp']}:"
+        f"loudnorm=I=-14:TP=-2.2:LRA=11:measured_I={st['input_i']}:measured_TP={st['input_tp']}:"
         f"measured_LRA={st['input_lra']}:measured_thresh={st['input_thresh']}:offset={st['target_offset']}:linear=true"
     )
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(raw), "-af", af, "-ar", "48000", str(out)], check=True)

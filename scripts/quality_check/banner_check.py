@@ -35,12 +35,25 @@ def video_frames(video: Path, t0: float, n: int, fps: int = 30) -> np.ndarray:
     return np.stack([np.asarray(Image.open(p).convert("RGB"), dtype=np.float32) for p in sorted(TMP.glob("v_*.png"))])
 
 
-def banner_rgba(path: Path) -> np.ndarray:
-    out = TMP / "b"
-    out.mkdir(parents=True, exist_ok=True)
-    if not any(out.glob("b_*.png")):
-        subprocess.run(["ffmpeg", "-v", "error", "-c:v", "libvpx-vp9", "-i", str(path), "-pix_fmt", "rgba", str(out / "b_%03d.png")], check=True)
-    return np.stack([np.asarray(Image.open(p).convert("RGBA"), dtype=np.float32) for p in sorted(out.glob("b_*.png"))])
+class BannerFrames:
+    """Banner frames decoded with alpha, loaded lazily (all at once would need GBs of RAM)."""
+
+    def __init__(self, path: Path):
+        out = TMP / "b"
+        out.mkdir(parents=True, exist_ok=True)
+        if not any(out.glob("b_*.png")):
+            subprocess.run(["ffmpeg", "-v", "error", "-c:v", "libvpx-vp9", "-i", str(path), "-pix_fmt", "rgba", str(out / "b_%03d.png")], check=True)
+        self.files = sorted(out.glob("b_*.png"))
+
+    def __len__(self):
+        return len(self.files)
+
+    def __getitem__(self, i) -> np.ndarray:
+        return np.asarray(Image.open(self.files[i]).convert("RGBA"), dtype=np.uint8)
+
+
+def banner_rgba(path: Path) -> BannerFrames:
+    return BannerFrames(path)
 
 
 def run(ep_name: str) -> list[dict]:
@@ -74,11 +87,11 @@ def run(ep_name: str) -> list[dict]:
     N = len(B)
     # scale banner frames to on-screen size once (only the ones we use)
     def scaled(i):
-        im = Image.fromarray(B[i].astype(np.uint8), "RGBA").resize((int(round(bw)), int(round(bh))), Image.LANCZOS)
+        im = Image.fromarray(B[i], "RGBA").resize((int(round(bw)), int(round(bh))), Image.LANCZOS)
         return np.asarray(im, dtype=np.float32)
 
     # visible opaque area: use the frame with the most opaque pixels
-    alpha_counts = [(B[i, :, :, 3] > 128).mean() for i in range(0, N, 4)]
+    alpha_counts = [(B[i][:, :, 3] > 128).mean() for i in range(0, N, 4)]
     full = int(np.argmax(alpha_counts)) * 4
     S = scaled(full)
     x0 = int(round(bx))
@@ -127,7 +140,7 @@ def run(ep_name: str) -> list[dict]:
                 best = (dx, dy, s)
     check("banner centred (measured)", abs(best[0]) <= 2 and abs(best[1]) <= 2, f"best alignment shift dx={best[0]} dy={best[1]} px")
     # end: last opaque frames
-    last_full = max(i for i in range(N) if (B[i, :, :, 3] > 128).mean() > 0.9)
+    last_full = max(i for i in range(N) if (B[i][:, :, 3] > 128).mean() > 0.9)
     t_end_cfg = t_cfg + last_full / 30 / speed
     Ve = video_frames(video, t_end_cfg - 15 / 30, 31)
     be_k, be_s = 0, 1e9
@@ -140,10 +153,24 @@ def run(ep_name: str) -> list[dict]:
     real_speed = round(((last_full - ref_i) / 30) / max(1e-6, t_last_video - t_ref_video), 3)
     check("original animation timing kept (end frame matches)", abs(be_k) <= 1 and be_s < 25 and real_speed <= 1.3, f"last opaque frame at {t_end_cfg + be_k / 30:.3f} s (expected {t_end_cfg:.3f} s), error {be_s:.1f}/255 → speed {real_speed}×")
     # chroma residue over the whole banner window
-    Vw = video_frames(video, t_cfg, int(meta["duration"] * 30 / speed))
-    reg = Vw[:, max(0, y0) : y0 + int(bh), :]
-    r, g, b = reg[..., 0], reg[..., 1], reg[..., 2]
-    green = ((g > 150) & (g > r + 60) & (g > b + 60)).mean()
+    # stream the banner window from ffmpeg as raw frames (only the banner band, uint8)
+    band_h = int(bh)
+    n_fr = int(meta["duration"] * 30 / speed)
+    proc = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", f"{t_cfg:.3f}", "-i", str(video), "-frames:v", str(n_fr),
+                             "-vf", f"crop={W}:{band_h}:0:{max(0, y0)}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+    tot = 0
+    grn = 0
+    fsz = W * band_h * 3
+    while True:
+        buf = proc.stdout.read(fsz)
+        if len(buf) < fsz:
+            break
+        fr = np.frombuffer(buf, dtype=np.uint8).reshape(band_h, W, 3).astype(np.int16)
+        r, g, b = fr[..., 0], fr[..., 1], fr[..., 2]
+        grn += int(((g > 150) & (g > r + 60) & (g > b + 60)).sum())
+        tot += r.size
+    proc.wait()
+    green = grn / max(1, tot)
     check("no visible chroma key (green residue)", green < 0.0005, f"pure-green pixels in banner band: {green:.4%}")
 
     # ---- nothing on top / audio clarity ----

@@ -63,6 +63,7 @@ def main() -> None:
         signs.add(mt.strip())
     for mt in re.findall(r"(?:note|name|time)=\"([^\"]+)\"", src):
         signs.add(mt.strip())
+    signs.discard("NATRIA VPN banner")  # Remotion sequence label, not drawn on screen
     unknown = sorted(s for s in signs if s not in ALLOWED_SIGNS and not re.fullmatch(r"[\d:·\s]+", s) and len(s) > 1 and not re.fullmatch(r"\d\d:\d\d", s))
     ads = sorted(set(re.findall(ADS, (text + " " + " ".join(signs)).lower())))
     item("Нет рекламы сторонних проектов", ok(not ads and not unknown), f"надписи в кадре: {sorted(signs)}; посторонние: {unknown or 'нет'}; рекламные слова: {ads or 'нет'}")
