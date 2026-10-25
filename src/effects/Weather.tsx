@@ -55,33 +55,26 @@ export const Rain: React.FC<RainProps> = ({
   const dy = Math.cos(a);
   const id = `rain${seed}`;
   return (
-    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none', filter: blur ? `blur(${blur}px)` : undefined}}>
+    // `blur` kept for API compatibility; CSS blur is too slow on CPU — wide faint streaks read as out-of-focus
+    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none', opacity: blur ? 0.8 : 1}}>
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2={dx} y2={dy}>
           <stop offset="0" stopColor={color} stopOpacity={0} />
           <stop offset="1" stopColor={color} stopOpacity={1} />
         </linearGradient>
       </defs>
-      {Array.from({length: count}).map((_, i) => {
-        const sp = speed * (0.75 + rand(i * 2.1 + seed) * 0.5);
-        const L = length * (0.6 + rand(i * 5.3 + seed) * 0.8);
-        const travel = (frame * sp + rand(i * 7.7 + seed) * h) % h;
-        const x = x0 + ((rand(i * 3.3 + seed) * w + travel * dx) % w);
-        const y = y0 + travel * dy;
-        return (
-          <line
-            key={i}
-            x1={x - dx * L}
-            y1={y - dy * L}
-            x2={x}
-            y2={y}
-            stroke={color}
-            strokeWidth={width * (0.6 + rand(i * 9.1 + seed) * 0.8)}
-            strokeLinecap="round"
-            opacity={opacity * (0.5 + rand(i * 4.4 + seed) * 0.5)}
-          />
-        );
-      })}
+      {(() => {
+        const bands: string[][] = [[], [], []];
+        for (let i = 0; i < count; i++) {
+          const sp = speed * (0.75 + rand(i * 2.1 + seed) * 0.5);
+          const L = length * (0.6 + rand(i * 5.3 + seed) * 0.8);
+          const travel = (frame * sp + rand(i * 7.7 + seed) * h) % h;
+          const x = x0 + ((rand(i * 3.3 + seed) * w + travel * dx) % w);
+          const y = y0 + travel * dy;
+          bands[i % 3].push(`M${(x - dx * L).toFixed(1)} ${(y - dy * L).toFixed(1)}L${x.toFixed(1)} ${y.toFixed(1)}`);
+        }
+        return bands.map((d, k) => <path key={k} d={d.join('')} stroke={color} strokeWidth={width * (0.7 + k * 0.35)} strokeLinecap="round" opacity={opacity * (0.55 + k * 0.22)} fill="none" />);
+      })()}
     </svg>
   );
 };
@@ -100,23 +93,24 @@ export const Splashes: React.FC<{count?: number; seed?: number; y0?: number; y1?
   const frame = useCurrentFrame();
   return (
     <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}>
-      {Array.from({length: count}).map((_, i) => {
-        const life = 9 + Math.floor(rand(i * 2 + seed) * 6);
-        const off = Math.floor(rand(i * 5 + seed) * 200);
-        const cyc = Math.floor((frame + off) / life);
-        const p = ((frame + off) % life) / life;
-        const x = x0 + rand(cyc * 13.1 + i * 7 + seed) * (x1 - x0);
-        const y = y0 + rand(cyc * 3.9 + i * 11 + seed) * (y1 - y0);
-        const s = 0.4 + ((y - y0) / Math.max(1, y1 - y0)) * 1.0;
-        const r = (4 + p * 16) * s;
-        return (
-          <g key={i} opacity={opacity * (1 - p)}>
-            <ellipse cx={x} cy={y} rx={r} ry={r * 0.28} fill="none" stroke={color} strokeWidth={1.4 * s} />
-            {p < 0.5 ? <line x1={x - 3 * s} y1={y - 2} x2={x - 6 * s} y2={y - 12 * s * (1 - p * 2)} stroke={color} strokeWidth={1.2 * s} /> : null}
-            {p < 0.5 ? <line x1={x + 3 * s} y1={y - 2} x2={x + 7 * s} y2={y - 10 * s * (1 - p * 2)} stroke={color} strokeWidth={1.2 * s} /> : null}
-          </g>
-        );
-      })}
+      {(() => {
+        const rings: string[][] = [[], [], []];
+        for (let i = 0; i < count; i++) {
+          const life = 9 + Math.floor(rand(i * 2 + seed) * 6);
+          const off = Math.floor(rand(i * 5 + seed) * 200);
+          const cyc = Math.floor((frame + off) / life);
+          const p = ((frame + off) % life) / life;
+          const x = x0 + rand(cyc * 13.1 + i * 7 + seed) * (x1 - x0);
+          const y = y0 + rand(cyc * 3.9 + i * 11 + seed) * (y1 - y0);
+          const s = 0.4 + ((y - y0) / Math.max(1, y1 - y0)) * 1.0;
+          const r = (4 + p * 16) * s;
+          const ry = r * 0.28;
+          const band = p < 0.33 ? 0 : p < 0.66 ? 1 : 2;
+          rings[band].push(`M${(x - r).toFixed(1)} ${y.toFixed(1)}a${r.toFixed(1)} ${ry.toFixed(1)} 0 1 0 ${(2 * r).toFixed(1)} 0a${r.toFixed(1)} ${ry.toFixed(1)} 0 1 0 ${(-2 * r).toFixed(1)} 0`);
+          if (p < 0.5) rings[band].push(`M${(x - 3 * s).toFixed(1)} ${y - 2}l${(-3 * s).toFixed(1)} ${(-10 * s * (1 - p * 2)).toFixed(1)}M${(x + 3 * s).toFixed(1)} ${y - 2}l${(4 * s).toFixed(1)} ${(-8 * s * (1 - p * 2)).toFixed(1)}`);
+        }
+        return rings.map((d, k) => <path key={k} d={d.join('')} fill="none" stroke={color} strokeWidth={1.3} opacity={opacity * (1 - k * 0.33)} />);
+      })()}
     </svg>
   );
 };
@@ -135,17 +129,7 @@ export const RainOnGlass: React.FC<{w: number; h: number; seed?: number; density
   const sliders = Math.round(10 * density * w / 1080 * 2);
   return (
     <svg width={w} height={h} style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}>
-      {Array.from({length: beads}).map((_, i) => {
-        const x = rand(i * 1.7 + seed) * w;
-        const y = rand(i * 2.9 + seed) * h;
-        const r = 1.5 + rand(i * 4.3 + seed) ** 3 * 7;
-        return (
-          <g key={`b${i}`}>
-            <ellipse cx={x} cy={y} rx={r} ry={r * 1.1} fill={tint} opacity={0.22} />
-            <ellipse cx={x - r * 0.3} cy={y - r * 0.35} rx={r * 0.35} ry={r * 0.3} fill={light} opacity={0.45} />
-          </g>
-        );
-      })}
+      <StaticBeads w={w} h={h} n={beads} seed={seed} tint={tint} light={light} />
       {Array.from({length: sliders}).map((_, i) => {
         const period = 70 + rand(i * 3 + seed) * 120;
         const off = rand(i * 9 + seed) * period;
@@ -166,6 +150,27 @@ export const RainOnGlass: React.FC<{w: number; h: number; seed?: number; density
   );
 };
 
+const StaticBeads: React.FC<{w: number; h: number; n: number; seed: number; tint: string; light: string}> = React.memo(({w, h, n, seed, tint, light}) => {
+  const body: string[] = [];
+  const hi: string[] = [];
+  for (let i = 0; i < n; i++) {
+    const x = rand(i * 1.7 + seed) * w;
+    const y = rand(i * 2.9 + seed) * h;
+    const r = 1.5 + rand(i * 4.3 + seed) ** 3 * 7;
+    body.push(`M${(x - r).toFixed(1)} ${y.toFixed(1)}a${r.toFixed(1)} ${(r * 1.1).toFixed(1)} 0 1 0 ${(2 * r).toFixed(1)} 0a${r.toFixed(1)} ${(r * 1.1).toFixed(1)} 0 1 0 ${(-2 * r).toFixed(1)} 0`);
+    const hr = r * 0.35;
+    const hx = x - r * 0.3;
+    const hy = y - r * 0.35;
+    hi.push(`M${(hx - hr).toFixed(1)} ${hy.toFixed(1)}a${hr.toFixed(1)} ${(hr * 0.86).toFixed(1)} 0 1 0 ${(2 * hr).toFixed(1)} 0a${hr.toFixed(1)} ${(hr * 0.86).toFixed(1)} 0 1 0 ${(-2 * hr).toFixed(1)} 0`);
+  }
+  return (
+    <g>
+      <path d={body.join('')} fill={tint} opacity={0.22} />
+      <path d={hi.join('')} fill={light} opacity={0.45} />
+    </g>
+  );
+});
+
 export type LightSrc = {x: number; y: number; color: string; size?: number; intensity?: number};
 
 /**
@@ -176,7 +181,7 @@ export const WetReflections: React.FC<{lights: LightSrc[]; ground: number; depth
   const frame = useCurrentFrame();
   const id = `wr${seed}`;
   return (
-    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'screen'}}>
+    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}>
       <defs>
         <filter id={id} x="-50%" y="-10%" width="200%" height="120%">
           <feGaussianBlur stdDeviation="9 18" />
@@ -209,7 +214,7 @@ export const WetReflections: React.FC<{lights: LightSrc[]; ground: number; depth
 export const Glow: React.FC<{x: number; y: number; r: number; color: string; intensity?: number; core?: string}> = ({x, y, r, color, intensity = 1, core}) => {
   const id = `gl${Math.round(x)}_${Math.round(y)}_${Math.round(r)}`;
   return (
-    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'screen', overflow: 'visible'}}>
+    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'visible'}}>
       <defs>
         <radialGradient id={id}>
           <stop offset="0" stopColor={core ?? color} stopOpacity={0.95 * intensity} />
@@ -239,7 +244,7 @@ export const LightCone: React.FC<{x: number; y: number; w0?: number; w1: number;
   const id = `cone${seed}`;
   const breathe = 0.85 + 0.15 * fbm(frame / 40, seed);
   return (
-    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'screen'}}>
+    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}>
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={color} stopOpacity={0.55 * intensity * breathe} />
@@ -253,7 +258,9 @@ export const LightCone: React.FC<{x: number; y: number; w0?: number; w1: number;
           <polygon points={`${x - w0 / 2},${y} ${x + w0 / 2},${y} ${x + w1 / 2},${y + h} ${x - w1 / 2},${y + h}`} />
         </clipPath>
       </defs>
-      <polygon points={`${x - w0 / 2},${y} ${x + w0 / 2},${y} ${x + w1 / 2},${y + h} ${x - w1 / 2},${y + h}`} fill={`url(#${id})`} filter={`url(#${id}b)`} />
+      <polygon points={`${x - w0},${y} ${x + w0},${y} ${x + w1 * 0.75},${y + h} ${x - w1 * 0.75},${y + h}`} fill={`url(#${id})`} opacity={0.35} />
+      <polygon points={`${x - w0 / 2},${y} ${x + w0 / 2},${y} ${x + w1 / 2},${y + h} ${x - w1 / 2},${y + h}`} fill={`url(#${id})`} opacity={0.75} />
+      <polygon points={`${x - w0 / 4},${y} ${x + w0 / 4},${y} ${x + w1 / 4},${y + h} ${x - w1 / 4},${y + h}`} fill={`url(#${id})`} opacity={0.5} />
       {rain ? (
         <g clipPath={`url(#${id}c)`} opacity={0.9 * intensity}>
           {Array.from({length: 46}).map((_, i) => {
@@ -285,7 +292,6 @@ export const Mist: React.FC<{y: number; height?: number; color?: string; opacity
               width: 1800,
               height,
               background: `radial-gradient(ellipse 50% 50% at 50% 50%, rgba(${color},${opacity}) 0%, rgba(${color},${opacity * 0.5}) 45%, rgba(${color},0) 75%)`,
-              filter: 'blur(10px)',
             }}
           />
         );
@@ -293,3 +299,39 @@ export const Mist: React.FC<{y: number; height?: number; color?: string; opacity
     </AbsoluteFill>
   );
 };
+
+/**
+ * Cheap out-of-focus background (bokeh discs on a gradient) — used instead of
+ * blurring a whole scene, which is very slow to render without a GPU.
+ */
+export const Bokeh: React.FC<{discs: [number, number, number, string, number][]; top?: string; bottom?: string; drift?: number}> = ({discs, top = '#0b1020', bottom = '#05060a', drift = 0}) => {
+  const frame = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{background: `linear-gradient(${top}, ${bottom})`}}>
+      <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
+        <defs>
+          {discs.map(([, , , c], i) => (
+            <radialGradient key={i} id={`bk${i}`}>
+              <stop offset="0" stopColor={c} stopOpacity={0.9} />
+              <stop offset="0.7" stopColor={c} stopOpacity={0.55} />
+              <stop offset="1" stopColor={c} stopOpacity={0} />
+            </radialGradient>
+          ))}
+        </defs>
+        {discs.map(([x, y, r, , o], i) => (
+          <circle key={i} cx={x + Math.sin(frame / 60 + i) * 8 + frame * drift} cy={y + Math.cos(frame / 70 + i) * 6} r={r} fill={`url(#bk${i})`} opacity={o} />
+        ))}
+      </svg>
+    </AbsoluteFill>
+  );
+};
+
+export const BOKEH_BUS: [number, number, number, string, number][] = [
+  [540, 120, 260, '#dfeaff', 0.35], [540, 420, 180, '#dfeaff', 0.25], [540, 640, 120, '#dfeaff', 0.2],
+  [170, 700, 140, '#c7a33f', 0.25], [910, 700, 140, '#c7a33f', 0.25], [120, 1100, 220, '#3b2e4a', 0.6], [960, 1150, 240, '#3b2e4a', 0.6],
+  [300, 900, 90, '#ffc46b', 0.25], [800, 980, 70, '#9fc4ff', 0.25],
+];
+export const BOKEH_CITY: [number, number, number, string, number][] = [
+  [180, 700, 160, '#ffc46b', 0.7], [860, 520, 180, '#ffc46b', 0.6], [520, 1180, 150, '#9fc4ff', 0.5], [300, 1300, 130, '#ff8a5c', 0.45],
+  [700, 860, 90, '#ffd38a', 0.5], [980, 1250, 120, '#a9c7e8', 0.4], [90, 400, 80, '#e7a85a', 0.45], [640, 300, 70, '#e7a85a', 0.4],
+];

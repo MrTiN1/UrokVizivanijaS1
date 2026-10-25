@@ -89,13 +89,13 @@ export const BusInterior: React.FC<InteriorProps> = ({facing, light = 1, speed =
           </g>
         )),
       )}
-      <g filter="url(#bi-blur)">
+      <g>
         {streaks.map((st) => {
           const a = P(st.side * 0.995, st.Y, st.z);
           const b = P(st.side * 0.995, st.Y, st.z + 0.5);
           const inWin = winZs.some(([z0, z1]) => st.z > z0 && st.z < z1);
           if (!inWin || speed === 0) return null;
-          return <line key={st.i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={st.warm ? PAL.warm : PAL.coldBlue} strokeWidth={22 / st.z} opacity={0.7} strokeLinecap="round" />;
+          return <line key={st.i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={st.warm ? PAL.warm : PAL.coldBlue} strokeWidth={30 / st.z} opacity={0.4} strokeLinecap="round" />;
         })}
       </g>
       {/* window sills */}
@@ -115,7 +115,13 @@ export const BusInterior: React.FC<InteriorProps> = ({facing, light = 1, speed =
         );
       })}
       {/* lamp bloom + their reflections on the polished floor */}
-      <g filter="url(#bi-blur)" style={{mixBlendMode: 'screen'}}>
+      <defs>
+        <radialGradient id="bi-bloom">
+          <stop offset="0" stopColor="#e6f1ff" stopOpacity={1} />
+          <stop offset="1" stopColor="#e6f1ff" stopOpacity={0} />
+        </radialGradient>
+      </defs>
+      <g>
         {Array.from({length: 6}).map((_, i) => {
           const z = 1.2 + i * 1.1;
           if (z > zFar - 0.3) return null;
@@ -123,8 +129,8 @@ export const BusInterior: React.FC<InteriorProps> = ({facing, light = 1, speed =
           const fl = P(0, 0, z + 0.27);
           return (
             <g key={`bloom${i}`}>
-              <ellipse cx={c.x} cy={c.y + 30 / z} rx={300 / z} ry={90 / z} fill="#e6f1ff" opacity={0.22 * L} />
-              <ellipse cx={fl.x} cy={fl.y} rx={240 / z} ry={50 / z} fill="#cfe2ff" opacity={0.12 * L} />
+              <ellipse cx={c.x} cy={c.y + 30 / z} rx={360 / z} ry={120 / z} fill="url(#bi-bloom)" opacity={0.3 * L} />
+              <ellipse cx={fl.x} cy={fl.y} rx={300 / z} ry={70 / z} fill="url(#bi-bloom)" opacity={0.16 * L} />
             </g>
           );
         })}
@@ -346,7 +352,7 @@ export const BusFront: React.FC<{x: number; y: number; scale: number; lights?: n
         <path d="M-220 -30 L-220 -580 Q-220 -610 -190 -610 L190 -610 Q220 -610 220 -580 L220 -30Z" fill="url(#bf-body)" stroke="#121716" strokeWidth={4} />
         {/* route display */}
         <rect x={-180} y={-596} width={360} height={74} rx={6} fill="#120c06" />
-        <text x={-60} y={-538} fontFamily="Russo One" fontSize={64} fill="#ffb02e" opacity={lights * flick} style={{filter: 'drop-shadow(0 0 8px #ff9d1c)'}}>
+        <text x={-60} y={-538} fontFamily="Russo One" fontSize={64} fill="#ffb02e" opacity={lights * flick}>
           {route}
         </text>
         <rect x={20} y={-574} width={140} height={10} fill="#ffb02e" opacity={0.6 * lights * flick} />
@@ -437,7 +443,7 @@ export const BusSide: React.FC<{x: number; y: number; scale: number; door: numbe
         ))}
         {/* route sign by the door */}
         <rect x={-doorW / 2 - 230} y={-360} width={160} height={70} rx={6} fill="#120c06" />
-        <text x={-doorW / 2 - 195} y={-306} fontFamily="Russo One" fontSize={52} fill="#ffb02e" style={{filter: 'drop-shadow(0 0 6px #ff9d1c)'}}>
+        <text x={-doorW / 2 - 195} y={-306} fontFamily="Russo One" fontSize={52} fill="#ffb02e">
           13
         </text>
       </g>

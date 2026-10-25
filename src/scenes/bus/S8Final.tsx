@@ -8,7 +8,7 @@ import {GLEB_CIVIL} from '../../characters/designs';
 import {Act, L_PHONE, Post, dim, glebPose} from './common';
 import {exprTrack, pose} from '../../animation/performance';
 import {clamp, ease, fbm, lerp, ramp} from '../../animation/core';
-import {flicker} from '../../effects/Weather';
+import {BOKEH_BUS, Bokeh, flicker} from '../../effects/Weather';
 import {EPISODE, ev} from '../../data';
 
 const S = 's8_final';
@@ -36,12 +36,12 @@ const LookUp: React.FC<{f: number; t: number}> = ({f, t}) => {
   g = glebPose(f, g, e, 7);
   return (
     <CameraRig cam={{x: 0, y: 0, zoom: 1 + 0.04 * t, rot: 0, shake: 0.8, shakeFreq: 0.5}}>
-      <Layer depth={0.5} blur={14}>
-        <AisleShot facing="front" cam={{x: 0, y: -100, zoom: 1.5, rot: 0, shake: 0}} />
+      <Layer depth={0.5}>
+        <Bokeh discs={BOKEH_BUS} top="#1a2234" bottom="#07080c" />
       </Layer>
       <Layer depth={1}>
         <Act d={GLEB_CIVIL} p={g} x={540} y={2350} s={3.3} id="g8u" light={L_PHONE} legs={false} />
-        <AbsoluteFill style={{background: 'radial-gradient(ellipse 60% 30% at 50% 100%, rgba(140,175,255,0.25), transparent 70%)', mixBlendMode: 'screen'}} />
+        <AbsoluteFill style={{background: 'radial-gradient(ellipse 60% 30% at 50% 100%, rgba(140,175,255,0.25), transparent 70%)'}} />
       </Layer>
     </CameraRig>
   );

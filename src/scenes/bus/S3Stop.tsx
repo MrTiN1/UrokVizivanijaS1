@@ -141,7 +141,7 @@ const Doors: React.FC<{f: number; t: number}> = ({f, t}) => {
           <rect x={-200} y={ground + 40} width={1480} height={1920} fill="#151a24" />
         </svg>
         {/* cold interior light spilling out of the door onto the wet pavement */}
-        <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, mixBlendMode: 'screen'}}>
+        <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
           <defs>
             <linearGradient id="s3spill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="#dfeaff" stopOpacity={0.5 * door} />

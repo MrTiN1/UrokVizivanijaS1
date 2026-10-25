@@ -3,7 +3,7 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {AisleShot, GlebWindowShot} from './shots';
-import {Glow, flicker} from '../../effects/Weather';
+import {BOKEH_BUS, Bokeh, Glow, flicker} from '../../effects/Weather';
 import {Flash} from '../../effects/Atmosphere';
 import {SeriesTitle} from '../../components/Title';
 import {GLEB_CIVIL} from '../../characters/designs';
@@ -68,9 +68,9 @@ const GlebClose: React.FC<{f: number; t: number; light: number}> = ({f, t, light
 };
 
 const TitleBg: React.FC<{f: number; t: number}> = ({f, t}) => (
-  <AbsoluteFill style={{filter: 'blur(14px) brightness(0.45)'}}>
-    <AisleShot facing="front" light={0.8} speed={1.4} cam={{x: 0, y: 0, zoom: 1.25 + (t - 6.6) * 0.05, rot: 0, shake: 0}} />
-    <AbsoluteFill style={{background: 'rgba(5,8,16,0.4)'}} />
+  <AbsoluteFill style={{transform: `scale(${1.1 + (t - 6.6) * 0.06})`}}>
+    <Bokeh discs={BOKEH_BUS} top="#101626" bottom="#030408" drift={-0.6} />
+    <AbsoluteFill style={{background: 'rgba(5,8,16,0.5)'}} />
     {void f}
   </AbsoluteFill>
 );

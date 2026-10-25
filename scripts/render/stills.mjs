@@ -10,7 +10,7 @@ const [comp, framesArg, prefix = `output/tmp/${comp}`] = process.argv.slice(2);
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..');
 const browserExecutable = process.env.REMOTION_BROWSER ?? execSync("ls -d /opt/pw-browsers/chromium_headless_shell-*/chrome-headless-shell-linux64 | head -1").toString().trim() + '/chrome-headless-shell';
 const serveUrl = await bundle({entryPoint: path.join(root, 'src/index.ts'), publicDir: path.join(root, 'assets'), onProgress: () => {}});
-const browser = await openBrowser('chrome', {browserExecutable, chromiumOptions: {gl: 'swangle'}});
+const browser = await openBrowser('chrome', {browserExecutable, chromiumOptions: {gl: 'angle'}});
 const composition = await selectComposition({serveUrl, id: comp, puppeteerInstance: browser});
 const frames = framesArg.split(',').map(Number);
 const files = [];

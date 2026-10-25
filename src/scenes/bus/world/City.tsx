@@ -2,7 +2,6 @@
 // wet road and sidewalk. Palette: deep blue, grey-green, muted violet,
 // warm sodium lamps. Reused by the college, bus-stop and window shots.
 import React from 'react';
-import {useCurrentFrame} from 'remotion';
 import {rand} from '../../../animation/core';
 
 export const PAL = {
@@ -49,49 +48,47 @@ export const blocks = (seed: number, n: number, x0: number, x1: number, hMin: nu
   return out;
 };
 
-/** Row of buildings standing on `base` with a grid of warm/cold windows. */
+/**
+ * Row of buildings standing on `base` with a grid of warm/cold windows.
+ * Windows are merged into one <path> per colour and memoised: thousands of
+ * rects as separate nodes made every frame slow to render.
+ */
 export const BuildingRow: React.FC<{base: number; blds: Bld[]; color?: string; lit?: number; winScale?: number; haze?: number}> = ({base, blds, color = PAL.bld, lit = 0.35, winScale = 1, haze = 0}) => {
-  const frame = useCurrentFrame();
-  return (
-    <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
-      {blds.map((b) => {
-        const top = base - b.h;
-        const cw = 22 * winScale;
-        const ch = 30 * winScale;
-        const cols = Math.max(1, Math.floor((b.w - 20) / (cw * 1.7)));
-        const rows = Math.max(1, Math.floor((b.h - 30) / (ch * 1.6)));
-        const wins: React.ReactNode[] = [];
-        for (let r = 0; r < rows; r++)
-          for (let c = 0; c < cols; c++) {
-            const k = rand(b.seed * 13 + r * 7.3 + c * 3.1);
-            if (k > lit) continue;
-            // some windows switch off/on slowly (life in the city)
-            const off = rand(b.seed + r * 11 + c) < 0.08 && Math.sin(frame / 90 + r + c) > 0.6;
-            if (off) continue;
-            const warm = rand(b.seed * 5 + r + c * 9) > 0.25;
-            wins.push(
-              <rect
-                key={`${r}-${c}`}
-                x={b.x + 12 + c * cw * 1.7}
-                y={top + 22 + r * ch * 1.6}
-                width={cw}
-                height={ch}
-                fill={warm ? (k < lit * 0.4 ? '#ffd38a' : '#e7a85a') : '#a9c7e8'}
-                opacity={0.55 + k}
-              />,
-            );
-          }
-        return (
-          <g key={b.seed}>
-            <rect x={b.x} y={top} width={b.w} height={b.h + 400} fill={color} />
-            <rect x={b.x} y={top} width={b.w} height={6} fill="#ffffff" opacity={0.04} />
-            {wins}
-          </g>
-        );
-      })}
-      {haze > 0 ? <rect x={-500} y={base - 900} width={2100} height={900} fill="#2a2442" opacity={haze} /> : null}
-    </svg>
-  );
+  const key = `${base}|${color}|${lit}|${winScale}|${blds.map((b) => `${b.seed}:${Math.round(b.x)}:${Math.round(b.w)}:${Math.round(b.h)}`).join(',')}`;
+  const svg = React.useMemo(() => {
+    const groups: Record<string, string[]> = {'#ffd38a': [], '#e7a85a': [], '#a9c7e8': []};
+    const bodies: string[] = [];
+    const tops: string[] = [];
+    for (const b of blds) {
+      const top = base - b.h;
+      bodies.push(`M${b.x} ${top}h${b.w}v${b.h + 400}h${-b.w}Z`);
+      tops.push(`M${b.x} ${top}h${b.w}v6h${-b.w}Z`);
+      const cw = 22 * winScale;
+      const ch = 30 * winScale;
+      const cols = Math.max(1, Math.floor((b.w - 20) / (cw * 1.7)));
+      const rows = Math.max(1, Math.floor((b.h - 30) / (ch * 1.6)));
+      for (let r = 0; r < rows; r++)
+        for (let c = 0; c < cols; c++) {
+          const k = rand(b.seed * 13 + r * 7.3 + c * 3.1);
+          if (k > lit) continue;
+          const warm = rand(b.seed * 5 + r + c * 9) > 0.25;
+          const col = warm ? (k < lit * 0.4 ? '#ffd38a' : '#e7a85a') : '#a9c7e8';
+          const x = b.x + 12 + c * cw * 1.7;
+          const y = top + 22 + r * ch * 1.6;
+          groups[col].push(`M${x.toFixed(1)} ${y.toFixed(1)}h${cw.toFixed(1)}v${ch.toFixed(1)}h${(-cw).toFixed(1)}Z`);
+        }
+    }
+    return (
+      <svg width={1080} height={1920} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
+        <path d={bodies.join('')} fill={color} />
+        <path d={tops.join('')} fill="#ffffff" opacity={0.04} />
+        {Object.entries(groups).map(([col, ds]) => (ds.length ? <path key={col} d={ds.join('')} fill={col} opacity={col === '#ffd38a' ? 0.95 : 0.8} /> : null))}
+        {haze > 0 ? <rect x={-500} y={base - 900} width={2100} height={900} fill="#2a2442" opacity={haze} /> : null}
+      </svg>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, haze]);
+  return svg;
 };
 
 /** Street lamp; returns nothing but the drawing — the glow/cone are added by the scene (needs flicker). */

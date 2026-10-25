@@ -11,7 +11,7 @@ import {SEATING, passengers} from './S4Passengers';
 import {pose} from '../../animation/performance';
 import {walk} from '../../animation/cycles';
 import {clamp, ease, fbm, lerp, ramp} from '../../animation/core';
-import {Glow} from '../../effects/Weather';
+import {BOKEH_BUS, Bokeh, Glow} from '../../effects/Weather';
 import {ev} from '../../data';
 
 const S = 's7_photo';
@@ -67,9 +67,8 @@ const PhoneShot: React.FC<{f: number; t: number}> = ({f, t}) => {
   const y = 1080 - 230 * zoomIn;
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{filter: 'blur(18px) brightness(0.45)'}}>
-        <AisleShot facing="rear" cam={{x: 100, y: 120, zoom: 1.5, rot: 0, shake: 0}} occupants={passengers(f)} />
-      </AbsoluteFill>
+      <Bokeh discs={BOKEH_BUS} top="#0e1322" bottom="#040508" />
+      <AbsoluteFill style={{background: 'rgba(0,0,0,0.35)'}} />
       <Glow x={540} y={1000} r={760} color="#8fb0ff" intensity={0.22 * screen} />
       <PhoneInHand
         x={540 + tremble}

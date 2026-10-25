@@ -41,7 +41,7 @@ const OverShoulder: React.FC<{f: number; t: number}> = ({f, t}) => {
     <CameraRig cam={{x: 0, y: 0, zoom: 1.02 + t * 0.01, rot: 0, shake: 1, shakeFreq: 0.6}}>
       <Layer depth={0.6}>
         <WindowView t={t} speed={SPEED} passes={PASSES} w={1080} h={1920} />
-        <AbsoluteFill style={{boxShadow: 'inset 0 0 0 40px #1a1f27, inset 0 0 120px 60px rgba(0,0,0,0.6)'}} />
+        <AbsoluteFill style={{border: '40px solid #1a1f27', background: 'radial-gradient(ellipse 72% 58% at 50% 50%, transparent 55%, rgba(0,0,0,0.7) 100%)'}} />
       </Layer>
       <Layer depth={1.2}>
         <Act d={GLEB_CIVIL} p={g} x={900} y={2050} s={2.3} id="s5os" light={dim(L_BUS, 0.5)} legs={false} />
@@ -84,7 +84,7 @@ const AtGlass: React.FC<{f: number; t: number}> = ({f, t}) => {
           <div style={{position: 'absolute', left: -300, top: 0, width: 1080, height: 1920}}>
             <WindowView t={t} speed={SPEED} passes={PASSES} w={1080} h={1920} />
           </div>
-          <AbsoluteFill style={{boxShadow: 'inset 30px 0 0 0 #1a1f27, inset 0 0 120px 40px rgba(0,0,0,0.55)'}} />
+          <AbsoluteFill style={{borderLeft: '30px solid #1a1f27', background: 'radial-gradient(ellipse 72% 58% at 50% 50%, transparent 55%, rgba(0,0,0,0.65) 100%)'}} />
         </div>
         <div style={{position: 'absolute', left: 0, top: 0, width: 320, height: 1920, background: 'linear-gradient(90deg,#2a323c,#38424e)'}} />
       </Layer>
@@ -105,10 +105,10 @@ const Third: React.FC<{f: number; t: number}> = ({f, t}) => {
       <Layer depth={1}>
         <WindowView t={t} speed={SPEED} passes={PASSES} w={1080} h={1920} />
         {/* his reflection over the stop */}
-        <AbsoluteFill style={{opacity: 0.14, mixBlendMode: 'screen', transform: 'scaleX(-1)', filter: 'blur(1px)'}}>
+        <AbsoluteFill style={{opacity: 0.12, transform: 'scaleX(-1)'}}>
           <Act d={GLEB_CIVIL} p={g} x={420} y={2000} s={2.2} id="s5r" light={L_BUS} legs={false} />
         </AbsoluteFill>
-        <AbsoluteFill style={{boxShadow: 'inset 0 0 160px 80px rgba(0,0,0,0.65)'}} />
+        <AbsoluteFill style={{background: 'radial-gradient(ellipse 72% 58% at 50% 50%, transparent 55%, rgba(0,0,0,0.75) 100%)'}} />
       </Layer>
     </CameraRig>
   );

@@ -12,7 +12,7 @@ import {exprTrack, lipSync, pose} from '../../animation/performance';
 import {walk} from '../../animation/cycles';
 import {clamp, ease, fbm, lerp, ramp} from '../../animation/core';
 import {Black} from '../../effects/Atmosphere';
-import {flicker} from '../../effects/Weather';
+import {BOKEH_BUS, Bokeh, flicker} from '../../effects/Weather';
 import {ev} from '../../data';
 
 const S = 's6_driver';
@@ -78,8 +78,8 @@ const GlebAsk: React.FC<{f: number; t: number}> = ({f, t}) => {
   const k = ease.cam(clamp(lt / 2.4));
   return (
     <CameraRig cam={{x: 0, y: 0, zoom: 1 + 0.05 * k, rot: 0, shake: 0.8, shakeFreq: 0.5}}>
-      <Layer depth={0.5} blur={12}>
-        <AisleShot facing="front" cam={{x: -260, y: -200, zoom: 1.6, rot: 0, shake: 0}} />
+      <Layer depth={0.5}>
+        <Bokeh discs={BOKEH_BUS} top="#1a2234" bottom="#07080c" />
       </Layer>
       <Layer depth={1}>
         <Act d={GLEB_CIVIL} p={g} x={600} y={2050} s={2.6} id="g6a" light={L_BUS} mouth={ls.talking ? ls.mouth : undefined} legs={false} />

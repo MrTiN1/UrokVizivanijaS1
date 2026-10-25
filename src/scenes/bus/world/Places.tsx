@@ -46,7 +46,7 @@ export const CollegeFacade: React.FC<{y: number; door?: number; light?: number}>
       {/* canopy + sign */}
       <rect x={270} y={y - 420} width={540} height={40} fill="#14171f" />
       <rect x={300} y={y - 520} width={480} height={86} rx={8} fill="#0f1218" stroke="#2c3240" strokeWidth={3} />
-      <text x={540} y={y - 458} textAnchor="middle" fontFamily="Oswald" fontWeight={700} fontSize={56} letterSpacing={8} fill="#ffe2ad" style={{filter: 'drop-shadow(0 0 10px #ffb85a)'}}>
+      <text x={540} y={y - 458} textAnchor="middle" fontFamily="Oswald" fontWeight={700} fontSize={56} letterSpacing={8} fill="#ffe2ad">
         КОЛЛЕДЖ
       </text>
       {/* entrance */}
@@ -194,7 +194,7 @@ export const WindowView: React.FC<WindowViewProps> = ({t, speed = 900, passes = 
       {/* motion-blurred near poles */}
       {Array.from({length: 2}).map((_, i) => {
         const px = wrap(i * 900 - scroll * 1.8, 1800) - 200;
-        return <div key={i} style={{position: 'absolute', left: px, top: 0, width: 70, height: h, background: 'linear-gradient(90deg,transparent,#06080c 40%,#06080c 60%,transparent)', opacity: 0.85, filter: 'blur(8px)'}} />;
+        return <div key={i} style={{position: 'absolute', left: px, top: 0, width: 70, height: h, background: 'linear-gradient(90deg,transparent,#06080c 40%,#06080c 60%,transparent)', opacity: 0.8}} />;
       })}
       {drops ? <RainOnGlass w={w} h={h} density={1.4} seed={7} /> : null}
     </AbsoluteFill>

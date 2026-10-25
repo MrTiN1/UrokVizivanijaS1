@@ -6,7 +6,7 @@ import {CameraRig, Layer} from '../../camera/Camera';
 import {BuildingRow, NightSky, PAL, StreetLamp, WetStreet, blocks, lampHead} from './world/City';
 import {CollegeFacade} from './world/Places';
 import {PhoneInHand} from './world/Phone';
-import {Glow, LightCone, Mist, Rain, Splashes, WetReflections} from '../../effects/Weather';
+import {BOKEH_CITY, Bokeh, Glow, LightCone, Mist, Rain, Splashes, WetReflections} from '../../effects/Weather';
 import {GLEB_CIVIL} from '../../characters/designs';
 import {Act, L_STREET, Post, glebPose} from './common';
 import {pose} from '../../animation/performance';
@@ -84,13 +84,8 @@ const Phone: React.FC<{f: number; t: number}> = ({f, t}) => {
   const bob = fbm(f / 18, 3) * 6;
   return (
     <CameraRig cam={{x: 0, y: 0, zoom: 1 + lt * 0.015, rot: 0, shake: 0}}>
-      <Layer depth={0.5} blur={18}>
-        <NightSky horizon={1000} id="s2psky" />
-        <BuildingRow base={1150} blds={blocks(8, 12, -300, 1400, 400, 900)} lit={0.45} />
-        <WetStreet top={1150} lane id="s2pst" />
-        {[[180, 700, PAL.warm], [860, 520, PAL.warm], [520, 1180, PAL.coldBlue], [300, 1300, '#ff8a5c']].map(([x, y, c], i) => (
-          <Glow key={i} x={x as number} y={y as number} r={180} color={c as string} intensity={0.9} />
-        ))}
+      <Layer depth={0.5}>
+        <Bokeh discs={BOKEH_CITY} top="#0a0f1e" bottom="#121826" />
       </Layer>
       <Layer depth={1}>
         <PhoneInHand x={560 + bob * 0.3} y={1180 - 600 * (1 - up) + bob} rot={-5} scale={1.2} mode="lock" time="23:47" />

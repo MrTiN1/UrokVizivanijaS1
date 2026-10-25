@@ -81,7 +81,7 @@ const PhotoScreen: React.FC<{t: number; time: string}> = ({time}) => {
         <rect x={0} y={0} width={SW} height={520} fill="#0b1020" />
         <rect x={20} y={40} width={SW - 40} height={250} rx={14} fill="#0f1730" stroke="#2a3140" strokeWidth={10} />
         {[[90, 120, 26], [250, 90, 18], [330, 170, 30], [160, 210, 14]].map(([cx, cy, r], i) => (
-          <circle key={i} cx={cx} cy={cy} r={r} fill="#ffc46b" opacity={0.55} style={{filter: 'blur(6px)'}} />
+          <circle key={i} cx={cx} cy={cy} r={r * 1.4} fill="#ffc46b" opacity={0.4} />
         ))}
         {Array.from({length: 18}).map((_, i) => (
           <circle key={`d${i}`} cx={30 + ((i * 97) % (SW - 60))} cy={50 + ((i * 53) % 230)} r={3 + (i % 3)} fill="#bcd2ff" opacity={0.35} />

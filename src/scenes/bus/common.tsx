@@ -2,7 +2,7 @@
 // (grade, vignette, grain, mist), common poses, reusable shots.
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
-import {Grade, Grain, Vignette} from '../../effects/Atmosphere';
+import {Vignette} from '../../effects/Atmosphere';
 import {Light, Pose} from '../../characters/types';
 import {alive, pose, withExpr} from '../../animation/performance';
 import {ExpressionName} from '../../characters/types';
@@ -20,11 +20,12 @@ export const L_PHONE: Light = {x: 0.1, y: 0.9, rim: '#a9c8ff', rimStrength: 0.8,
 export const dim = (l: Light, k: number): Light => ({...l, rimStrength: l.rimStrength * k, shadeStrength: Math.min(0.9, l.shadeStrength + (1 - k) * 0.3)});
 
 /** Final look: blue-violet shadows, warm highlights, vignette, film grain. */
-export const Post: React.FC<{warm?: number; vignette?: number; grain?: number; cold?: boolean}> = ({warm = 0.06, vignette = 0.75, grain = 0.09, cold = false}) => (
+// Grade + film grain are applied by FFmpeg at encode time (render_episode.sh,
+// GRADE filter) — blend-mode layers cost ~0.3 s per frame in the browser.
+export const Post: React.FC<{warm?: number; vignette?: number; grain?: number; cold?: boolean}> = ({warm = 0.06, vignette = 0.75, cold = false}) => (
   <>
-    <Grade shadow={cold ? '#18233a' : '#221d3a'} highlight={cold ? '#cfe3ff' : '#ffc78a'} shadowOp={0.42} highlightOp={warm} />
+    <AbsoluteFill style={{background: `linear-gradient(180deg, ${cold ? 'rgba(207,227,255,' : 'rgba(255,199,138,'}${warm}) 0%, transparent 60%)`, pointerEvents: 'none'}} />
     <Vignette strength={vignette} />
-    <Grain opacity={grain} />
   </>
 );
 

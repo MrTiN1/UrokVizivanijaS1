@@ -7,7 +7,7 @@ import {AisleShot, Occupant, placeAt} from './shots';
 import {PhoneInHand} from './world/Phone';
 import {BACK_PASSENGERS, COAT_MAN, GLEB_CIVIL, OLD_WOMAN} from '../../characters/designs';
 import {L_PHONE, Post, frozen, glebPose, seatedPose} from './common';
-import {Glow, flicker} from '../../effects/Weather';
+import {BOKEH_BUS, Bokeh, Glow, flicker} from '../../effects/Weather';
 import {exprTrack, withExpr} from '../../animation/performance';
 import {clamp, ease, fbm, lerp, ramp} from '../../animation/core';
 import {Design, Pose} from '../../characters/types';
@@ -89,9 +89,7 @@ const NoSignal: React.FC<{f: number; t: number}> = ({f, t}) => {
   const up = ease.out(clamp(lt / 0.4));
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{filter: 'blur(16px) brightness(0.55)'}}>
-        <AisleShot facing="rear" cam={{x: 120, y: 0, zoom: 1.4, rot: 0, shake: 0}} occupants={passengers(f)} />
-      </AbsoluteFill>
+      <Bokeh discs={BOKEH_BUS} top="#141a2a" bottom="#06070b" />
       <PhoneInHand x={540 + fbm(f / 20, 2) * 4} y={1120 + (1 - up) * 500} rot={4} scale={1.2} mode="nosignal" time="23:58" />
       <Glow x={540} y={1050} r={700} color="#8fb0ff" intensity={0.15} />
     </AbsoluteFill>

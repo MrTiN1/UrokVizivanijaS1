@@ -97,7 +97,7 @@ export const GlebWindowShot: React.FC<{
   windowRect?: [number, number, number, number];
   extra?: React.ReactNode;
   bgBlur?: number;
-}> = ({cam, t, gleb, speed = 900, passes = [], light = 1, reflection = true, windowRect = [-60, 260, 1200, 860], extra, bgBlur = 2.5}) => {
+}> = ({cam, t, gleb, speed = 900, passes = [], light = 1, reflection = true, windowRect = [-60, 260, 1200, 860], extra, bgBlur = 0}) => {
   const [wx, wy, ww, wh] = windowRect;
   const wall = `rgb(${Math.round(46 + 60 * light)},${Math.round(58 + 66 * light)},${Math.round(66 + 70 * light)})`;
   return (
@@ -111,13 +111,13 @@ export const GlebWindowShot: React.FC<{
           <Rain count={60} seed={21} angle={-24} speed={30} length={50} opacity={0.18} />
           <RainOnGlass w={ww} h={wh} density={1.6} seed={11} />
           {reflection ? (
-            <div style={{position: 'absolute', inset: 0, opacity: 0.16, transform: 'scaleX(-1) translateX(-80px)', filter: 'blur(1.5px)', mixBlendMode: 'screen'}}>
+            <div style={{position: 'absolute', inset: 0, opacity: 0.12, transform: 'scaleX(-1) translateX(-80px)'}}>
               <Act {...gleb} x={gleb.x - wx} y={gleb.y - wy} id={`${gleb.id}-refl`} />
             </div>
           ) : null}
         </div>
         {/* window frame + rubber seal */}
-        <div style={{position: 'absolute', left: wx, top: wy, width: ww, height: wh, borderRadius: 26, boxShadow: 'inset 0 0 0 16px #1a1f27, inset 0 0 40px 20px rgba(0,0,0,0.5)'}} />
+        <div style={{position: 'absolute', left: wx, top: wy, width: ww, height: wh, borderRadius: 26, border: '16px solid #1a1f27', boxSizing: 'border-box', background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 60%, rgba(0,0,0,0.45) 100%)'}} />
         <div style={{position: 'absolute', left: 0, right: 0, top: wy + wh, height: 26, background: '#39424e'}} />
       </Layer>
       <Layer depth={1}>
@@ -129,7 +129,7 @@ export const GlebWindowShot: React.FC<{
         </svg>
         <Act {...gleb} />
         {/* cold top light falling on Gleb, warm spill from the street */}
-        <AbsoluteFill style={{background: `radial-gradient(ellipse 60% 40% at 50% 10%, rgba(210,230,255,${0.12 * light}), transparent 70%)`, mixBlendMode: 'screen', pointerEvents: 'none'}} />
+        <AbsoluteFill style={{background: `radial-gradient(ellipse 60% 40% at 50% 10%, rgba(210,230,255,${0.12 * light}), transparent 70%)`, pointerEvents: 'none'}} />
         {extra}
       </Layer>
     </CameraRig>
@@ -238,7 +238,7 @@ export const DriverCabShot: React.FC<{
             <ellipse cx={0} cy={30} rx={70} ry={40} fill="#15171c" />
           </g>
         </svg>
-        <AbsoluteFill style={{background: 'radial-gradient(ellipse 70% 30% at 70% 70%, rgba(110,200,255,0.10), transparent 70%)', mixBlendMode: 'screen'}} />
+        <AbsoluteFill style={{background: 'radial-gradient(ellipse 70% 30% at 70% 70%, rgba(110,200,255,0.10), transparent 70%)'}} />
         {extra}
       </Layer>
     </CameraRig>
