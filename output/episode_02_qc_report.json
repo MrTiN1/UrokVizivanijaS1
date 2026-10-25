@@ -1,0 +1,676 @@
+{
+ "episode": "episode_02",
+ "video": "output/episode_02.mp4",
+ "duration": 110.0,
+ "checks": [
+  {
+   "check": "resolution",
+   "ok": true,
+   "detail": "1080×1920"
+  },
+  {
+   "check": "frame rate",
+   "ok": true,
+   "detail": "30.000 fps"
+  },
+  {
+   "check": "duration 110 s",
+   "ok": true,
+   "detail": "110.000 s (script 110 s)"
+  },
+  {
+   "check": "video codec H.264",
+   "ok": true,
+   "detail": "h264 High yuv420p"
+  },
+  {
+   "check": "audio track AAC",
+   "ok": true,
+   "detail": "aac 48000 Hz 2 ch"
+  },
+  {
+   "check": "loudness for Shorts (-14 LUFS ±1.5)",
+   "ok": true,
+   "detail": "I=-14.3 LUFS, true peak -2.0 dBFS"
+  },
+  {
+   "check": "no clipping (true peak ≤ -1 dBFS)",
+   "ok": true,
+   "detail": "-2.0 dBFS"
+  },
+  {
+   "check": "no unintended black frames",
+   "ok": true,
+   "detail": "black segments [(107.8, 108.633)]; allowed = scripted fade-out [(107.6, 110.5)]"
+  },
+  {
+   "check": "no frozen stretches > 2 s (every shot animates)",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "check": "no empty shots",
+   "ok": true,
+   "detail": "72 sampled frames; low-detail: []"
+  },
+  {
+   "check": "subtitle timing valid (ordered, no overlap)",
+   "ok": true,
+   "detail": "30 captions; issues: []"
+  },
+  {
+   "check": "subtitles 2–5 words on screen",
+   "ok": true,
+   "detail": "all within 1–5 words"
+  },
+  {
+   "check": "no clipped captions (longest word fits)",
+   "ok": true,
+   "detail": "longest word «происходит?!» ≈ 693px of 940px"
+  },
+  {
+   "check": "captions inside episode",
+   "ok": true,
+   "detail": "last caption ends 107.96s"
+  },
+  {
+   "check": "subtitle ↔ voice sync (≤ 100 ms)",
+   "ok": true,
+   "detail": "max offset 60 ms across 12 lines"
+  },
+  {
+   "check": "lip sync from phoneme alignment / Rhubarb",
+   "ok": true,
+   "detail": "sources: ['elevenlabs-alignment']; visemes/line ≥ 9"
+  },
+  {
+   "check": "dialogue intelligible over music (ASR on final mix)",
+   "ok": true,
+   "detail": "mean word accuracy 95.2%"
+  },
+  {
+   "check": "Gleb uses one canonical model (shared face/hair/proportions)",
+   "ok": true,
+   "detail": "designs used: ['GLEB_CIVIL', 'GLEB_MILITARY', 'GLEB_RECRUIT'] — all derived from GLEB_BASE"
+  },
+  {
+   "check": "official banner file supplied",
+   "ok": true,
+   "detail": "banner/NATRIA_VPN.mp4 → banner/natria_keyed.webm (1770×750, 7.2 s)"
+  },
+  {
+   "check": "banner speed ≤ 1.3×",
+   "ok": true,
+   "detail": "playbackRate 1.0"
+  },
+  {
+   "check": "aspect ratio preserved",
+   "ok": true,
+   "detail": "1140.0×483.1 (source 1770×750)"
+  },
+  {
+   "check": "banner centred (config)",
+   "ok": true,
+   "detail": "centre [540, 960] vs frame centre [540, 960]"
+  },
+  {
+   "check": "banner height fits frame (no vertical crop)",
+   "ok": true,
+   "detail": "y 718.5…1201.5"
+  },
+  {
+   "check": "visible banner area ≥ 25 % of frame",
+   "ok": true,
+   "detail": "25.16% (521640 px of 2073600); box 1140×483, 30 px beyond each side edge",
+   "value": 0.2516
+  },
+  {
+   "check": "banner not distorted; side overscan small",
+   "ok": true,
+   "detail": "30 px per side = 2.6% of width (needed to reach 25 % on a 9:16 frame)"
+  },
+  {
+   "check": "banner appears at 00:55 (measured)",
+   "ok": true,
+   "detail": "measured start 55.000 s (config 55.0 s), frame error 5.1/255",
+   "value": 55.0
+  },
+  {
+   "check": "banner centred (measured)",
+   "ok": true,
+   "detail": "best alignment shift dx=0 dy=0 px"
+  },
+  {
+   "check": "original animation timing kept (end frame matches)",
+   "ok": true,
+   "detail": "last opaque frame at 61.633 s (expected 61.633 s), error 4.4/255 → speed 1.0×"
+  },
+  {
+   "check": "no visible chroma key (green residue)",
+   "ok": true,
+   "detail": "pure-green pixels in banner band: 0.0000%"
+  },
+  {
+   "check": "no subtitles over the banner",
+   "ok": true,
+   "detail": "captions overlapping 55.0–62.2s: none (+ captions hidden in that window by design)"
+  },
+  {
+   "check": "narration not masked by the banner (no lines during it)",
+   "ok": true,
+   "detail": "voice lines overlapping banner: none"
+  },
+  {
+   "check": "single banner used",
+   "ok": true,
+   "detail": "one NatriaBanner instance in Episode.tsx"
+  }
+ ],
+ "frames": [
+  {
+   "t": 0.9,
+   "scene": "p1_hook",
+   "shot": "Пустое водительское кресло, руль крутится сам",
+   "std": 31.69662857055664,
+   "mean": 27.775278091430664
+  },
+  {
+   "t": 2.4,
+   "scene": "p1_hook",
+   "shot": "Пустое водительское кресло, руль крутится сам",
+   "std": 31.077510833740234,
+   "mean": 27.69291114807129
+  },
+  {
+   "t": 3.48,
+   "scene": "p1_hook",
+   "shot": "Глеб стоит в проходе",
+   "std": 52.165409088134766,
+   "mean": 64.81263732910156
+  },
+  {
+   "t": 4.28,
+   "scene": "p1_hook",
+   "shot": "Глеб стоит в проходе",
+   "std": 52.93974304199219,
+   "mean": 65.75227355957031
+  },
+  {
+   "t": 5.14,
+   "scene": "p1_hook",
+   "shot": "Рывок камеры: зеркало, в отражении водитель",
+   "std": 45.06736755371094,
+   "mean": 34.8774528503418
+  },
+  {
+   "t": 6.04,
+   "scene": "p1_hook",
+   "shot": "Рывок камеры: зеркало, в отражении водитель",
+   "std": 43.090843200683594,
+   "mean": 34.668941497802734
+  },
+  {
+   "t": 6.88,
+   "scene": "p1_hook",
+   "shot": "Название серии",
+   "std": 53.238014221191406,
+   "mean": 26.894935607910156
+  },
+  {
+   "t": 7.68,
+   "scene": "p1_hook",
+   "shot": "Название серии",
+   "std": 35.36093521118164,
+   "mean": 20.474145889282227
+  },
+  {
+   "t": 9.02,
+   "scene": "p2_mirror",
+   "shot": "Глеб медленно идёт к кабине",
+   "std": 49.20882034301758,
+   "mean": 61.319339752197266
+  },
+  {
+   "t": 10.72,
+   "scene": "p2_mirror",
+   "shot": "Глеб медленно идёт к кабине",
+   "std": 50.535675048828125,
+   "mean": 61.81581497192383
+  },
+  {
+   "t": 12.36,
+   "scene": "p2_mirror",
+   "shot": "Глеб смотрит на пустое кресло, потом в зеркало",
+   "std": 44.153629302978516,
+   "mean": 40.34559631347656
+  },
+  {
+   "t": 13.96,
+   "scene": "p2_mirror",
+   "shot": "Глеб смотрит на пустое кресло, потом в зеркало",
+   "std": 48.56157684326172,
+   "mean": 42.834312438964844
+  },
+  {
+   "t": 15.44,
+   "scene": "p2_mirror",
+   "shot": "В зеркале — водитель",
+   "std": 37.20421600341797,
+   "mean": 31.462459564208984
+  },
+  {
+   "t": 16.84,
+   "scene": "p2_mirror",
+   "shot": "В зеркале — водитель",
+   "std": 37.758113861083984,
+   "mean": 32.15165710449219
+  },
+  {
+   "t": 17.88,
+   "scene": "p2_mirror",
+   "shot": "Отражение медленно поворачивает голову",
+   "std": 44.10503387451172,
+   "mean": 35.37870407104492
+  },
+  {
+   "t": 18.68,
+   "scene": "p2_mirror",
+   "shot": "Отражение медленно поворачивает голову",
+   "std": 46.944610595703125,
+   "mean": 36.51068115234375
+  },
+  {
+   "t": 20.2,
+   "scene": "p2_mirror",
+   "shot": "Глеб резко оборачивается: кресло пустое, свет мигает",
+   "std": 38.51683044433594,
+   "mean": 32.99055862426758
+  },
+  {
+   "t": 22.2,
+   "scene": "p2_mirror",
+   "shot": "Глеб резко оборачивается: кресло пустое, свет мигает",
+   "std": 42.428428649902344,
+   "mean": 35.145389556884766
+  },
+  {
+   "t": 24.08,
+   "scene": "p3_passengers",
+   "shot": "Глеб кричит пассажирам",
+   "std": 58.63324737548828,
+   "mean": 69.54334259033203
+  },
+  {
+   "t": 25.88,
+   "scene": "p3_passengers",
+   "shot": "Глеб кричит пассажирам",
+   "std": 59.26792526245117,
+   "mean": 69.26594543457031
+  },
+  {
+   "t": 27.5,
+   "scene": "p3_passengers",
+   "shot": "Неподвижные лица, никто не отвечает",
+   "std": 57.24010467529297,
+   "mean": 77.03089904785156
+  },
+  {
+   "t": 29.0,
+   "scene": "p3_passengers",
+   "shot": "Неподвижные лица, никто не отвечает",
+   "std": 58.32667922973633,
+   "mean": 73.37466430664062
+  },
+  {
+   "t": 30.8,
+   "scene": "p3_passengers",
+   "shot": "Женщина медленно поднимает голову",
+   "std": 47.32398223876953,
+   "mean": 60.614501953125
+  },
+  {
+   "t": 32.8,
+   "scene": "p3_passengers",
+   "shot": "Женщина медленно поднимает голову",
+   "std": 45.21615982055664,
+   "mean": 59.81618118286133
+  },
+  {
+   "t": 34.92,
+   "scene": "p3_passengers",
+   "shot": "Испуганное лицо Глеба крупно",
+   "std": 52.76715850830078,
+   "mean": 45.99021530151367
+  },
+  {
+   "t": 37.12,
+   "scene": "p3_passengers",
+   "shot": "Испуганное лицо Глеба крупно",
+   "std": 55.79825210571289,
+   "mean": 50.19169998168945
+  },
+  {
+   "t": 38.96,
+   "scene": "p4_rear",
+   "shot": "Глеб идёт в конец салона, свет мигает",
+   "std": 49.26884460449219,
+   "mean": 62.693077087402344
+  },
+  {
+   "t": 40.56,
+   "scene": "p4_rear",
+   "shot": "Глеб идёт в конец салона, свет мигает",
+   "std": 35.25107955932617,
+   "mean": 42.450111389160156
+  },
+  {
+   "t": 42.1,
+   "scene": "p4_rear",
+   "shot": "На стекле проступают следы ладоней",
+   "std": 28.696273803710938,
+   "mean": 46.41970443725586
+  },
+  {
+   "t": 43.6,
+   "scene": "p4_rear",
+   "shot": "На стекле проступают следы ладоней",
+   "std": 29.470380783081055,
+   "mean": 46.44388198852539
+  },
+  {
+   "t": 45.46,
+   "scene": "p4_rear",
+   "shot": "За автобусом идёт человек в серой толстовке",
+   "std": 37.48223114013672,
+   "mean": 50.262603759765625
+  },
+  {
+   "t": 47.56,
+   "scene": "p4_rear",
+   "shot": "За автобусом идёт человек в серой толстовке",
+   "std": 38.06324768066406,
+   "mean": 50.669315338134766
+  },
+  {
+   "t": 49.06,
+   "scene": "p4_rear",
+   "shot": "Он поднимает голову — лицо Глеба",
+   "std": 37.22106170654297,
+   "mean": 51.32585525512695
+  },
+  {
+   "t": 50.16,
+   "scene": "p4_rear",
+   "shot": "Он поднимает голову — лицо Глеба",
+   "std": 31.218734741210938,
+   "mean": 52.044288635253906
+  },
+  {
+   "t": 51.32,
+   "scene": "p4_rear",
+   "shot": "Глеб отступает назад",
+   "std": 39.38653564453125,
+   "mean": 36.844905853271484
+  },
+  {
+   "t": 52.52,
+   "scene": "p4_rear",
+   "shot": "Глеб отступает назад",
+   "std": 39.18600845336914,
+   "mean": 36.68779754638672
+  },
+  {
+   "t": 53.6,
+   "scene": "p5_after",
+   "shot": "Глеб резко отходит от окна",
+   "std": 45.227699279785156,
+   "mean": 59.097679138183594
+  },
+  {
+   "t": 54.6,
+   "scene": "p5_after",
+   "shot": "Глеб резко отходит от окна",
+   "std": 44.73821258544922,
+   "mean": 58.72706985473633
+  },
+  {
+   "t": 57.16,
+   "scene": "p5_after",
+   "shot": "Салон, общий план (баннер по центру)",
+   "std": 42.943626403808594,
+   "mean": 49.6637077331543
+  },
+  {
+   "t": 60.76,
+   "scene": "p5_after",
+   "shot": "Салон, общий план (баннер по центру)",
+   "std": 43.33101272583008,
+   "mean": 47.99481964111328
+  },
+  {
+   "t": 63.94,
+   "scene": "p5_after",
+   "shot": "Глеб тяжело дышит, женщина смотрит на него",
+   "std": 44.93077087402344,
+   "mean": 40.916725158691406
+  },
+  {
+   "t": 66.84,
+   "scene": "p5_after",
+   "shot": "Глеб тяжело дышит, женщина смотрит на него",
+   "std": 47.39260482788086,
+   "mean": 60.936214447021484
+  },
+  {
+   "t": 68.9,
+   "scene": "p6_ticket",
+   "shot": "Женщина протягивает старый билет",
+   "std": 35.63951873779297,
+   "mean": 39.33665084838867
+  },
+  {
+   "t": 70.4,
+   "scene": "p6_ticket",
+   "shot": "Женщина протягивает старый билет",
+   "std": 36.18920135498047,
+   "mean": 40.51675796508789
+  },
+  {
+   "t": 72.02,
+   "scene": "p6_ticket",
+   "shot": "Билет в руках Глеба",
+   "std": 71.74585723876953,
+   "mean": 49.37711715698242
+  },
+  {
+   "t": 73.72,
+   "scene": "p6_ticket",
+   "shot": "Билет в руках Глеба",
+   "std": 72.50132751464844,
+   "mean": 50.43660354614258
+  },
+  {
+   "t": 75.3,
+   "scene": "p6_ticket",
+   "shot": "Глеб: «Почему завтрашняя дата?»",
+   "std": 49.94070053100586,
+   "mean": 44.11741256713867
+  },
+  {
+   "t": 76.8,
+   "scene": "p6_ticket",
+   "shot": "Глеб: «Почему завтрашняя дата?»",
+   "std": 54.214256286621094,
+   "mean": 46.1252326965332
+  },
+  {
+   "t": 78.36,
+   "scene": "p6_ticket",
+   "shot": "Женщина отвечает",
+   "std": 49.17110061645508,
+   "mean": 62.193321228027344
+  },
+  {
+   "t": 79.96,
+   "scene": "p6_ticket",
+   "shot": "Женщина отвечает",
+   "std": 47.990943908691406,
+   "mean": 60.96677017211914
+  },
+  {
+   "t": 81.02,
+   "scene": "p6_ticket",
+   "shot": "Глеб: «До чего?»",
+   "std": 45.814697265625,
+   "mean": 41.36587905883789
+  },
+  {
+   "t": 81.72,
+   "scene": "p6_ticket",
+   "shot": "Глеб: «До чего?»",
+   "std": 47.04705047607422,
+   "mean": 41.83787536621094
+  },
+  {
+   "t": 82.9,
+   "scene": "p6_ticket",
+   "shot": "Женщина молчит, камера приближается к билету",
+   "std": 44.71043395996094,
+   "mean": 59.31095886230469
+  },
+  {
+   "t": 84.4,
+   "scene": "p6_ticket",
+   "shot": "Женщина молчит, камера приближается к билету",
+   "std": 80.11200714111328,
+   "mean": 67.92346954345703
+  },
+  {
+   "t": 85.9,
+   "scene": "p7_photos",
+   "shot": "Глеб замечает фотографии на стенке",
+   "std": 43.4842643737793,
+   "mean": 39.89958190917969
+  },
+  {
+   "t": 87.4,
+   "scene": "p7_photos",
+   "shot": "Глеб замечает фотографии на стенке",
+   "std": 43.74641418457031,
+   "mean": 40.38154983520508
+  },
+  {
+   "t": 89.02,
+   "scene": "p7_photos",
+   "shot": "Фото женщины: 20 лет назад",
+   "std": 48.07248306274414,
+   "mean": 76.84898376464844
+  },
+  {
+   "t": 90.72,
+   "scene": "p7_photos",
+   "shot": "Фото женщины: 20 лет назад",
+   "std": 48.03462219238281,
+   "mean": 75.40379333496094
+  },
+  {
+   "t": 92.3,
+   "scene": "p7_photos",
+   "shot": "Фото мужчины в пальто: 15 лет назад",
+   "std": 47.05149459838867,
+   "mean": 74.61927032470703
+  },
+  {
+   "t": 93.8,
+   "scene": "p7_photos",
+   "shot": "Фото мужчины в пальто: 15 лет назад",
+   "std": 49.392860412597656,
+   "mean": 78.06524658203125
+  },
+  {
+   "t": 95.48,
+   "scene": "p7_photos",
+   "shot": "Последнее фото — Глеб: «ЗАВТРА, 00:13»",
+   "std": 53.554927825927734,
+   "mean": 76.22423553466797
+  },
+  {
+   "t": 97.28,
+   "scene": "p7_photos",
+   "shot": "Последнее фото — Глеб: «ЗАВТРА, 00:13»",
+   "std": 61.38957977294922,
+   "mean": 84.16133117675781
+  },
+  {
+   "t": 99.5,
+   "scene": "p7_photos",
+   "shot": "Глеб смотрит на свою фотографию",
+   "std": 50.49754333496094,
+   "mean": 45.67083740234375
+  },
+  {
+   "t": 102.0,
+   "scene": "p7_photos",
+   "shot": "Глеб смотрит на свою фотографию",
+   "std": 53.9351806640625,
+   "mean": 74.30180358886719
+  },
+  {
+   "t": 103.3,
+   "scene": "p8_final",
+   "shot": "Автобус резко тормозит",
+   "std": 48.07194137573242,
+   "mean": 59.82659912109375
+  },
+  {
+   "t": 103.8,
+   "scene": "p8_final",
+   "shot": "Автобус резко тормозит",
+   "std": 48.3243293762207,
+   "mean": 60.077049255371094
+  },
+  {
+   "t": 104.36,
+   "scene": "p8_final",
+   "shot": "Двери открываются — та самая остановка",
+   "std": 38.29338455200195,
+   "mean": 63.417171478271484
+  },
+  {
+   "t": 104.96,
+   "scene": "p8_final",
+   "shot": "Двери открываются — та самая остановка",
+   "std": 39.94627380371094,
+   "mean": 63.051025390625
+  },
+  {
+   "t": 105.98,
+   "scene": "p8_final",
+   "shot": "На остановке стоит второй Глеб",
+   "std": 43.691978454589844,
+   "mean": 63.851280212402344
+  },
+  {
+   "t": 107.28,
+   "scene": "p8_final",
+   "shot": "На остановке стоит второй Глеб",
+   "std": 52.70195388793945,
+   "mean": 63.55527877807617
+  },
+  {
+   "t": 108.46,
+   "scene": "p8_final",
+   "shot": "Затемнение: ПРОДОЛЖЕНИЕ СЛЕДУЕТ",
+   "std": 33.88388442993164,
+   "mean": 11.080379486083984
+  },
+  {
+   "t": 109.56,
+   "scene": "p8_final",
+   "shot": "Затемнение: ПРОДОЛЖЕНИЕ СЛЕДУЕТ",
+   "std": 36.19689178466797,
+   "mean": 12.536233901977539
+  }
+ ],
+ "passed": true
+}

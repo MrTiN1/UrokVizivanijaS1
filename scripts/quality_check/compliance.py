@@ -21,8 +21,8 @@ def outp(ep: str, name: str) -> Path:
     """Per-episode report path: episode_01 keeps the historic names, later episodes get a prefix."""
     return ROOT / "output" / (name if ep == "episode_01" else f"{ep}_{name}")
 
-POLITICAL = r"войн|арми|военн|фронт|солдат|президент|правительств|парти[яи]|выбор|митинг|санкци|полити|пропаганд|нацист|оккупа|мобилиз|флаг"
-SHOCK = r"кров|убий|убит|труп|смерт|мертв|расчлен|пытк|самоубий|скример|крик ужаса"
+POLITICAL = r"\b(?:войн|арми|военн|фронт|солдат|президент|правительств|парти[яи]|выбор|митинг|санкци|полити|пропаганд|нацист|оккупа|мобилиз|флаг)"  # word starts only («двойник» ≠ «война»)
+SHOCK = r"\b(?:кров|убий|убит|труп|смерт|мертв|расчлен|пытк|самоубий|скример|крик ужаса)"
 ADS = r"купи|скидк|промокод|подпиш|казино|\bбет\b|кредит|займ|реклама|sponsored|vk\.com|t\.me/(?!natriavpnbot)"
 ENGAGEMENT_BAIT = r"отметь друз|отметьте друз|лайк|ставьте лайк|пиши в комментар|репост"
 # On-screen strings allowed in the artwork (fiction world, no brands)

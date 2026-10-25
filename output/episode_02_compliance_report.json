@@ -1,0 +1,76 @@
+{
+ "episode": "episode_02",
+ "passed": true,
+ "items": [
+  {
+   "rule": "Платформа TikTok / YouTube Shorts: 9:16, 1080×1920, H.264, ≤ 60 fps",
+   "status": "OK",
+   "detail": "1080×1920, 30.000 fps, h264 High yuv420p"
+  },
+  {
+   "rule": "Продолжительность 10–300 с",
+   "status": "OK",
+   "detail": "110.00 с (по сценарию 110 с)"
+  },
+  {
+   "rule": "Русскоязычная аудитория (язык озвучки и титров)",
+   "status": "OK",
+   "detail": "кириллица 100% текста; голоса ElevenLabs с language_code=ru"
+  },
+  {
+   "rule": "Обязательная отчётливая озвучка",
+   "status": "OK",
+   "detail": "распознавание речи в финальном миксе 95% слов; громкость I=-14.3 LUFS, true peak -2.0 dBFS"
+  },
+  {
+   "rule": "Нет политического содержания",
+   "status": "OK",
+   "detail": "словарь политических тем: совпадений нет; сюжет — бытовая мистика (автобус, остановка)"
+  },
+  {
+   "rule": "Нет шок-контента",
+   "status": "OK",
+   "detail": "словарь шок-тем: совпадений нет; нет скримеров, резких громких звуков (true peak -2.0 dBFS), насилия и крови"
+  },
+  {
+   "rule": "Нет рекламы сторонних проектов",
+   "status": "OK",
+   "detail": "надписи в кадре: ['13', '13 · 21 · 47', '15 ноября · 15 лет назад', '15 ноября · 20 лет назад', '23:47', '23:58', 'A', 'АВТОБУСНЫЙ БИЛЕТ · № 000013', 'Автобус № 13 · IMG_2047', 'БЕРЕГИТЕ ЛЕС', 'ГОРТРАНС', 'Галерея', 'ЗАВТРА, 00:13', 'КОЛЛЕДЖ', 'Нет сети', 'Новое фото · 20:47', 'ПРОСПЕКТ МИРА', 'Сегодня, 20:47', '‹ Галерея']; посторонние: нет; рекламные слова: нет"
+  },
+  {
+   "rule": "Нет чужих водяных знаков",
+   "status": "OK",
+   "detail": "внешние медиа в кадре: только баннер NATRIA (banner/NATRIA_VPN.mp4) и собственные текстуры [\"'textures/paint_noise.png'\", '`textures/grain_${i}.png`', 'cfg.video']; референсы с чужими логотипами в проект не встроены"
+  },
+  {
+   "rule": "Оригинальный контент",
+   "status": "OK",
+   "detail": "вся графика нарисована кодом (SVG-риг, фоны), музыка и шумы синтезированы, сценарий оригинальный; референсы использованы только как ориентир стиля"
+  },
+  {
+   "rule": "Аккуратный монтаж",
+   "status": "OK",
+   "detail": "black segments [(107.8, 108.633)]; allowed = scripted fade-out [(107.6, 110.5)]; none"
+  },
+  {
+   "rule": "Читаемые субтитры",
+   "status": "OK",
+   "detail": "белый жирный текст с чёрной обводкой, жёлтые ключевые слова, 1–5 слов, синхронизация ≤ 100 мс, вне зон интерфейса"
+  },
+  {
+   "rule": "Нет призывов накручивать охваты",
+   "status": "OK",
+   "detail": "в видео нет просьб лайкать/отмечать друзей"
+  },
+  {
+   "rule": "Нет видимого хромакея",
+   "status": "OK",
+   "detail": "pure-green pixels in banner band: 0.0000%"
+  },
+  {
+   "rule": "Официальный баннер NATRIA VPN в требуемом месте",
+   "status": "OK",
+   "detail": "banner appears at 00:55 (measured): measured start 55.000 s (config 55.0 s), frame error 5.1/255; banner centred (measured): best alignment shift dx=0 dy=0 px; visible banner area ≥ 25 % of frame: 25.16% (521640 px of 2073600); box 1140×483, 30 px beyond each side edge; banner speed ≤ 1.3×: playbackRate 1.0; aspect ratio preserved: 1140.0×483.1 (source 1770×750); no subtitles over the banner: captions overlapping 55.0–62.2s: none (+ captions hidden in that window by design); narration not masked by the banner (no lines during it): voice lines overlapping banner: none"
+  }
+ ]
+}
