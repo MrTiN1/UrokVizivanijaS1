@@ -2,15 +2,15 @@
 // "КОНТРАКТНАЯ СЛУЖБА / БЕСПИЛОТНЫЕ СИСТЕМЫ" slide; Gleb listens (rack focus).
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {CameraRig, Layer, Svg} from '../camera/Camera';
+import {CameraRig, Layer, Svg} from '../../camera/Camera';
 import {AudienceHead, HallBackdrop, Podium, Slide} from './backgrounds/Interior';
-import {Dust, Grade, Grain, LightRays, Vignette} from '../effects/Atmosphere';
-import {Character} from '../characters/Character';
-import {CLASSMATE, GLEB_CIVIL, REPRESENTATIVE, STUDENTS} from '../characters/designs';
-import {Light, Pose} from '../characters/types';
-import {alive, exprTrack, lipSync, pose, withExpr} from '../animation/performance';
-import {clamp, ease, fbm, ramp} from '../animation/core';
-import {VISEME_PARAMS} from '../characters/Head';
+import {Dust, Grade, Grain, LightRays, Vignette} from '../../effects/Atmosphere';
+import {Character} from '../../characters/Character';
+import {CLASSMATE, GLEB_CIVIL, REPRESENTATIVE, STUDENTS} from '../../characters/designs';
+import {Light, Pose} from '../../characters/types';
+import {alive, exprTrack, lipSync, pose, withExpr} from '../../animation/performance';
+import {clamp, ease, fbm, ramp} from '../../animation/core';
+import {VISEME_PARAMS} from '../../characters/Head';
 
 const S = 's3_agitation';
 export const LIGHT_HALL: Light = {x: 0.35, y: -0.8, rim: '#ffe9c4', rimStrength: 0.5, shade: '#3f3640', shadeStrength: 0.45};

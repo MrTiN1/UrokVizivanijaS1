@@ -5,9 +5,10 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {CAPTIONS} from '../data';
 import {ease} from '../animation/core';
 
-export const Subtitles: React.FC<{y?: (t: number) => number}> = ({y}) => {
+export const Subtitles: React.FC<{y?: (t: number) => number; hidden?: (t: number) => boolean}> = ({y, hidden}) => {
   const frame = useCurrentFrame();
   const t = frame / 30;
+  if (hidden?.(t)) return null;
   const cap = CAPTIONS.find((c) => t >= c.start && t < c.end);
   if (!cap) return null;
   const age = t - cap.start;

@@ -2,16 +2,16 @@
 // the rear opening; Gleb looks at his hands; push-in to the eyes; fade out.
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {CameraRig, Layer, Svg} from '../camera/Camera';
+import {CameraRig, Layer, Svg} from '../../camera/Camera';
 import {FarTreeline, TreeLayer, WarSky, treeRow} from './backgrounds/War';
-import {Black, Dust, Flash, Grade, Grain, Vignette} from '../effects/Atmosphere';
-import {Character} from '../characters/Character';
-import {Hand} from '../characters/Body';
-import {GLEB_MILITARY, SOLDIERS} from '../characters/designs';
-import {Light} from '../characters/types';
-import {alive, exprTrack, pose, withExpr} from '../animation/performance';
-import {clamp, ease, fbm, noise, ramp} from '../animation/core';
-import {evArr} from '../data';
+import {Black, Dust, Flash, Grade, Grain, Vignette} from '../../effects/Atmosphere';
+import {Character} from '../../characters/Character';
+import {Hand} from '../../characters/Body';
+import {GLEB_MILITARY, SOLDIERS} from '../../characters/designs';
+import {Light} from '../../characters/types';
+import {alive, exprTrack, pose, withExpr} from '../../animation/performance';
+import {clamp, ease, fbm, noise, ramp} from '../../animation/core';
+import {evArr} from '../../data';
 
 const S = 's7_transport';
 const LIGHT_DUSK: Light = {x: 0.8, y: 0, rim: '#ff9a4c', rimStrength: 0.7, shade: '#141a26', shadeStrength: 0.65};

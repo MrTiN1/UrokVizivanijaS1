@@ -2,16 +2,16 @@
 // foreshadowing) → the pen draws the signature → his face as light dims.
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {CameraRig, Layer, Svg} from '../camera/Camera';
+import {CameraRig, Layer, Svg} from '../../camera/Camera';
 import {OfficeRoom, Paper} from './backgrounds/Interior';
-import {Black, Dust, Grade, Grain, Vignette} from '../effects/Atmosphere';
-import {Character} from '../characters/Character';
-import {Hand} from '../characters/Body';
-import {GLEB_CIVIL, REPRESENTATIVE} from '../characters/designs';
-import {Light} from '../characters/types';
-import {alive, exprTrack, pose, withExpr} from '../animation/performance';
-import {clamp, ease, kf, ramp} from '../animation/core';
-import {ev} from '../data';
+import {Black, Dust, Grade, Grain, Vignette} from '../../effects/Atmosphere';
+import {Character} from '../../characters/Character';
+import {Hand} from '../../characters/Body';
+import {GLEB_CIVIL, REPRESENTATIVE} from '../../characters/designs';
+import {Light} from '../../characters/types';
+import {alive, exprTrack, pose, withExpr} from '../../animation/performance';
+import {clamp, ease, kf, ramp} from '../../animation/core';
+import {ev} from '../../data';
 
 const S = 's4_signing';
 export const LIGHT_LAMP: Light = {x: -0.7, y: -0.5, rim: '#ffd9a0', rimStrength: 0.55, shade: '#4b3a44', shadeStrength: 0.45};

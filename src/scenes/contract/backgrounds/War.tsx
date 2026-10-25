@@ -2,8 +2,8 @@
 // ("посадка"), cratered ground. Procedural but deterministic (seeded).
 import React from 'react';
 import {useCurrentFrame} from 'remotion';
-import {rand, noise} from '../../animation/core';
-import {P, smoothPath} from '../../characters/geometry';
+import {rand, noise} from '../../../animation/core';
+import {P, smoothPath} from '../../../characters/geometry';
 
 export const WarSky: React.FC<{horizon?: number; glow?: number; id?: string}> = ({horizon = 1150, glow = 1, id = 'ws'}) => {
   const frame = useCurrentFrame();

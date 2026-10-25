@@ -3,7 +3,8 @@
 
 export type Viseme = 'X' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
 
-export type HairStyle = 'gleb' | 'buzz' | 'neat' | 'side' | 'grey' | 'curly' | 'long';
+export type HairStyle = 'gleb' | 'buzz' | 'neat' | 'side' | 'grey' | 'curly' | 'long' | 'bun';
+export type Hat = 'driver_cap' | 'fedora' | 'beanie';
 export type Outfit =
   | 'gleb_civil'
   | 'gleb_military'
@@ -13,7 +14,10 @@ export type Outfit =
   | 'student_hoodie'
   | 'student_shirt'
   | 'student_sweater'
-  | 'soldier';
+  | 'soldier'
+  | 'driver'
+  | 'coat'
+  | 'woman_coat';
 
 export type Design = {
   id: string;
@@ -33,6 +37,9 @@ export type Design = {
   mustache?: boolean;
   stubble?: boolean;
   glasses?: boolean;
+  hat?: Hat;
+  hatColor?: string;
+  scarf?: string;
   outfit: Outfit;
   colors: {
     top: string; // main garment

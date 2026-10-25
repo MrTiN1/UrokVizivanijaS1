@@ -3,17 +3,17 @@
 // Gleb's confusion while recruits run past.
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {CameraRig, Layer, Svg} from '../camera/Camera';
+import {CameraRig, Layer, Svg} from '../../camera/Camera';
 import {BarrackDefs, Barracks, Bus, Fence, OvercastSky, ParadeGround, Watchtower} from './backgrounds/Base';
 import {FarTreeline} from './backgrounds/War';
-import {Dust, Fog, Grade, Grain, Vignette} from '../effects/Atmosphere';
-import {Character} from '../characters/Character';
-import {GLEB_CIVIL, GLEB_RECRUIT, INSTRUCTOR, RECRUITS, SOLDIERS} from '../characters/designs';
-import {Design, Light} from '../characters/types';
-import {alive, exprTrack, lipSync, pose, withExpr} from '../animation/performance';
-import {clamp, ease, kf, ramp} from '../animation/core';
-import {run, walk} from '../animation/cycles';
-import {ev} from '../data';
+import {Dust, Fog, Grade, Grain, Vignette} from '../../effects/Atmosphere';
+import {Character} from '../../characters/Character';
+import {GLEB_CIVIL, GLEB_RECRUIT, INSTRUCTOR, RECRUITS, SOLDIERS} from '../../characters/designs';
+import {Design, Light} from '../../characters/types';
+import {alive, exprTrack, lipSync, pose, withExpr} from '../../animation/performance';
+import {clamp, ease, kf, ramp} from '../../animation/core';
+import {run, walk} from '../../animation/cycles';
+import {ev} from '../../data';
 
 const S = 's5_training';
 export const LIGHT_OVERCAST: Light = {x: -0.35, y: -1, rim: '#e3e9ec', rimStrength: 0.35, shade: '#36424c', shadeStrength: 0.45};

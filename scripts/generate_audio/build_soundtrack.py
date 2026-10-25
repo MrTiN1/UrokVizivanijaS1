@@ -222,6 +222,68 @@ def score_tail(T: Track, t0: float, sc: dict):
     T.add(reverb(pad([m("D1"), m("A1")], d, cutoff=250, attack=0.2, release=3), 4, 0.4), t0, 0.35)
 
 
+# ---- «Последний автобус»: mystery thriller palette (D minor / Phrygian colour) ----
+def score_lb_calm(T: Track, t0: float, sc: dict):
+    d = sc["duration"]
+    T.add(reverb(pad(chord("D2 A2 F3"), d + 1, cutoff=700, attack=2.5, release=2), 3.5, 0.45), t0, 0.3)
+    notes = ["A4", "F4", "E4", "D4", "F4", "A4", "Bb4", "A4", "G4", "F4", "E4", "D4"]
+    for k, nn in enumerate(notes):
+        tt = 0.4 + k * 1.15
+        if tt > d - 1:
+            break
+        T.add(reverb(piano(m(nn), 3.5, 0.38, 0.3), 3.5, 0.55), t0 + tt, 0.3, 0.3 * np.sin(k))
+    T.add(reverb(strings(chord("D4 F4 A4"), d - 6, cutoff=2400, attack=3, release=2), 4, 0.5), t0 + 6, 0.12)
+
+
+def score_lb_mystery(T: Track, t0: float, sc: dict):
+    d = sc["duration"]
+    ev = sc["events"]
+    T.add(reverb(pad([m("D1"), m("A1"), m("Eb2")], d + 1, cutoff=320, attack=2, release=2), 4, 0.4), t0, 0.42)
+    T.add(reverb(strings([m("A5"), m("Bb5")], d, cutoff=5000, attack=4, release=2), 5, 0.6), t0 + 1, 0.08)
+    for k, nn in enumerate(["D6", "A5", "F5", "Eb6", "D6"]):
+        T.add(reverb(piano(m(nn), 4, 0.3, 0.7), 5, 0.65), t0 + 0.8 + k * 0.9, 0.18, 0.5 - 0.25 * k)
+    a = ev.get("busArrive", 4.2)
+    T.add(reverb(riser(ev.get("busStop", 7.6) - a, f0=120, f1=1800, vel=0.4), 3, 0.35), t0 + a, 0.3)
+    T.add(reverb(impact(3.5, 44, 0.5), 4, 0.45), t0 + ev.get("doorsOpen", 8.4), 0.45)
+
+
+def score_lb_unease(T: Track, t0: float, sc: dict):
+    d = sc["duration"]
+    T.add(reverb(pad([m("C2"), m("Gb2")], d + 1, cutoff=380, attack=2, release=2), 4, 0.4), t0, 0.4)
+    k = 0
+    while 0.5 + k * 0.75 < d - 0.5:
+        T.add(pluck_low(m("C2") if k % 4 else m("Db2"), 0.35, 0.35), t0 + 0.5 + k * 0.75, 0.35)
+        k += 1
+    T.add(reverb(strings(chord("B3 C4 F#4"), d - 5, cutoff=2600, attack=4, release=1.5), 4, 0.5), t0 + 5, 0.14)
+
+
+def score_lb_loop(T: Track, t0: float, sc: dict):
+    """A 4-note motif that repeats exactly — the loop the bus is stuck in."""
+    d = sc["duration"]
+    T.add(reverb(pad([m("D2"), m("A2")], d + 1, cutoff=420, attack=1.5, release=2), 4, 0.4), t0, 0.38)
+    motif = ["D5", "F5", "E5", "A4"]
+    k = 0
+    while 0.2 + k * 0.6 < d - 0.4:
+        T.add(reverb(piano(m(motif[k % 4]), 2.5, 0.32 + 0.01 * k, 0.5), 3, 0.5), t0 + 0.2 + k * 0.6, 0.22, 0.3 * ((k % 4) - 1.5) / 1.5)
+        k += 1
+    T.add(reverb(riser(2.5, vel=0.35), 2.5, 0.35), t0 + d - 2.6, 0.3)
+
+
+def score_lb_photo(T: Track, t0: float, sc: dict):
+    d = sc["duration"]
+    ev = sc["events"]
+    T.add(reverb(pad([m("D1"), m("Ab1")], d + 1, cutoff=300, attack=1, release=3), 4, 0.45), t0, 0.4)
+    k = 0
+    while ev["screenOn"] + k * 1.0 < d - 0.5:
+        T.add(pluck_low(m("A2"), 0.2, 0.25), t0 + ev["screenOn"] + k * 1.0, 0.3)
+        k += 1
+    T.add(reverb(strings(chord("Eb5 D5 A5"), d - ev["photo"], cutoff=4500, attack=3, release=1.5), 4, 0.55), t0 + ev["photo"], 0.12)
+    k = 0
+    while ev["push"] + k * 0.85 < d - 0.3:
+        T.add(heartbeat(0.6 + 0.03 * k), t0 + ev["push"] + k * 0.85, 0.45)
+        k += 1
+
+
 SCORES = {
     "tension": score_tension,
     "calm": score_calm,
@@ -231,6 +293,14 @@ SCORES = {
     "drama": score_drama,
     "dark": score_dark,
     "dark_tail": score_tail,
+    "lb_hook": score_tension,
+    "lb_calm": score_lb_calm,
+    "lb_mystery": score_lb_mystery,
+    "lb_unease": score_lb_unease,
+    "lb_loop": score_lb_loop,
+    "lb_drop": score_drama,
+    "lb_photo": score_lb_photo,
+    "lb_final": score_tail,
 }
 
 
@@ -303,10 +373,53 @@ def write_wav(path: Path, st: np.ndarray, sr: int = SR):
         w.writeframes(inter.tobytes())
 
 
+AMBIENCE = {
+    "rain": lambda d: sfx.rain(d),
+    "rain_window": lambda d: sfx.rain_window(d),
+    "wind": lambda d: sfx.wind(d, 0.8),
+    "bus_interior": lambda d: sfx.bus_interior(d),
+}
+ONESHOTS = {
+    "lamp_buzz": lambda: sfx.lamp_buzz(0.6),
+    "door_heavy": sfx.door_heavy,
+    "phone_tap": sfx.phone_tap,
+    "phone_notify": sfx.phone_notify,
+    "phone_error": sfx.phone_error,
+    "bus_approach": lambda: sfx.bus_approach(3.6),
+    "air_brake": sfx.air_brake,
+    "door_pneumatic": sfx.door_pneumatic,
+    "bus_step": sfx.bus_step,
+    "seat_creak": sfx.seat_creak,
+    "pass_by": lambda: sfx.pass_by(2.2),
+    "sub_drop": sfx.sub_drop,
+    "sting": sfx.sting,
+}
+
+
+def design_generic(F: Track, t0: float, sc: dict):
+    """Data-driven sound design: episode.json ambience [[name, gain]], sfx [[t, name, gain]], steps [[a, b, rate, surface]]."""
+    d = sc["duration"]
+    for name, gain in sc.get("ambience", []):
+        x = AMBIENCE[name](d + 1.0)
+        n = len(x)
+        x = x * np.minimum(1, np.arange(n) / secs(0.4)) * np.minimum(1, (n - np.arange(n)) / secs(0.6))
+        F.add(x, t0, gain)
+    for item in sc.get("sfx", []):
+        tt, name = item[0], item[1]
+        gain = item[2] if len(item) > 2 else 0.6
+        F.add(reverb(ONESHOTS[name](), 1.0, 0.2), t0 + tt, gain)
+    for a, b, rate, surface in sc.get("steps", []):
+        x = sfx.footsteps_wet(b - a, rate) if surface == "wet" else sfx.footsteps(b - a, rate, 1, "hard")
+        F.add(reverb(x, 0.8, 0.2), t0 + a, 0.5)
+
+
 def design(F: Track, t0: float, sc: dict):
     d = sc["duration"]
     ev = sc["events"]
     sid = sc["id"]
+    if "sfx" in sc or (sc.get("ambience") and isinstance(sc["ambience"][0], list)):
+        design_generic(F, t0, sc)
+        return
     if sid == "s1_hook":
         F.add(reverb(sfx.wind(d + 1, 1.0), 2, 0.2), t0, 0.7)
         F.add(sfx.fire_crackle(d), t0, 0.25, 0.4)
@@ -408,6 +521,18 @@ def main():
     duck_f = 1 - 0.38 * pres
     music = M.buf * duck_m
     fxs = F.buf * duck_f
+    banner = ep.get("banner") or {}
+    if banner.get("enabled"):
+        # bed almost silent under the sponsor banner so its own (unchanged) sound is clear
+        a = secs(banner["at"])
+        b = secs(banner["at"] + banner["duration"] / banner.get("speed", 1.0))
+        g = np.ones(music.shape[1], dtype=np.float32)
+        f_ = secs(0.35)
+        g[a:b] = 0.05
+        g[a - f_ : a] = np.linspace(1, 0.05, f_)
+        g[b : b + f_] = np.linspace(0.05, 1, f_)
+        music = music * g
+        fxs = fxs * g
     end = secs(D)
     mix = music * 0.9 + fxs * 0.85 + V.buf * 1.0
     mix = mix[:, :end]
@@ -434,6 +559,24 @@ def main():
         f"measured_LRA={st['input_lra']}:measured_thresh={st['input_thresh']}:offset={st['target_offset']}:linear=true"
     )
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(raw), "-af", af, "-ar", "48000", str(out)], check=True)
+    if banner.get("enabled") and banner.get("audioMode", "original") == "original":
+        # the banner's own sound, sample-for-sample unchanged (no gain, no EQ, no normalisation)
+        with wave.open(str(out)) as w:
+            sr = w.getframerate()
+            base = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).reshape(-1, 2).astype(np.int32)
+        with wave.open(str(ROOT / "assets" / banner["audio"])) as w:
+            assert w.getframerate() == sr and w.getnchannels() == 2
+            bn = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).reshape(-1, 2).astype(np.int32)
+        s0 = int(round(banner["at"] * sr))
+        e0 = min(len(base), s0 + len(bn))
+        base[s0:e0] += bn[: e0 - s0]
+        base = np.clip(base, -32768, 32767).astype(np.int16)
+        with wave.open(str(out), "wb") as w:
+            w.setnchannels(2)
+            w.setsampwidth(2)
+            w.setframerate(sr)
+            w.writeframes(base.tobytes())
+        print(f"banner audio inserted unchanged at {banner['at']}s")
     print(f"wrote {out}  (input I={st['input_i']} LUFS)")
 
 

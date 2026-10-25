@@ -2,8 +2,8 @@
 // watchtower, parade ground, and an animated military bus.
 import React from 'react';
 import {useCurrentFrame} from 'remotion';
-import {noise, rand} from '../../animation/core';
-import {P, smoothPath} from '../../characters/geometry';
+import {noise, rand} from '../../../animation/core';
+import {P, smoothPath} from '../../../characters/geometry';
 
 export const OvercastSky: React.FC<{id?: string}> = ({id = 'oc'}) => {
   const frame = useCurrentFrame();

@@ -2,15 +2,15 @@
 // shot/reverse-shot; the folder closes; silent extreme close-up of Gleb.
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {CameraRig, Layer, Svg} from '../camera/Camera';
+import {CameraRig, Layer, Svg} from '../../camera/Camera';
 import {OfficeRoom} from './backgrounds/Interior';
-import {Dust, Grade, Grain, LightRays, Vignette} from '../effects/Atmosphere';
-import {Character} from '../characters/Character';
-import {COMMANDER, GLEB_RECRUIT} from '../characters/designs';
-import {Light} from '../characters/types';
-import {alive, exprTrack, lipSync, pose, withExpr} from '../animation/performance';
-import {clamp, ease, kf, noise, ramp} from '../animation/core';
-import {ev, evArr} from '../data';
+import {Dust, Grade, Grain, LightRays, Vignette} from '../../effects/Atmosphere';
+import {Character} from '../../characters/Character';
+import {COMMANDER, GLEB_RECRUIT} from '../../characters/designs';
+import {Light} from '../../characters/types';
+import {alive, exprTrack, lipSync, pose, withExpr} from '../../animation/performance';
+import {clamp, ease, kf, noise, ramp} from '../../animation/core';
+import {ev, evArr} from '../../data';
 
 const S = 's6_assignment';
 const LIGHT_DESK: Light = {x: 0.7, y: 0.4, rim: '#ffc983', rimStrength: 0.6, shade: '#1d1f28', shadeStrength: 0.6};

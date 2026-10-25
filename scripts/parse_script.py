@@ -35,8 +35,15 @@ SPEAKERS = {
     "командир": "commander",
     "инструктор": "instructor",
     "представитель": "rep",
+    "водитель": "driver",
 }
 COMPONENT_HINTS = [
+    # «Последний автобус» kit (checked first)
+    ("повторяющ", "LbLoop"),
+    ("пассажир", "LbPassengers"),
+    ("водител", "LbDriver"),
+    ("фотограф", "LbPhoto"),
+    ("остановк", "LbStop"),
     ("хук", "Hook"),
     ("колледж", "College"),
     ("агитац", "Agitation"),
@@ -115,6 +122,14 @@ def main() -> None:
         "scenes": scenes,
         "duration": round(sum(s["duration"] for s in scenes), 3),
     }
+    # sponsor banner: same settings as the last episode, re-timed to the middle of the new one
+    tmpl = json.loads((ROOT / "episodes" / "episode_01" / "episode.json").read_text(encoding="utf-8"))
+    if tmpl.get("banner"):
+        b = dict(tmpl["banner"])
+        b["at"] = round(ep["duration"] / 2, 2)
+        ep["banner"] = b
+        ep["captions"] = {"defaultY": 1330, "y": [], "hide": [[b["at"] - 0.2, b["at"] + b["duration"] + 0.2]]}
+        print(f"banner at {b['at']} s (middle) — keep narration out of {b['at']}–{b['at'] + b['duration']:.1f} s")
     out = ROOT / "episodes" / args.episode_id / "episode.json"
     if out.exists() and not args.force:
         raise SystemExit(f"{out} exists (use --force)")

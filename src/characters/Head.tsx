@@ -222,6 +222,73 @@ export const Head: React.FC<Props> = ({design, pose, light, mouth, idp}) => {
         : null}
       {backView ? <BackHairMass g={g} design={design} helmet={pose.helmet} /> : null}
       {pose.helmet ? <Helmet g={g} design={design} pose={pose} idp={idp} light={light} /> : null}
+      {!pose.helmet && design.hat ? <HatView g={g} design={design} idp={idp} light={light} /> : null}
+    </g>
+  );
+};
+
+/** Civilian headwear: bus driver's peaked cap, fedora, knit beanie. */
+const HatView: React.FC<{g: HeadGeo; design: Design; idp: string; light: Light}> = ({g, design, idp, light}) => {
+  const c = design.hatColor ?? '#1f2430';
+  const dark = mixHex(c, '#000000', 0.45);
+  const hi = mixHex(c, '#ffffff', 0.22);
+  const sb = Math.sin(g.b);
+  const e = g.edge(-128, 0);
+  const cx = (e.l + e.r) / 2 + sb * 4;
+  const rx = (e.r - e.l) / 2 + 10;
+  const hlx = light.x >= 0 ? 1 : -1;
+  const grad = `${idp}-hat`;
+  const defs = (
+    <defs>
+      <linearGradient id={grad} x1={hlx > 0 ? 0 : 1} x2={hlx > 0 ? 1 : 0} y1="0" y2="0">
+        <stop offset="0" stopColor={dark} />
+        <stop offset="0.55" stopColor={c} />
+        <stop offset="1" stopColor={hi} />
+      </linearGradient>
+    </defs>
+  );
+  if (design.hat === 'driver_cap') {
+    const band = -128;
+    const topW = rx * 1.18;
+    const crown = `M${cx - rx} ${band} L${cx - rx + 2} ${band - 26} Q${cx - topW} ${band - 50} ${cx + sb * 18} ${band - 54} Q${cx + topW} ${band - 50} ${cx + rx - 2} ${band - 26} L${cx + rx} ${band}Z`;
+    const visorX = cx + sb * rx * 0.75;
+    const visor = `M${visorX - rx * 0.85} ${band + 2} Q${visorX + sb * 26} ${band + 22} ${visorX + rx * 0.85} ${band + 2} Q${visorX} ${band + 8} ${visorX - rx * 0.85} ${band + 2}Z`;
+    return (
+      <g>
+        {defs}
+        <path d={`M${cx - rx + 4} ${band + 6} Q${cx} ${band + 26} ${cx + rx - 4} ${band + 6}`} fill="none" stroke="#1a120c" strokeWidth={10} opacity={0.3} />
+        <path d={crown} fill={`url(#${grad})`} stroke="#0d0f14" strokeWidth={2} />
+        <path d={`M${cx - rx} ${band - 4} L${cx + rx} ${band - 4} L${cx + rx} ${band} L${cx - rx} ${band}Z`} fill={dark} />
+        <rect x={cx - rx} y={band - 18} width={rx * 2} height={14} fill={dark} opacity={0.9} />
+        {Math.cos(g.b) > 0 ? <ellipse cx={cx + sb * rx * 0.55} cy={band - 30} rx={9 * Math.max(0.3, Math.cos(g.b))} ry={7} fill="#b9a36a" stroke="#6a5a33" strokeWidth={1} /> : null}
+        <path d={visor} fill="#0b0c10" stroke="#000" strokeWidth={1.2} />
+        <path d={`M${visorX - rx * 0.6} ${band + 5} Q${visorX} ${band + 12} ${visorX + rx * 0.6} ${band + 5}`} stroke="#ffffff" strokeOpacity={0.12} strokeWidth={2} fill="none" />
+      </g>
+    );
+  }
+  if (design.hat === 'fedora') {
+    const band = -124;
+    const brimRx = rx * 1.55;
+    const crown = `M${cx - rx * 0.92} ${band} C${cx - rx * 0.95} ${band - 50} ${cx - rx * 0.6} ${band - 66} ${cx} ${band - 60} C${cx + rx * 0.6} ${band - 66} ${cx + rx * 0.95} ${band - 50} ${cx + rx * 0.92} ${band}Z`;
+    return (
+      <g>
+        {defs}
+        <ellipse cx={cx} cy={band + 8} rx={brimRx} ry={10} fill="#140f0b" opacity={0.25} />
+        <path d={crown} fill={`url(#${grad})`} stroke="#0b0c0f" strokeWidth={2} />
+        <path d={`M${cx - rx * 0.3} ${band - 58} Q${cx} ${band - 46} ${cx + rx * 0.3} ${band - 58}`} stroke={dark} strokeWidth={3} fill="none" />
+        <rect x={cx - rx * 0.93} y={band - 14} width={rx * 1.86} height={13} fill={dark} />
+        <path d={`M${cx - brimRx} ${band + 2} Q${cx} ${band - 18} ${cx + brimRx} ${band + 2} Q${cx} ${band + 14} ${cx - brimRx} ${band + 2}Z`} fill={c} stroke="#0b0c0f" strokeWidth={1.6} />
+      </g>
+    );
+  }
+  // beanie
+  const band = -118;
+  const dome = `M${cx - rx - 2} ${band} C${cx - rx - 4} ${band - 64} ${cx + rx + 4} ${band - 64} ${cx + rx + 2} ${band}Z`;
+  return (
+    <g>
+      {defs}
+      <path d={dome} fill={`url(#${grad})`} stroke="#0b0c0f" strokeWidth={1.8} />
+      <rect x={cx - rx - 3} y={band - 16} width={rx * 2 + 6} height={20} rx={6} fill={dark} />
     </g>
   );
 };
@@ -652,6 +719,15 @@ const STYLE_TUFTS: Record<string, {vol: number; hairline: number; tufts: Tuft[];
     ],
   },
   buzz: {vol: 3, hairline: -132, spikes: 0, tufts: []},
+  bun: {
+    vol: 6,
+    hairline: -132,
+    spikes: 0,
+    tufts: [
+      {r: [-1.3, -0.1], ry: -158, t: [-1.42, -104], bend: -0.2},
+      {r: [0.1, 1.3], ry: -158, t: [1.42, -104], bend: 0.2},
+    ],
+  },
   curly: {vol: 13, hairline: -126, spikes: 0, tufts: []},
   long: {
     vol: 9,
@@ -702,6 +778,17 @@ const HairBack: React.FC<{g: HeadGeo; design: Design; pose: Pose}> = ({g, design
     pts.push([lb.l - 10, 40], [lb.l - 4, 70], [lb.r + 4, 70], [lb.r + 10, 40]);
   }
   void pose;
+  if (design.hairStyle === 'bun') {
+    const top = g.edge(-150, vol);
+    const bx = (top.l + top.r) / 2 + backSide * (top.r - top.l) * 0.32;
+    return (
+      <g>
+        <path d={smoothPath(pts, true, 0.8)} fill={design.hairShade} />
+        <circle cx={bx} cy={-168} r={30} fill={design.hair} stroke={design.hairShade} strokeWidth={2} />
+        <path d={`M${bx - 18} -176 Q${bx} -190 ${bx + 18} -172`} stroke={design.hairLight} strokeWidth={3} fill="none" opacity={0.6} />
+      </g>
+    );
+  }
   return <path d={smoothPath(pts, true, 0.8)} fill={design.hairShade} />;
 };
 

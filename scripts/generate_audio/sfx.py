@@ -237,3 +237,160 @@ def drill_distant(dur, rng=RNG):
     """Distant group marching / running on a parade ground."""
     steps = footsteps(dur, rate=2.6, people=8, surface="hard", rng=rng)
     return lp(steps, 1500) * 0.5
+
+
+# ---------------- night city / bus («Последний автобус») ----------------
+def rain(dur, strength=1.0, rng=RNG):
+    """Outdoor rain: dense hiss + random drops on hard surfaces."""
+    n = secs(dur)
+    hiss = bp(pink(dur, rng), 400, 9000) * 0.35
+    drops = np.zeros(n, dtype=np.float32)
+    for _ in range(int(dur * 90)):
+        p = rng.integers(0, max(1, n - 800))
+        L = rng.integers(120, 700)
+        tt = np.arange(L) / SR
+        f = rng.uniform(1500, 6000)
+        drops[p : p + L] += (np.sin(2 * np.pi * f * tt) * 0.4 + hp(white(L / SR, rng), 2000)) * np.exp(-tt / 0.004) * rng.uniform(0.05, 0.3)
+    low = lp(brown(dur, rng), 200) * 0.15
+    return (hiss + drops + low) * strength * 0.5
+
+
+def rain_window(dur, strength=1.0, rng=RNG):
+    """Rain heard from inside: muffled patter on glass + occasional drips."""
+    x = lp(rain(dur, 1.0, rng), 2200) * 0.8
+    n = len(x)
+    for _ in range(int(dur * 3)):
+        p = rng.integers(0, max(1, n - 4000))
+        L = 3000
+        tt = np.arange(L) / SR
+        x[p : p + L] += np.sin(2 * np.pi * rng.uniform(700, 1400) * tt * (1 - tt * 2)) * np.exp(-tt / 0.02) * 0.08
+    return x * strength
+
+
+def bus_interior(dur, rng=RNG):
+    """Old city bus cabin: diesel idle/drive, road roar, window rattles, tube hum."""
+    n = secs(dur)
+    eng = engine(dur, 30, 32, 0.9, rng)
+    road = lp(brown(dur, rng), 180) * 0.45
+    rattles = np.zeros(n, dtype=np.float32)
+    for _ in range(int(dur * 4)):
+        p = rng.integers(0, max(1, n - 3000))
+        L = rng.integers(400, 2500)
+        rattles[p : p + L] += bp(white(L / SR, rng), 1200, 6000) * exp_decay(L, 0.008) * rng.uniform(0.03, 0.12)
+    tube = (sine(100, dur) + 0.5 * sine(200, dur) + 0.2 * sine(300, dur)) * 0.006
+    return eng * 0.8 + road + rattles + tube
+
+
+def lamp_buzz(dur=0.6, rng=RNG):
+    """Fluorescent tube stutter: buzzing bursts with clicks."""
+    n = secs(dur)
+    t = np.arange(n) / SR
+    gate = (np.sin(2 * np.pi * 9 * t + rng.uniform(0, 6)) > 0).astype(np.float32)
+    buzz = (saw(100, dur) * 0.4 + saw(200, dur) * 0.2) * gate
+    clicks = np.zeros(n, dtype=np.float32)
+    edges = np.where(np.diff(gate) != 0)[0]
+    for e in edges:
+        L = min(600, n - e)
+        clicks[e : e + L] += hp(white(L / SR, rng), 3000) * np.exp(-np.arange(L) / SR / 0.002) * 0.5
+    return (bp(buzz, 90, 3000) * 0.3 + clicks) * 0.6
+
+
+def door_heavy(rng=RNG):
+    """Heavy glass entrance door opening (squeak + latch + whoosh)."""
+    dur = 1.4
+    n = secs(dur)
+    t = np.arange(n) / SR
+    latch = lp(white(dur, rng), 900) * np.exp(-t / 0.03) * 0.8
+    squeak = sine(np.linspace(900, 1300, n), dur) * np.exp(-((t - 0.3) ** 2) / 0.02) * 0.05
+    air = bp(pink(dur, rng), 200, 1500) * np.sin(np.pi * np.minimum(1, t / 1.2)) * 0.2
+    return (latch + squeak + air).astype(np.float32)
+
+
+def phone_tap(rng=RNG):
+    dur = 0.12
+    t = np.arange(secs(dur)) / SR
+    return (np.sin(2 * np.pi * 2400 * t) * np.exp(-t / 0.008) * 0.2 + hp(white(dur, rng), 3000) * np.exp(-t / 0.003) * 0.2).astype(np.float32)
+
+
+def phone_notify(rng=RNG):
+    """Two soft bell tones (original)."""
+    dur = 1.2
+    t = np.arange(secs(dur)) / SR
+    a = np.sin(2 * np.pi * 1318.5 * t) * np.exp(-t / 0.25)
+    b = np.sin(2 * np.pi * 1975.5 * np.maximum(0, t - 0.14)) * np.exp(-np.maximum(0, t - 0.14) / 0.35) * (t > 0.14)
+    return ((a + b * 0.8) * 0.22).astype(np.float32)
+
+
+def phone_error(rng=RNG):
+    dur = 0.5
+    t = np.arange(secs(dur)) / SR
+    tone = np.sin(2 * np.pi * 440 * t) * ((t < 0.12) | ((t > 0.2) & (t < 0.32)))
+    return (tone * 0.12).astype(np.float32)
+
+
+def bus_approach(dur=3.6, rng=RNG):
+    """Bus engine coming closer + tyres on wet road (swish), slowing down."""
+    n = secs(dur)
+    t = np.arange(n) / SR
+    eng = engine(dur, 46, 30, 1.0, rng)
+    swish = bp(pink(dur, rng), 500, 5000) * 0.5
+    env = (t / dur) ** 1.6
+    return ((eng + swish) * env).astype(np.float32)
+
+
+def bus_step(rng=RNG):
+    s = footstep("hard", 1.2, rng)
+    clank = bp(white(0.3, rng), 300, 1200) * np.exp(-np.arange(len(s)) / SR / 0.05) * 0.4
+    return (s + clank[: len(s)]).astype(np.float32)
+
+
+def seat_creak(rng=RNG):
+    dur = 0.7
+    n = secs(dur)
+    t = np.arange(n) / SR
+    f = 260 + 80 * np.sin(2 * np.pi * 3 * t)
+    creak = bp(saw(f, dur), 300, 2500) * np.exp(-((t - 0.3) ** 2) / 0.03) * 0.15
+    thump = lp(white(dur, rng), 200) * np.exp(-t / 0.05) * 0.6
+    return (creak + thump).astype(np.float32)
+
+
+def pass_by(dur=2.2, rng=RNG):
+    """Something passing the window: air swell (stop shelter / lamp post)."""
+    n = secs(dur)
+    t = np.arange(n) / SR
+    env = np.exp(-((t - dur / 2) ** 2) / 0.12)
+    x = bp(pink(dur, rng), 300, 3000) * env * 0.5
+    return x.astype(np.float32)
+
+
+def footsteps_wet(dur, rate=1.8, rng=RNG):
+    """Footsteps on wet pavement: heel + splash."""
+    n = secs(dur)
+    y = np.zeros(n, dtype=np.float32)
+    t = rng.uniform(0, 0.2)
+    while t < dur - 0.3:
+        s = footstep("hard", rng.uniform(0.7, 1.0), rng)
+        L = len(s)
+        tt = np.arange(L) / SR
+        splash = bp(white(L / SR, rng), 1500, 8000) * np.exp(-tt / 0.05) * 0.35
+        p = secs(t)
+        y[p : p + L] += (s + splash)[: n - p]
+        t += 1 / rate * rng.uniform(0.95, 1.05)
+    return y
+
+
+def sub_drop(rng=RNG):
+    dur = 3.0
+    t = np.arange(secs(dur)) / SR
+    f = 70 * np.exp(-t / 1.2) + 28
+    return (np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 1.4) * 0.8).astype(np.float32)
+
+
+def sting(rng=RNG):
+    """Dissonant string stab + low hit (original, non-shock)."""
+    dur = 3.0
+    t = np.arange(secs(dur)) / SR
+    tones = sum(np.sin(2 * np.pi * f * t + i) for i, f in enumerate([220.0, 233.1, 329.6, 349.2]))
+    env = np.minimum(1, t / 0.04) * np.exp(-t / 1.0)
+    low = lp(white(dur, rng), 120) * np.exp(-t / 0.4)
+    return ((bp(tones, 150, 4000) * 0.12 + low * 0.6) * env).astype(np.float32)

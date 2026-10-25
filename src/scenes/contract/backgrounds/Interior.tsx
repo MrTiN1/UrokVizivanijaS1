@@ -2,7 +2,7 @@
 // (desk, monitor, keyboard, documents, lamp, window with blinds).
 import React from 'react';
 import {useCurrentFrame} from 'remotion';
-import {rand, noise} from '../../animation/core';
+import {rand, noise} from '../../../animation/core';
 
 // ---------------- classroom ----------------
 export const ClassroomWall: React.FC<{id?: string}> = ({id = 'cw'}) => {

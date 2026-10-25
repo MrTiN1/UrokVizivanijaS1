@@ -233,3 +233,116 @@ export const GLEB_RECRUIT: Design = {
   outfit: 'field',
   colors: {...GLEB_MILITARY.colors, under: '#4a5236', underShade: '#333a25'},
 };
+
+// ---------------- Episode «Последний автобус» ----------------
+
+/** Elderly bus driver: grey hair, moustache, navy uniform and peaked cap. */
+export const DRIVER: Design = {
+  id: 'driver',
+  skin: '#d9ab8c',
+  skinShade: '#b07e62',
+  hair: '#8d8a85',
+  hairShade: '#5d5b57',
+  hairLight: '#b7b3ad',
+  hairStyle: 'grey',
+  iris: '#3f4a52',
+  eyeScale: 0.74,
+  browThick: 1.5,
+  browColor: '#6e6a64',
+  faceWidth: 1.1,
+  jaw: 0.8,
+  age: 0.95,
+  mustache: true,
+  hat: 'driver_cap',
+  hatColor: '#1e2534',
+  outfit: 'driver',
+  colors: {
+    top: '#232b3b',
+    topShade: '#151a25',
+    under: '#9fb2c4',
+    underShade: '#7487a0',
+    pants: '#1d2330',
+    pantsShade: '#12161f',
+    shoes: '#121212',
+    accent: '#3b1f24',
+  },
+  bodyWidth: 1.25,
+  height: 1.0,
+};
+
+/** Silent elderly woman: grey bun, plum coat, green-grey scarf. */
+export const OLD_WOMAN: Design = {
+  id: 'woman',
+  skin: '#e6c0a5',
+  skinShade: '#c39478',
+  hair: '#a9a7a4',
+  hairShade: '#76736f',
+  hairLight: '#d2d0cc',
+  hairStyle: 'bun',
+  iris: '#4d4a42',
+  eyeScale: 0.8,
+  browThick: 0.8,
+  browColor: '#8b8781',
+  faceWidth: 1.0,
+  jaw: 0.1,
+  age: 0.9,
+  scarf: '#5b6b5f',
+  outfit: 'woman_coat',
+  colors: {
+    top: '#4c3a4f',
+    topShade: '#33263a',
+    under: '#6d6170',
+    underShade: '#4f4552',
+    pants: '#2e2a33',
+    pantsShade: '#1e1b22',
+    shoes: '#1a1716',
+    accent: '#5b6b5f',
+  },
+  bodyWidth: 1.08,
+  height: 0.94,
+};
+
+/** Man in a dark coat and fedora, always on the back seat. */
+export const COAT_MAN: Design = {
+  id: 'coatman',
+  skin: '#d8b096',
+  skinShade: '#ab8167',
+  hair: '#2a2622',
+  hairShade: '#171411',
+  hairLight: '#4a423b',
+  hairStyle: 'neat',
+  iris: '#2e3438',
+  eyeScale: 0.76,
+  browThick: 1.3,
+  browColor: '#25211d',
+  faceWidth: 1.04,
+  jaw: 0.7,
+  age: 0.55,
+  hat: 'fedora',
+  hatColor: '#24262b',
+  outfit: 'coat',
+  colors: {
+    top: '#25272d',
+    topShade: '#17181c',
+    under: '#c9c5bb',
+    underShade: '#9a968d',
+    pants: '#1f2025',
+    pantsShade: '#131417',
+    shoes: '#0f0f10',
+    accent: '#3a3d45',
+  },
+  bodyWidth: 1.16,
+  height: 1.04,
+};
+
+/** Background passengers on the rear seats — same rig, muted night palette. */
+export const BACK_PASSENGERS: Design[] = [
+  variant(COAT_MAN, 'bp1', {hat: 'beanie', hatColor: '#3d4a4a', hairStyle: 'buzz', age: 0.35, outfit: 'woman_coat', scarf: undefined,
+    colors: {top: '#3b4542', topShade: '#28302e'}}),
+  variant(OLD_WOMAN, 'bp2', {hairStyle: 'long', hair: '#3a2c26', hairShade: '#221915', hairLight: '#5a463c', age: 0.4, scarf: '#6b4a4a',
+    colors: {top: '#3c3f52', topShade: '#282a38'}}),
+  variant(COAT_MAN, 'bp3', {hat: undefined, hairStyle: 'grey', age: 0.8, mustache: true,
+    colors: {top: '#3e3a33', topShade: '#2a2722'}}),
+];
+
+export const BUS_CAST = {GLEB_CIVIL, DRIVER, OLD_WOMAN, COAT_MAN};

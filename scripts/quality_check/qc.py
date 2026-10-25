@@ -55,7 +55,7 @@ def main() -> None:
     dur = float(probe["format"]["duration"])
     check("resolution", (v["width"], v["height"]) == (1080, 1920), f"{v['width']}×{v['height']}")
     check("frame rate", abs(fps - 30) < 0.01, f"{fps:.3f} fps")
-    check("duration 90–120 s", 90 <= dur <= 120.5, f"{dur:.2f} s (script {ep['duration']} s)")
+    check(f"duration {ep['duration']} s", abs(dur - ep["duration"]) <= 0.05, f"{dur:.3f} s (script {ep['duration']} s)")
     check("video codec H.264", v["codec_name"] == "h264", f"{v['codec_name']} {v.get('profile', '')} {v.get('pix_fmt', '')}")
     check("audio track AAC", bool(a) and a[0]["codec_name"] == "aac", f"{a[0]['codec_name']} {a[0].get('sample_rate')} Hz {a[0].get('channels')} ch" if a else "missing")
 
@@ -70,8 +70,11 @@ def main() -> None:
     # ---------- black frames ----------
     bd = sh(["ffmpeg", "-hide_banner", "-i", str(video), "-vf", "blackdetect=d=0.25:pic_th=0.97:pix_th=0.06", "-an", "-f", "null", "-"])
     blacks = [(float(s), float(e)) for s, e in re.findall(r"black_start:([\d.]+) black_end:([\d.]+)", bd)]
-    s7 = next(s for s in ep["scenes"] if s["id"] == "s7_transport")
-    allowed = [(s7["start"] + s7["events"]["fadeOut"][0], ep["duration"] + 1)]
+    if "qcAllowedBlack" in ep:
+        allowed = [tuple(x) for x in ep["qcAllowedBlack"]]
+    else:  # legacy episode
+        s7 = next(s for s in ep["scenes"] if s["id"] == "s7_transport")
+        allowed = [(s7["start"] + s7["events"]["fadeOut"][0], ep["duration"] + 1)]
     unexpected = [b for b in blacks if not any(b[0] >= a0 - 0.3 and b[1] <= a1 + 0.3 for a0, a1 in allowed)]
     check("no unintended black frames", not unexpected, f"black segments {blacks}; allowed = scripted fade-out {allowed}")
 
@@ -100,7 +103,7 @@ def main() -> None:
                 d.text((6, 4), f"{t:6.2f}s  {sc['name']}", fill=(255, 210, 63), font=font)
                 d.text((6, 23), label[:38], fill=(230, 230, 230), font=font)
                 tiles.append(im)
-    empty = [s for s in stats if s["std"] < 6 and not s["scene"].startswith("s8")]
+    empty = [s for s in stats if s["std"] < 6 and not s["scene"].startswith("s8") and s["scene"] != ep["scenes"][-1]["id"]]
     check("no empty shots", not empty, f"{len(stats)} sampled frames; low-detail: {[(s['t'], s['shot']) for s in empty]}")
     cols = 8
     rows = (len(tiles) + cols - 1) // cols
@@ -163,11 +166,19 @@ def main() -> None:
         check("dialogue intelligible over music (ASR on final mix)", m["mean"] >= 0.85, f"mean word accuracy {m['mean']:.1%}")
 
     # ---------- character consistency (static check of the rig usage) ----------
-    src = "\n".join(p.read_text(encoding="utf-8") for p in (ROOT / "src" / "scenes").glob("*.tsx"))
-    gleb_designs = set(re.findall(r"design=\{(GLEB_[A-Z]+)\}", src))
+    src = "\n".join(p.read_text(encoding="utf-8") for p in (ROOT / "src" / "scenes").rglob("*.tsx"))
+    gleb_designs = set(re.findall(r"(?:design=\{|d=\{|d: )(GLEB_[A-Z]+)", src))
     dz = (ROOT / "src" / "characters" / "designs.ts").read_text(encoding="utf-8")
     derived = all(re.search(rf"export const {d}: Design = \{{\s*\.\.\.(GLEB_BASE|GLEB_MILITARY)", dz) for d in gleb_designs)
     check("Gleb uses one canonical model (shared face/hair/proportions)", derived, f"designs used: {sorted(gleb_designs)} — all derived from GLEB_BASE")
+
+    # ---------- sponsor banner ----------
+    if ep.get("banner"):
+        sys.path.insert(0, str(Path(__file__).parent))
+        import banner_check
+
+        for c in banner_check.run(ep_name):
+            checks.append(c)
 
     report = {"episode": ep_name, "video": str(video.relative_to(ROOT)), "duration": dur, "checks": checks, "frames": stats, "passed": all(c["ok"] for c in checks)}
     (ROOT / "output" / "qc_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -1,8 +1,6 @@
-// Episode data produced by the pipeline (scripts/). Swap these imports for a
-// new episode folder to build the next episode.
-import episode from '../episodes/episode_01/episode.json';
-import voices from '../episodes/episode_01/build/voices.json';
-import subtitles from '../episodes/episode_01/build/subtitles.json';
+// Episode data produced by the pipeline (scripts/). The active episode is
+// chosen by scripts/set_episode.py (writes src/current_episode.ts).
+import {episode, voices, subtitles} from './current_episode';
 
 export type Word = {w: string; start: number; end: number; key?: boolean};
 export type VisemeCue = {v: string; start: number; end: number};
@@ -19,6 +17,19 @@ export type SceneCfg = {
   events: Record<string, number | number[] | number[][]>;
   shots: [number, number, string][];
 };
+export type BannerCfg = {
+  enabled: boolean;
+  source: string;
+  video: string;
+  audio: string;
+  at: number;
+  duration: number;
+  speed: number;
+  center: [number, number];
+  width: number;
+  minAreaRatio: number;
+};
+export type CaptionCfg = {defaultY: number; y: [number, number, number][]; hide: [number, number][]};
 
 export const EPISODE = episode as unknown as {
   id: string;
@@ -32,6 +43,8 @@ export const EPISODE = episode as unknown as {
   disclaimer: string;
   next: string;
   scenes: SceneCfg[];
+  banner?: BannerCfg;
+  captions?: CaptionCfg;
 };
 export const VOICES = voices as unknown as Record<string, VoiceInfo>;
 export const CAPTIONS = subtitles as unknown as Caption[];

@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {Character} from './Character';
-import {CLASSMATE, COMMANDER, GLEB_CIVIL, GLEB_MILITARY, INSTRUCTOR, REPRESENTATIVE, SOLDIERS, STUDENTS} from './designs';
+import {BACK_PASSENGERS, CLASSMATE, COAT_MAN, COMMANDER, DRIVER, GLEB_CIVIL, GLEB_MILITARY, INSTRUCTOR, OLD_WOMAN, REPRESENTATIVE, SOLDIERS, STUDENTS} from './designs';
 import {EXPRESSIONS, ExpressionName, Light, basePose} from './types';
 import {FontLoader} from '../components/Fonts';
 
@@ -90,6 +90,36 @@ export const CastSheet: React.FC = () => {
       </svg>
       {cast.map(([n], i) => (
         <div key={n} style={{...label, top: 1150, left: 220 + i * 395 - 190, width: 380, fontSize: 30}}>{n}</div>
+      ))}
+    </AbsoluteFill>
+  );
+};
+
+/** Cast of «Последний автобус»: everyone standing + seated, night light. */
+export const BusCastSheet: React.FC = () => {
+  const NIGHT: Light = {x: 0.5, y: -0.6, rim: '#9fc4ff', rimStrength: 0.45, shade: '#2a2440', shadeStrength: 0.4};
+  const cast = [
+    ['Глеб, 19 лет', GLEB_CIVIL],
+    ['Водитель', DRIVER],
+    ['Молчаливая женщина', OLD_WOMAN],
+    ['Мужчина в пальто', COAT_MAN],
+  ] as const;
+  const seatedPose = (turn: number) => ({...basePose(), bodyTurn: turn, headTurn: turn, legL: {hip: 84, knee: 86, foot: 0}, legR: {hip: 80, knee: 82, foot: 0},
+    armL: {shoulder: 18, elbow: 44, wrist: 0, hand: 'relaxed' as const}, armR: {shoulder: 20, elbow: 40, wrist: 0, hand: 'relaxed' as const}});
+  return (
+    <AbsoluteFill style={{background: 'linear-gradient(#1c2233,#0d1018)'}}>
+      <FontLoader />
+      <div style={{...label, top: 30, left: 0, right: 0, fontSize: 64, fontFamily: 'Russo One', color: '#fff'}}>ПОСЛЕДНИЙ АВТОБУС — ПЕРСОНАЖИ</div>
+      <svg width={2400} height={2700} style={{position: 'absolute'}}>
+        {cast.map(([, d], i) => (
+          <Character key={i} design={d} pose={{...basePose(), bodyTurn: 0.3, headTurn: 0.3}} light={NIGHT} x={330 + i * 580} y={760} scale={0.6} idp={`bc${i}`} shadow />
+        ))}
+        {[...cast.map(([, d]) => d), ...BACK_PASSENGERS].map((d, i) => (
+          <Character key={`s${i}`} design={d} pose={seatedPose(i % 2 ? -0.4 : 0.4)} light={NIGHT} x={200 + (i % 4) * 600} y={1750 + Math.floor(i / 4) * 640} scale={0.5} idp={`bs${i}`} />
+        ))}
+      </svg>
+      {cast.map(([n], i) => (
+        <div key={n} style={{...label, top: 1190, left: 330 + i * 580 - 260, width: 520, fontSize: 34}}>{n}</div>
       ))}
     </AbsoluteFill>
   );

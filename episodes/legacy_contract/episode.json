@@ -1,0 +1,548 @@
+{
+  "id": "legacy_contract",
+  "series": "УРОКИ ВЫЖИВАНИЯ",
+  "number": 1,
+  "title": "ГЛЕБ. КОНТРАКТ",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "disclaimer": "История вымышлена. Совпадения случайны.",
+  "next": "СЕРИЯ 2 — ПЕРВОЕ ЗАДАНИЕ",
+  "voices": {
+    "narrator": {
+      "model": "ruslan",
+      "lengthScale": 1.1,
+      "noiseScale": 0.62,
+      "noiseW": 0.75,
+      "pitch": -1.0,
+      "sentencePause": 0.42,
+      "eq": "warm",
+      "elevenlabs": {
+        "voiceId": "nPczCjzI2devNBz1zQrb",
+        "name": "Brian",
+        "model": "eleven_v4",
+        "stability": 0.45,
+        "style": 0.3,
+        "speed": 0.9,
+        "eq": "warm"
+      }
+    },
+    "gleb": {
+      "model": "denis",
+      "lengthScale": 1.02,
+      "noiseScale": 0.72,
+      "noiseW": 0.85,
+      "pitch": 1.2,
+      "sentencePause": 0.3,
+      "eq": "young",
+      "elevenlabs": {
+        "voiceId": "bIHbv24MWmeRgasZH58o",
+        "name": "Will",
+        "model": "eleven_v4",
+        "stability": 0.35,
+        "style": 0.4,
+        "speed": 1.0
+      }
+    },
+    "commander": {
+      "model": "dmitri",
+      "lengthScale": 1.16,
+      "noiseScale": 0.55,
+      "noiseW": 0.6,
+      "pitch": -3.2,
+      "sentencePause": 0.35,
+      "eq": "deep",
+      "elevenlabs": {
+        "voiceId": "pNInz6obpgDQGcFmaJgB",
+        "name": "Adam",
+        "model": "eleven_v4",
+        "stability": 0.55,
+        "style": 0.25,
+        "speed": 0.92,
+        "eq": "deep"
+      }
+    },
+    "instructor": {
+      "model": "denis",
+      "lengthScale": 0.96,
+      "noiseScale": 0.6,
+      "noiseW": 0.7,
+      "pitch": -2.6,
+      "sentencePause": 0.3,
+      "eq": "deep",
+      "elevenlabs": {
+        "voiceId": "SOYHLrjzK2X1ezoPC6cr",
+        "name": "Harry",
+        "model": "eleven_v4",
+        "stability": 0.45,
+        "style": 0.35,
+        "speed": 1.0
+      }
+    },
+    "rep": {
+      "model": "dmitri",
+      "lengthScale": 1.0,
+      "noiseScale": 0.6,
+      "noiseW": 0.7,
+      "pitch": -0.6,
+      "sentencePause": 0.3,
+      "eq": "hall",
+      "elevenlabs": {
+        "voiceId": "cjVigY5qzO86Huf0OWal",
+        "name": "Eric",
+        "model": "eleven_v4",
+        "stability": 0.5,
+        "style": 0.3,
+        "speed": 1.0,
+        "eq": "hall"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "id": "s1_hook",
+      "name": "Хук",
+      "component": "Hook",
+      "duration": 8,
+      "music": "tension",
+      "ambience": [
+        "wind",
+        "distant_booms"
+      ],
+      "lines": [
+        {
+          "id": "s1_n1",
+          "speaker": "narrator",
+          "at": 0.5,
+          "text": "Глеб хотел управлять беспилотниками. Но вместо пульта ему выдали автомат.",
+          "keywords": [
+            "беспилотниками",
+            "автомат"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          8,
+          "Медленный наезд на Глеба в посадке"
+        ]
+      ],
+      "events": {
+        "boom1": 3.3,
+        "boom2": 6.9,
+        "titleHit": 5.9,
+        "whoosh": 7.45
+      },
+      "start": 0
+    },
+    {
+      "id": "s2_college",
+      "name": "Колледж",
+      "component": "College",
+      "duration": 17,
+      "music": "calm",
+      "ambience": [
+        "room_chatter",
+        "keyboard"
+      ],
+      "lines": [
+        {
+          "id": "s2_n1",
+          "speaker": "narrator",
+          "at": 1.4,
+          "text": "Глебу было девятнадцать. Он учился в колледже и увлекался компьютерами. После выпуска хотел работать с техникой.",
+          "keywords": [
+            "девятнадцать",
+            "компьютерами",
+            "техникой"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          4.5,
+          "Общий план аудитории"
+        ],
+        [
+          4.5,
+          8,
+          "Руки на клавиатуре"
+        ],
+        [
+          8,
+          11.5,
+          "Экран компьютера"
+        ],
+        [
+          11.5,
+          17,
+          "Крупный план лица"
+        ]
+      ],
+      "events": {
+        "typing": [
+          [
+            1.0,
+            4.3
+          ],
+          [
+            4.5,
+            7.9
+          ],
+          [
+            8.2,
+            11.2
+          ],
+          [
+            12.0,
+            13.2
+          ]
+        ],
+        "laugh": 13.6
+      },
+      "start": 8
+    },
+    {
+      "id": "s3_agitation",
+      "name": "Агитация",
+      "component": "Agitation",
+      "duration": 20,
+      "music": "neutral",
+      "ambience": [
+        "hall"
+      ],
+      "lines": [
+        {
+          "id": "s3_r1",
+          "speaker": "rep",
+          "at": 1.6,
+          "text": "Современная техника, специальная подготовка, работа с беспилотными системами.",
+          "keywords": [
+            "беспилотными",
+            "системами"
+          ]
+        },
+        {
+          "id": "s3_n1",
+          "speaker": "narrator",
+          "at": 8.6,
+          "text": "Однажды в колледже прошла встреча. Студентам предложили подписать контракт для службы в подразделениях беспилотных систем.",
+          "keywords": [
+            "контракт",
+            "беспилотных",
+            "систем"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          7.5,
+          "Актовый зал, общий план"
+        ],
+        [
+          7.5,
+          12,
+          "Представитель у экрана"
+        ],
+        [
+          12,
+          20,
+          "Глеб слушает"
+        ]
+      ],
+      "events": {
+        "murmur": 0.0
+      },
+      "start": 25
+    },
+    {
+      "id": "s4_signing",
+      "name": "Подписание",
+      "component": "Signing",
+      "duration": 15,
+      "music": "foreboding",
+      "ambience": [
+        "room_tone",
+        "pen"
+      ],
+      "lines": [
+        {
+          "id": "s4_n1",
+          "speaker": "narrator",
+          "at": 1.2,
+          "text": "Он решил, что это шанс освоить новую профессию. И поставил подпись, ещё не зная, как изменится его жизнь.",
+          "keywords": [
+            "шанс",
+            "профессию",
+            "подпись",
+            "жизнь"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          4.5,
+          "Глеб за столом с документами"
+        ],
+        [
+          4.5,
+          8.3,
+          "Документ крупно"
+        ],
+        [
+          8.3,
+          10.8,
+          "Ручка: подпись"
+        ],
+        [
+          10.8,
+          15,
+          "Лицо Глеба"
+        ]
+      ],
+      "events": {
+        "paperSlide": 0.8,
+        "paperTurn": 5.0,
+        "penStart": 8.6,
+        "penEnd": 10.4,
+        "accent": 10.6
+      },
+      "start": 45
+    },
+    {
+      "id": "s5_training",
+      "name": "Учебный центр",
+      "component": "Training",
+      "duration": 20,
+      "music": "cold",
+      "ambience": [
+        "wind",
+        "bus",
+        "drill"
+      ],
+      "lines": [
+        {
+          "id": "s5_g1",
+          "speaker": "gleb",
+          "at": 10.2,
+          "text": "А когда начнётся обучение на оператора дрона?",
+          "keywords": [
+            "оператора",
+            "дрона"
+          ]
+        },
+        {
+          "id": "s5_i1",
+          "speaker": "instructor",
+          "at": 13.6,
+          "text": "Позже узнаешь.",
+          "keywords": [
+            "Позже"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          5,
+          "Автобус прибывает к учебному центру"
+        ],
+        [
+          5,
+          9.5,
+          "Новобранцы выходят"
+        ],
+        [
+          9.5,
+          13.3,
+          "Плац: Глеб спрашивает"
+        ],
+        [
+          13.3,
+          15.6,
+          "Инструктор"
+        ],
+        [
+          15.6,
+          20,
+          "Растерянность Глеба"
+        ]
+      ],
+      "events": {
+        "busArrive": 0.0,
+        "brake": 3.3,
+        "door": 4.2,
+        "steps": [
+          5.3,
+          9.4
+        ],
+        "whistle": 16.2,
+        "runSteps": [
+          15.6,
+          20
+        ]
+      },
+      "start": 60
+    },
+    {
+      "id": "s6_assignment",
+      "name": "Распределение",
+      "component": "Assignment",
+      "duration": 20,
+      "music": "drama",
+      "ambience": [
+        "room_tone",
+        "paper",
+        "clock"
+      ],
+      "lines": [
+        {
+          "id": "s6_c1",
+          "speaker": "commander",
+          "at": 3.4,
+          "text": "Ты распределён в штурмовое подразделение.",
+          "keywords": [
+            "штурмовое",
+            "подразделение"
+          ]
+        },
+        {
+          "id": "s6_g1",
+          "speaker": "gleb",
+          "at": 7.2,
+          "text": "Подождите. Я же подписывал контракт на беспилотники.",
+          "keywords": [
+            "беспилотники"
+          ]
+        },
+        {
+          "id": "s6_c2",
+          "speaker": "commander",
+          "at": 11.8,
+          "text": "Распределение уже оформлено.",
+          "keywords": [
+            "оформлено"
+          ]
+        }
+      ],
+      "musicDrop": {
+        "at": 14.2,
+        "length": 2.0
+      },
+      "shots": [
+        [
+          0,
+          3.2,
+          "Кабинет, общий план"
+        ],
+        [
+          3.2,
+          6.9,
+          "Командир"
+        ],
+        [
+          6.9,
+          11.6,
+          "Глеб"
+        ],
+        [
+          11.6,
+          14.2,
+          "Командир закрывает папку"
+        ],
+        [
+          14.2,
+          20,
+          "Крупный план Глеба, тишина"
+        ]
+      ],
+      "events": {
+        "pageFlip": [
+          0.9,
+          2.3
+        ],
+        "folderClose": 13.95
+      },
+      "start": 80
+    },
+    {
+      "id": "s7_transport",
+      "name": "Отправка",
+      "component": "Transport",
+      "duration": 15,
+      "music": "dark",
+      "ambience": [
+        "truck",
+        "distant_booms"
+      ],
+      "lines": [
+        {
+          "id": "s7_n1",
+          "speaker": "narrator",
+          "at": 2.0,
+          "text": "Ещё недавно он сидел за компьютером в колледже. Теперь его везли туда, где любая ошибка могла стать последней.",
+          "keywords": [
+            "компьютером",
+            "ошибка",
+            "последней"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          5,
+          "Кузов военного грузовика"
+        ],
+        [
+          5,
+          8.6,
+          "Руки Глеба"
+        ],
+        [
+          8.6,
+          15,
+          "Наезд на глаза, затемнение"
+        ]
+      ],
+      "events": {
+        "boom": [
+          9.6,
+          12.4
+        ],
+        "fadeOut": [
+          13.0,
+          15.0
+        ]
+      },
+      "start": 100
+    },
+    {
+      "id": "s8_end",
+      "name": "Финал",
+      "component": "EndCard",
+      "duration": 5,
+      "music": "dark_tail",
+      "ambience": [
+        "wind"
+      ],
+      "lines": [],
+      "shots": [
+        [
+          0,
+          5,
+          "Продолжение следует"
+        ]
+      ],
+      "events": {
+        "hit": 0.15
+      },
+      "start": 115
+    }
+  ],
+  "duration": 120
+}

@@ -97,6 +97,11 @@ const outfitStyle = (d: Design) => {
     case 'student_hoodie':
     case 'student_sweater':
       return {sleeve: c.top, sleeveShade: c.topShade, cuff: c.topShade, upperW: 42, foreW: 36};
+    case 'driver':
+      return {sleeve: c.top, sleeveShade: c.topShade, cuff: c.under, upperW: 48, foreW: 42};
+    case 'coat':
+    case 'woman_coat':
+      return {sleeve: c.top, sleeveShade: c.topShade, cuff: c.topShade, upperW: 50, foreW: 44};
     default:
       return {sleeve: c.top, sleeveShade: c.topShade, cuff: c.top, upperW: 40, foreW: 34};
   }
@@ -408,6 +413,52 @@ export const Torso: React.FC<{design: Design; pose: Pose; bg: BodyGeo; idp: stri
       }
       break;
     }
+    case 'driver': {
+      if (showFront) {
+        details.push(collarV(c.under, c.underShade, 96));
+        const t0 = P2(0, -326);
+        details.push(<path key="tie" d={`M${t0.x - 6} ${-322} L${t0.x + 6} ${-322} L${t0.x + 9} ${-250} L${t0.x} ${-238} L${t0.x - 9} ${-250}Z`} fill={c.accent} />);
+        for (const s of [-1, 1]) {
+          const a = P2(s * 0.32, -336);
+          const m = P2(s * 0.06, -236);
+          const o = P2(s * 0.52, -282);
+          details.push(<path key={`lap${s}`} d={`M${a.x} ${a.y} L${m.x} ${m.y} L${o.x} ${o.y}Z`} fill={c.topShade} stroke={LINE} strokeWidth={1.2} />);
+        }
+        [-210, -150, -90].forEach((y) => {
+          const p = P2(0.1, y);
+          details.push(<circle key={`btn${y}`} cx={p.x} cy={y} r={4} fill="#9a9384" />);
+        });
+        const bd = P2(-0.5, -262);
+        if (vis(-0.5)) details.push(<rect key="badge" x={bd.x - 14} y={-270} width={28} height={10} rx={2} fill="#c9b27a" opacity={0.85} />);
+      }
+      break;
+    }
+    case 'coat':
+    case 'woman_coat': {
+      if (showFront) {
+        details.push(collarV(c.under, c.underShade, design.outfit === 'coat' ? 80 : 40));
+        for (const s of [-1, 1]) {
+          const a = P2(s * 0.34, -338);
+          const m = P2(s * 0.1, -210);
+          const o = P2(s * 0.62, -268);
+          details.push(<path key={`lap${s}`} d={`M${a.x} ${a.y} L${m.x} ${m.y} L${o.x} ${o.y}Z`} fill={c.topShade} stroke={LINE} strokeWidth={1.3} />);
+        }
+        const e0 = P2(0.12, -210);
+        const e1 = P2(0.14, 0);
+        details.push(<path key="edge" d={`M${e0.x} ${-210} L${e1.x} 0`} stroke={LINE} strokeWidth={2} opacity={0.7} />);
+        [-180, -120, -60].forEach((y) => {
+          for (const s of design.outfit === 'coat' ? [-0.06, 0.3] : [0.26]) {
+            const p = P2(s, y);
+            details.push(<circle key={`cb${y}${s}`} cx={p.x} cy={y} r={4.5} fill={mixHex(c.top, '#000', 0.5)} stroke={mixHex(c.top, '#fff', 0.2)} strokeWidth={0.8} />);
+          }
+        });
+        for (const s of [-1, 1]) {
+          const p = P2(s * 0.5, -80);
+          if (vis(s * 0.5)) details.push(<path key={`pf${s}`} d={`M${p.x - 22} -84 l44 -6`} stroke={c.topShade} strokeWidth={4} />);
+        }
+      }
+      break;
+    }
     case 'student_sweater': {
       if (showFront) {
         details.push(collarV(c.under, c.underShade, 34));
@@ -432,8 +483,41 @@ export const Torso: React.FC<{design: Design; pose: Pose; bg: BodyGeo; idp: stri
       </g>
     ) : null;
 
+  // long coat: skirt over the thighs (shorter drape when seated)
+  const seated = Math.max(pose.legL.hip, pose.legR.hip) > 45;
+  const skirt =
+    design.outfit === 'coat' || design.outfit === 'woman_coat' ? (
+      (() => {
+        const e = bg.edge(-6, 4);
+        const len = seated ? 70 : design.outfit === 'coat' ? 230 : 190;
+        const flare = seated ? 26 : 22;
+        const d = `M${e.l} -12 L${e.r} -12 L${e.r + flare} ${len} Q${(e.l + e.r) / 2} ${len + 10} ${e.l - flare} ${len}Z`;
+        const split = bg.pt(0.14, 0).x;
+        return (
+          <g>
+            <path d={d} fill={c.top} stroke={LINE} strokeWidth={2} strokeOpacity={0.7} />
+            <path d={`M${split} -10 L${split + (seated ? 4 : 10)} ${len}`} stroke={LINE} strokeWidth={2} opacity={0.6} />
+            <path d={`M${e.l + 10} 0 q-6 ${len * 0.5} ${-flare * 0.6} ${len - 6}`} stroke={c.topShade} strokeWidth={10} fill="none" opacity={0.5} />
+          </g>
+        );
+      })()
+    ) : null;
+  const scarf = design.scarf ? (
+    <g>
+      <path
+        d={`M${bg.neck[0] - 46} ${-338} Q${bg.neck[0]} ${-312} ${bg.neck[0] + 46} ${-338} L${bg.neck[0] + 44} ${-356} Q${bg.neck[0]} ${-334} ${bg.neck[0] - 44} ${-356}Z`}
+        fill={design.scarf}
+        stroke={LINE}
+        strokeWidth={1.4}
+      />
+      {showFront ? <path d={`M${bg.pt(0.22, -330).x - 12} ${-334} l-4 96 l26 2 l-2 -98Z`} fill={design.scarf} stroke={LINE} strokeWidth={1.2} /> : null}
+      <path d={`M${bg.neck[0] - 30} ${-340} Q${bg.neck[0]} ${-326} ${bg.neck[0] + 30} ${-340}`} stroke={mixHex(design.scarf, '#000', 0.3)} strokeWidth={3} fill="none" />
+    </g>
+  ) : null;
+
   return (
     <g>
+      {skirt}
       <defs>
         <clipPath id={`${idp}-torso`}>
           <path d={torsoPath} />
@@ -448,6 +532,7 @@ export const Torso: React.FC<{design: Design; pose: Pose; bg: BodyGeo; idp: stri
         <path d={`M${bg.pt(0.55, -170).x} -170 q-10 20 -2 46`} stroke={c.topShade} strokeWidth={2.5} fill="none" opacity={0.5} />
       </g>
       {hood}
+      {scarf}
     </g>
   );
 };

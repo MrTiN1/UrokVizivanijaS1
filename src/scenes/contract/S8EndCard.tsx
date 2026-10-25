@@ -1,9 +1,9 @@
 // Final card: «ПРОДОЛЖЕНИЕ СЛЕДУЕТ» + next episode + fiction disclaimer.
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {Embers, Grain, Smoke, Vignette} from '../effects/Atmosphere';
-import {clamp, ease} from '../animation/core';
-import {EPISODE} from '../data';
+import {Embers, Grain, Smoke, Vignette} from '../../effects/Atmosphere';
+import {clamp, ease} from '../../animation/core';
+import {EPISODE} from '../../data';
 
 export const S8EndCard: React.FC = () => {
   const f = useCurrentFrame();

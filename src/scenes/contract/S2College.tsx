@@ -2,16 +2,16 @@
 // with classmate Artyom. Warm daylight palette.
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {CameraRig, Layer, Svg} from '../camera/Camera';
+import {CameraRig, Layer, Svg} from '../../camera/Camera';
 import {ClassroomWall, CodeScreenLines, Desk, Keyboard, Monitor} from './backgrounds/Interior';
-import {Dust, Flash, Grade, Grain, LightRays, Vignette} from '../effects/Atmosphere';
-import {Character} from '../characters/Character';
-import {Hand} from '../characters/Body';
-import {CLASSMATE, GLEB_CIVIL, STUDENTS} from '../characters/designs';
-import {Light, Pose} from '../characters/types';
-import {alive, exprTrack, pose, withExpr} from '../animation/performance';
-import {clamp, ease, fbm, kf, noise, ramp, rand} from '../animation/core';
-import {VISEME_PARAMS} from '../characters/Head';
+import {Dust, Flash, Grade, Grain, LightRays, Vignette} from '../../effects/Atmosphere';
+import {Character} from '../../characters/Character';
+import {Hand} from '../../characters/Body';
+import {CLASSMATE, GLEB_CIVIL, STUDENTS} from '../../characters/designs';
+import {Light, Pose} from '../../characters/types';
+import {alive, exprTrack, pose, withExpr} from '../../animation/performance';
+import {clamp, ease, fbm, kf, noise, ramp, rand} from '../../animation/core';
+import {VISEME_PARAMS} from '../../characters/Head';
 
 export const LIGHT_DAY: Light = {x: -0.8, y: -0.4, rim: '#fff0cf', rimStrength: 0.45, shade: '#7b5a52', shadeStrength: 0.32};
 const LIGHT_SCREEN: Light = {x: 0.85, y: 0, rim: '#bfe3ff', rimStrength: 0.55, shade: '#5d4f5e', shadeStrength: 0.38};

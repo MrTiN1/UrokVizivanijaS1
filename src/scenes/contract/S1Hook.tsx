@@ -2,16 +2,16 @@
 // face, distant blasts, series title slam, whip transition to the past.
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {CameraRig, Layer} from '../camera/Camera';
+import {CameraRig, Layer} from '../../camera/Camera';
 import {FarTreeline, Ground, TreeLayer, WarSky, treeRow} from './backgrounds/War';
-import {Embers, Fog, Grade, Grain, Smoke, Vignette, Flash, Dust} from '../effects/Atmosphere';
-import {Actor} from '../components/Actor';
-import {GLEB_MILITARY} from '../characters/designs';
-import {Light} from '../characters/types';
-import {alive, pose, withExpr, exprTrack} from '../animation/performance';
-import {clamp, ease, kf, ramp} from '../animation/core';
-import {SeriesTitle} from '../components/Title';
-import {EPISODE, ev} from '../data';
+import {Embers, Fog, Grade, Grain, Smoke, Vignette, Flash, Dust} from '../../effects/Atmosphere';
+import {Actor} from '../../components/Actor';
+import {GLEB_MILITARY} from '../../characters/designs';
+import {Light} from '../../characters/types';
+import {alive, pose, withExpr, exprTrack} from '../../animation/performance';
+import {clamp, ease, kf, ramp} from '../../animation/core';
+import {SeriesTitle} from '../../components/Title';
+import {EPISODE, ev} from '../../data';
 
 const S = 's1_hook';
 const NEAR = treeRow(5, 1290, 700, 1050, 26, 40, 3);

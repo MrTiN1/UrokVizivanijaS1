@@ -1,15 +1,24 @@
 import React from 'react';
-import {S1Hook} from './S1Hook';
-import {S2College} from './S2College';
-import {S3Agitation} from './S3Agitation';
-import {S4Signing} from './S4Signing';
-import {S5Training} from './S5Training';
-import {S6Assignment} from './S6Assignment';
-import {S7Transport} from './S7Transport';
-import {S8EndCard} from './S8EndCard';
+import {S1Hook} from './contract/S1Hook';
+import {S2College} from './contract/S2College';
+import {S3Agitation} from './contract/S3Agitation';
+import {S4Signing} from './contract/S4Signing';
+import {S5Training} from './contract/S5Training';
+import {S6Assignment} from './contract/S6Assignment';
+import {S7Transport} from './contract/S7Transport';
+import {S8EndCard} from './contract/S8EndCard';
+import {LbHook} from './bus/S1Hook';
+import {LbCollege} from './bus/S2College';
+import {LbStop} from './bus/S3Stop';
+import {LbPassengers} from './bus/S4Passengers';
+import {LbLoop} from './bus/S5Loop';
+import {LbDriver} from './bus/S6Driver';
+import {LbPhoto} from './bus/S7Photo';
+import {LbFinal} from './bus/S8Final';
 
 /** Scene registry: episode.json "component" → React component. */
 export const SCENES: Record<string, React.FC> = {
+  // legacy episode «Контракт»
   Hook: S1Hook,
   College: S2College,
   Agitation: S3Agitation,
@@ -18,4 +27,13 @@ export const SCENES: Record<string, React.FC> = {
   Assignment: S6Assignment,
   Transport: S7Transport,
   EndCard: S8EndCard,
+  // «Последний автобус»
+  LbHook,
+  LbCollege,
+  LbStop,
+  LbPassengers,
+  LbLoop,
+  LbDriver,
+  LbPhoto,
+  LbFinal,
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Composition, Still} from 'remotion';
-import {CastSheet, GlebSheet} from './characters/CharacterSheet';
+import {BusCastSheet, CastSheet, GlebSheet} from './characters/CharacterSheet';
 import {HeadTest} from './characters/HeadTest';
 import {SCENES} from './scenes';
 import {FontLoader} from './components/Fonts';
@@ -19,7 +19,7 @@ const withFonts = (C: React.FC) => {
 
 export const Root: React.FC = () => (
   <>
-    <Composition id="Episode" component={Episode} durationInFrames={Math.round(EPISODE.duration * 30)} fps={30} width={1080} height={1920} defaultProps={{subtitles: true}} />
+    <Composition id="Episode" component={Episode} durationInFrames={Math.round(EPISODE.duration * 30)} fps={30} width={1080} height={1920} defaultProps={{subtitles: true, banner: true}} />
     {EPISODE.scenes
       .filter((s) => SCENES[s.component])
       .map((s) => (
@@ -28,5 +28,6 @@ export const Root: React.FC = () => (
     <Still id="GlebSheet" component={GlebSheet} width={2400} height={2700} />
     <Still id="HeadTest" component={HeadTest} width={2000} height={1000} />
     <Still id="CastSheet" component={CastSheet} width={2400} height={2700} />
+    <Still id="BusCastSheet" component={BusCastSheet} width={2400} height={2700} />
   </>
 );
