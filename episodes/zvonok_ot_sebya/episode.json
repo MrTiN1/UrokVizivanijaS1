@@ -1,0 +1,778 @@
+{
+  "id": "zvonok_ot_sebya",
+  "series": "ПОСЛЕДНИЙ КАДР",
+  "number": 1,
+  "title": "ЗВОНОК ОТ СЕБЯ",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "duration": 110,
+  "disclaimer": "История вымышлена. Совпадения случайны.",
+  "next": "КОНЕЦ",
+  "banner": {
+    "enabled": true,
+    "source": "banner/NATRIA_VPN.mp4",
+    "video": "banner/natria_keyed.webm",
+    "audio": "banner/natria_audio.wav",
+    "meta": "banner/banner_meta.json",
+    "at": 55.0,
+    "duration": 7.2,
+    "speed": 1.0,
+    "center": [
+      540,
+      960
+    ],
+    "width": 1140,
+    "minAreaRatio": 0.25,
+    "audioMode": "original"
+  },
+  "captions": {
+    "defaultY": 1380,
+    "y": [
+      [
+        0,
+        8,
+        1560
+      ],
+      [
+        23,
+        38,
+        1560
+      ],
+      [
+        68,
+        85,
+        1560
+      ],
+      [
+        85,
+        103,
+        1580
+      ],
+      [
+        103,
+        110,
+        1560
+      ]
+    ],
+    "hide": [
+      [
+        54.8,
+        62.4
+      ]
+    ]
+  },
+  "qcAllowedBlack": [
+    [
+      107.4,
+      110.5
+    ]
+  ],
+  "voices": {
+    "narrator": {
+      "model": "ruslan",
+      "lengthScale": 1.1,
+      "noiseScale": 0.62,
+      "noiseW": 0.75,
+      "pitch": -1.0,
+      "sentencePause": 0.42,
+      "eq": "warm",
+      "elevenlabs": {
+        "voiceId": "nPczCjzI2devNBz1zQrb",
+        "name": "Brian",
+        "model": "eleven_v4",
+        "stability": 0.5,
+        "style": 0.3,
+        "speed": 0.92,
+        "eq": "warm"
+      }
+    },
+    "artem": {
+      "model": "denis",
+      "lengthScale": 1.0,
+      "noiseScale": 0.72,
+      "noiseW": 0.85,
+      "pitch": 0.8,
+      "sentencePause": 0.3,
+      "eq": "young",
+      "elevenlabs": {
+        "voiceId": "TX3LPaxmHKxFdv7VOQHJ",
+        "name": "Liam",
+        "model": "eleven_v4",
+        "stability": 0.32,
+        "style": 0.5,
+        "speed": 1.0
+      }
+    },
+    "phone": {
+      "model": "denis",
+      "lengthScale": 1.05,
+      "noiseScale": 0.5,
+      "noiseW": 0.6,
+      "pitch": 0.4,
+      "sentencePause": 0.35,
+      "eq": "phone",
+      "elevenlabs": {
+        "voiceId": "TX3LPaxmHKxFdv7VOQHJ",
+        "name": "Liam (телефон)",
+        "model": "eleven_v4",
+        "stability": 0.7,
+        "style": 0.12,
+        "speed": 0.92,
+        "eq": "phone"
+      }
+    },
+    "double": {
+      "model": "denis",
+      "lengthScale": 1.1,
+      "noiseScale": 0.5,
+      "noiseW": 0.6,
+      "pitch": 0.0,
+      "sentencePause": 0.4,
+      "eq": "cold",
+      "elevenlabs": {
+        "voiceId": "TX3LPaxmHKxFdv7VOQHJ",
+        "name": "Liam (двойник)",
+        "model": "eleven_v4",
+        "stability": 0.78,
+        "style": 0.06,
+        "speed": 0.86,
+        "eq": "cold"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "id": "z1_hook",
+      "name": "Хук",
+      "component": "ZvHook",
+      "start": 0,
+      "duration": 8,
+      "music": "lb_hook",
+      "ambience": [
+        [
+          "room",
+          0.5
+        ],
+        [
+          "rain_window",
+          0.35
+        ]
+      ],
+      "lines": [
+        {
+          "id": "z1_n1",
+          "speaker": "narrator",
+          "at": 0.1,
+          "text": "В 23:58 Артёму позвонил он сам. И попросил ни в коем случае не открывать дверь.",
+          "keywords": [
+            "он сам",
+            "не открывать"
+          ]
+        },
+        {
+          "id": "z1_p1",
+          "speaker": "phone",
+          "at": 7.0,
+          "text": "Через две минуты постучат. Не открывай.",
+          "keywords": [
+            "две минуты",
+            "не открывай"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          4.6,
+          "Телефон: входящий вызов со своего номера"
+        ],
+        [
+          4.6,
+          8,
+          "Артём подносит телефон к уху"
+        ]
+      ],
+      "events": {
+        "answer": 4.9,
+        "titleHit": 7.95,
+        "whoosh": 7.9
+      },
+      "sfx": [
+        [
+          0.0,
+          "ringtone",
+          0.35
+        ],
+        [
+          0.0,
+          "vibrate",
+          0.5
+        ],
+        [
+          4.9,
+          "phone_tap",
+          0.5
+        ]
+      ]
+    },
+    {
+      "id": "z2_evening",
+      "name": "Обычный вечер",
+      "component": "ZvEvening",
+      "start": 8,
+      "duration": 15,
+      "music": "lb_calm",
+      "ambience": [
+        [
+          "room",
+          0.55
+        ],
+        [
+          "rain_window",
+          0.45
+        ]
+      ],
+      "lines": [
+        {
+          "id": "z2_n1",
+          "speaker": "narrator",
+          "at": 2.2,
+          "text": "Артёму было двадцать. В тот вечер он остался дома один. Всё началось с обычного телефонного звонка.",
+          "keywords": [
+            "двадцать",
+            "один",
+            "звонка"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          2.4,
+          "Название: ПОСЛЕДНИЙ КАДР — ЗВОНОК ОТ СЕБЯ"
+        ],
+        [
+          2.4,
+          6.6,
+          "Квартира, дождь за окном"
+        ],
+        [
+          6.6,
+          10.6,
+          "Артём за компьютером"
+        ],
+        [
+          10.6,
+          15,
+          "Экран телефона: номер звонящего = номер Артёма"
+        ]
+      ],
+      "events": {
+        "title": 0.0,
+        "phone": 10.6
+      },
+      "sfx": [
+        [
+          3.0,
+          "typing_short",
+          0.25
+        ],
+        [
+          7.2,
+          "typing_short",
+          0.3
+        ],
+        [
+          11.0,
+          "phone_tap",
+          0.3
+        ]
+      ]
+    },
+    {
+      "id": "z3_warning",
+      "name": "Предупреждение",
+      "component": "ZvWarning",
+      "start": 23,
+      "duration": 15,
+      "music": "lb_unease",
+      "ambience": [
+        [
+          "room",
+          0.55
+        ],
+        [
+          "rain_window",
+          0.35
+        ]
+      ],
+      "lines": [
+        {
+          "id": "z3_p1",
+          "speaker": "phone",
+          "at": 7.4,
+          "text": "У тебя осталось сорок секунд.",
+          "keywords": [
+            "сорок секунд"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.4,
+          "Артём перезванивает на свой номер"
+        ],
+        [
+          3.4,
+          6.8,
+          "«Невозможно вызвать собственный номер»"
+        ],
+        [
+          6.8,
+          10.2,
+          "Голос из динамика возвращается"
+        ],
+        [
+          10.2,
+          12.4,
+          "Часы: 23:59"
+        ],
+        [
+          12.4,
+          15,
+          "Шум в коридоре — Артём оборачивается"
+        ]
+      ],
+      "events": {
+        "dial": 0.6,
+        "error": 3.4,
+        "voice": 6.8,
+        "clock": 10.2,
+        "noise": 12.4
+      },
+      "sfx": [
+        [
+          0.6,
+          "dial_tone",
+          0.35
+        ],
+        [
+          3.4,
+          "error_tone",
+          0.4
+        ],
+        [
+          6.8,
+          "static",
+          0.25
+        ],
+        [
+          12.5,
+          "creak",
+          0.5
+        ]
+      ]
+    },
+    {
+      "id": "z4_knock",
+      "name": "Стук",
+      "component": "ZvKnock",
+      "start": 38,
+      "duration": 15,
+      "music": "lb_drop",
+      "musicDrop": {
+        "at": 1.6,
+        "length": 2.8
+      },
+      "ambience": [
+        [
+          "room",
+          0.5
+        ],
+        [
+          "rain_window",
+          0.25
+        ]
+      ],
+      "lines": [
+        {
+          "id": "z4_d1",
+          "speaker": "double",
+          "at": 9.0,
+          "text": "Артём, открой. Он уже внутри.",
+          "keywords": [
+            "открой",
+            "уже внутри"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          1.8,
+          "Часы: 00:00"
+        ],
+        [
+          1.8,
+          4.4,
+          "Три медленных удара в дверь"
+        ],
+        [
+          4.4,
+          7.0,
+          "Артём подходит к двери"
+        ],
+        [
+          7.0,
+          12.4,
+          "Глазок: за дверью он сам — старше, промокший"
+        ],
+        [
+          12.4,
+          15,
+          "Артём отступает от двери"
+        ]
+      ],
+      "events": {
+        "knocks": [
+          2.0,
+          2.9,
+          3.8
+        ],
+        "walk": 4.4,
+        "peep": 7.0,
+        "back": 12.4
+      },
+      "sfx": [
+        [
+          2.0,
+          "knock",
+          0.75
+        ],
+        [
+          2.9,
+          "knock",
+          0.75
+        ],
+        [
+          3.8,
+          "knock",
+          0.8
+        ]
+      ],
+      "steps": [
+        [
+          4.5,
+          6.8,
+          1.5,
+          "floor"
+        ],
+        [
+          12.5,
+          13.8,
+          2.0,
+          "floor"
+        ]
+      ]
+    },
+    {
+      "id": "z5_choice",
+      "name": "Кому верить",
+      "component": "ZvChoice",
+      "start": 53,
+      "duration": 15,
+      "music": "pm_after",
+      "ambience": [
+        [
+          "room",
+          0.5
+        ],
+        [
+          "rain_window",
+          0.3
+        ]
+      ],
+      "lines": [],
+      "shots": [
+        [
+          0,
+          2,
+          "Артём прижимается к стене прихожей"
+        ],
+        [
+          2,
+          9.2,
+          "Прихожая, общий план (баннер по центру)"
+        ],
+        [
+          9.2,
+          15,
+          "Артём смотрит то на дверь, то на телефон"
+        ]
+      ],
+      "events": {},
+      "sfx": []
+    },
+    {
+      "id": "z6_call2",
+      "name": "Второй звонок",
+      "component": "ZvCall2",
+      "start": 68,
+      "duration": 17,
+      "music": "lb_loop",
+      "ambience": [
+        [
+          "room",
+          0.5
+        ],
+        [
+          "rain_window",
+          0.3
+        ]
+      ],
+      "lines": [
+        {
+          "id": "z6_p1",
+          "speaker": "phone",
+          "at": 2.6,
+          "text": "Ты ведь не открыл?",
+          "keywords": [
+            "не открыл"
+          ]
+        },
+        {
+          "id": "z6_a1",
+          "speaker": "artem",
+          "at": 4.9,
+          "text": "Там стою я сам!",
+          "keywords": [
+            "я сам"
+          ]
+        },
+        {
+          "id": "z6_p2",
+          "speaker": "phone",
+          "at": 7.6,
+          "text": "Значит, он ещё не успел войти.",
+          "keywords": [
+            "не успел войти"
+          ]
+        },
+        {
+          "id": "z6_a2",
+          "speaker": "artem",
+          "at": 11.2,
+          "text": "Кто — он?",
+          "keywords": [
+            "кто"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          2.2,
+          "Телефон снова звонит: тот же номер"
+        ],
+        [
+          2.2,
+          4.8,
+          "Артём отвечает"
+        ],
+        [
+          4.8,
+          7.4,
+          "«Там стою я сам!»"
+        ],
+        [
+          7.4,
+          10.8,
+          "Голос в трубке"
+        ],
+        [
+          10.8,
+          12.6,
+          "«Кто — он?»"
+        ],
+        [
+          12.6,
+          17,
+          "Тишина в трубке"
+        ]
+      ],
+      "events": {
+        "answer": 2.0,
+        "silence": 12.6
+      },
+      "sfx": [
+        [
+          0.0,
+          "ringtone",
+          0.35
+        ],
+        [
+          0.0,
+          "vibrate",
+          0.5
+        ],
+        [
+          2.0,
+          "phone_tap",
+          0.5
+        ],
+        [
+          12.8,
+          "static",
+          0.3
+        ]
+      ]
+    },
+    {
+      "id": "z7_camera",
+      "name": "Запись камеры",
+      "component": "ZvCamera",
+      "start": 85,
+      "duration": 18,
+      "music": "lb_photo",
+      "ambience": [
+        [
+          "room",
+          0.5
+        ],
+        [
+          "rain_window",
+          0.25
+        ]
+      ],
+      "lines": [
+        {
+          "id": "z7_n1",
+          "speaker": "narrator",
+          "at": 9.6,
+          "text": "Камера показывала то, чего Артём совершенно не помнил.",
+          "keywords": [
+            "не помнил"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          2.6,
+          "Артём открывает приложение камеры"
+        ],
+        [
+          2.6,
+          7.0,
+          "Запись 23:54: он сам входит в квартиру"
+        ],
+        [
+          7.0,
+          12.6,
+          "Запись 23:58: за спиной Артёма проходит второй Артём"
+        ],
+        [
+          12.6,
+          18,
+          "Артём медленно оборачивается"
+        ]
+      ],
+      "events": {
+        "screenOn": 0.4,
+        "photo": 7.0,
+        "push": 12.6,
+        "rec1": 2.6,
+        "rec2": 7.0,
+        "turn": 13.4
+      },
+      "sfx": [
+        [
+          0.6,
+          "phone_tap",
+          0.35
+        ],
+        [
+          2.7,
+          "phone_tap",
+          0.3
+        ],
+        [
+          7.0,
+          "phone_tap",
+          0.3
+        ]
+      ]
+    },
+    {
+      "id": "z8_final",
+      "name": "Финал",
+      "component": "ZvFinal",
+      "start": 103,
+      "duration": 7,
+      "music": "lb_final",
+      "ambience": [
+        [
+          "room",
+          0.5
+        ],
+        [
+          "rain_window",
+          0.3
+        ]
+      ],
+      "lines": [
+        {
+          "id": "z8_d1",
+          "speaker": "double",
+          "at": 0.4,
+          "text": "Я же говорил… не открывай.",
+          "keywords": [
+            "не открывай"
+          ]
+        }
+      ],
+      "shots": [
+        [
+          0,
+          3.0,
+          "За спиной Артёма стоит двойник"
+        ],
+        [
+          3.0,
+          4.2,
+          "Входная дверь: всё ещё заперта"
+        ],
+        [
+          4.2,
+          5.4,
+          "Телефон звонит: «АРТЁМ»"
+        ],
+        [
+          5.4,
+          7,
+          "Затемнение: ПОСЛЕДНИЙ КАДР — КОНЕЦ"
+        ]
+      ],
+      "events": {
+        "door": 3.0,
+        "ring": 4.2,
+        "black": 5.4,
+        "hit": 5.4
+      },
+      "sfx": [
+        [
+          4.2,
+          "ringtone",
+          0.35
+        ],
+        [
+          4.2,
+          "vibrate",
+          0.5
+        ]
+      ]
+    }
+  ]
+}

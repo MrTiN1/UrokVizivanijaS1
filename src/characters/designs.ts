@@ -346,3 +346,55 @@ export const BACK_PASSENGERS: Design[] = [
 ];
 
 export const BUS_CAST = {GLEB_CIVIL, DRIVER, OLD_WOMAN, COAT_MAN};
+
+// ---------------- «Последний кадр»: «Звонок от себя» ----------------
+// One face for all three Artyoms: the variants change only age marks,
+// wetness and clothes tone — never the face geometry.
+const ARTEM_FACE = {
+  skin: '#efc6a4',
+  skinShade: '#cf9a78',
+  iris: '#5a3a20',
+  eyeScale: 0.97,
+  browThick: 1.12,
+  browColor: '#3e2b1d',
+  faceWidth: 1.02,
+  jaw: 0.3,
+  bodyWidth: 1.02,
+  height: 1.01,
+};
+
+/** Artyom, 20: dark-blond hair, brown eyes, grey hoodie, dark trousers. */
+export const ARTEM: Design = {
+  ...ARTEM_FACE,
+  id: 'artem',
+  hair: '#6b4c33',
+  hairShade: '#45301f',
+  hairLight: '#8e6a48',
+  hairStyle: 'side',
+  age: 0,
+  outfit: 'student_hoodie',
+  colors: {
+    top: '#8b9097',
+    topShade: '#676c74',
+    under: '#8b9097',
+    underShade: '#676c74',
+    pants: '#23262c',
+    pantsShade: '#16181c',
+    shoes: '#d9d6cf',
+    accent: '#3a3f47',
+  },
+};
+
+/** The Artyom behind the door: older, tired, soaked by the rain. Same face. */
+export const ARTEM_WET: Design = {
+  ...ARTEM,
+  id: 'artem_wet',
+  skin: '#e2bb9c',
+  skinShade: '#bf8d6e',
+  hair: '#3e2e22',
+  hairShade: '#261b13',
+  hairLight: '#5a4535',
+  age: 0.4,
+  stubble: true,
+  colors: {...ARTEM.colors, top: '#5c6168', topShade: '#43474d', under: '#5c6168', underShade: '#43474d', pants: '#1a1c20'},
+};

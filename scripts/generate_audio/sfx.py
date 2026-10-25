@@ -436,3 +436,93 @@ def whoosh_hit(rng=RNG):
     w = bp(pink(dur, rng), 300, 4000) * np.exp(-((t - 0.18) ** 2) / 0.006) * 0.6
     hit = lp(white(dur, rng), 160) * np.exp(-np.maximum(0, t - 0.22) / 0.25) * (t > 0.22) * 0.6
     return (w + hit).astype(np.float32)
+
+
+# ---------------- «Звонок от себя» ----------------
+def room(dur, rng=RNG):
+    """Quiet flat at night: room tone, fridge hum through the wall, faint ticking."""
+    x = room_tone(dur, 0.05, rng) + hum(dur, 50, 0.004) + lp(brown(dur, rng), 90) * 0.05
+    n = len(x)
+    for k in range(int(dur)):
+        p = secs(k + 0.3)
+        if p + 600 < n:
+            tt = np.arange(600) / SR
+            x[p : p + 600] += hp(white(600 / SR, rng), 3000) * np.exp(-tt / 0.003) * 0.03
+    return x
+
+
+def ringtone(dur=4.5, rng=RNG):
+    """Original marimba-like ringtone (two short phrases)."""
+    n = secs(dur)
+    y = np.zeros(n, dtype=np.float32)
+    notes = [76, 79, 83, 79, 76, 79, 83, 86]
+    for rep in range(3):
+        for i, m_ in enumerate(notes):
+            t0 = rep * 1.5 + i * 0.16
+            if t0 > dur - 0.4:
+                break
+            f = 440 * 2 ** ((m_ - 69) / 12)
+            L = secs(0.35)
+            tt = np.arange(L) / SR
+            tone = (np.sin(2 * np.pi * f * tt) + 0.3 * np.sin(2 * np.pi * 4 * f * tt)) * np.exp(-tt / 0.09)
+            p = secs(t0)
+            y[p : p + L] += tone[: n - p] * 0.25
+    return y
+
+
+def vibrate(dur=4.5, rng=RNG):
+    """Phone buzzing on a desk: 0.4 s pulses."""
+    n = secs(dur)
+    t = np.arange(n) / SR
+    gate = ((t % 0.9) < 0.42).astype(np.float32)
+    buzz = (np.sign(np.sin(2 * np.pi * 150 * t)) * 0.5 + lp(white(dur, rng), 400)) * gate
+    return (lp(buzz, 900) * 0.25).astype(np.float32)
+
+
+def typing_short(rng=RNG):
+    return typing(1.6, 7.0, rng)
+
+
+def dial_tone(rng=RNG):
+    """Ringback beeps (425 Hz, 1 s on / 2 s off) for ~3 s."""
+    dur = 3.0
+    t = np.arange(secs(dur)) / SR
+    gate = ((t % 3.0) < 1.0).astype(np.float32)
+    return (np.sin(2 * np.pi * 425 * t) * gate * 0.12).astype(np.float32)
+
+
+def error_tone(rng=RNG):
+    """Three rising tones of an operator message (generic, original)."""
+    y = []
+    for f in (950, 1400, 1800):
+        tt = np.arange(secs(0.33)) / SR
+        y.append(np.sin(2 * np.pi * f * tt) * 0.12 * np.minimum(1, tt / 0.01) * np.minimum(1, (0.33 - tt) / 0.02))
+    return np.concatenate(y).astype(np.float32)
+
+
+def static(dur=2.5, rng=RNG):
+    """Phone line hiss / dropout."""
+    x = bp(white(dur, rng), 400, 3400) * 0.15
+    t = np.arange(len(x)) / SR
+    x *= 0.6 + 0.4 * np.sin(2 * np.pi * 0.7 * t) ** 2
+    return x.astype(np.float32)
+
+
+def creak(rng=RNG):
+    """Floorboard creak somewhere in the hallway."""
+    dur = 0.9
+    n = secs(dur)
+    t = np.arange(n) / SR
+    f = 180 + 70 * np.sin(2 * np.pi * 1.3 * t)
+    c = bp(saw(f, dur), 200, 1600) * np.exp(-((t - 0.4) ** 2) / 0.05) * 0.18
+    return c.astype(np.float32)
+
+
+def knock(rng=RNG):
+    """One slow knock on a wooden front door (heard from inside)."""
+    dur = 0.7
+    n = secs(dur)
+    t = np.arange(n) / SR
+    body = lp(white(dur, rng), 260, 4) * np.exp(-t / 0.05) * 2.0
+    tone = np.sin(2 * np.pi * 95 * t) * np.exp(-t / 0.08) * 0.6
+    return ((body + tone) * 0.5).astype(np.float32)

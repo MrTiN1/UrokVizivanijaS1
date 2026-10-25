@@ -23,6 +23,8 @@ import {PmAfter} from './bus2/P5After';
 import {PmTicket} from './bus2/P6Ticket';
 import {PmPhotos} from './bus2/P7Photos';
 import {PmFinal} from './bus2/P8Final';
+import {ZvCall2, ZvCamera, ZvChoice, ZvFinal} from './zvonok/Scenes5to8';
+import {ZvEvening, ZvHook, ZvKnock, ZvWarning} from './zvonok/Scenes1to4';
 
 /** Scene registry: episode.json "component" → React component. */
 export const SCENES: Record<string, React.FC> = {
@@ -53,4 +55,13 @@ export const SCENES: Record<string, React.FC> = {
   PmTicket,
   PmPhotos,
   PmFinal,
+  // «Последний кадр» — «Звонок от себя»
+  ZvHook,
+  ZvEvening,
+  ZvWarning,
+  ZvKnock,
+  ZvChoice,
+  ZvCall2,
+  ZvCamera,
+  ZvFinal,
 };

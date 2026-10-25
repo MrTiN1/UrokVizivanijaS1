@@ -190,8 +190,9 @@ def score_drama(T: Track, t0: float, sc: dict):
     while 0.5 + k * 1.0 < a - 0.5:
         T.add(heartbeat(0.7 + 0.02 * k), t0 + 0.5 + k * 1.0, 0.45)
         k += 1
-    cl = strings(chord("A3 Bb3 D4 Eb4"), a - 6.5, cutoff=3000, attack=4, release=0.05)
-    T.add(reverb(cl, 3, 0.3), t0 + 6.5, 0.22)
+    if a > 7.5:  # rising cluster only when the drop comes late in the scene
+        cl = strings(chord("A3 Bb3 D4 Eb4"), a - 6.5, cutoff=3000, attack=4, release=0.05)
+        T.add(reverb(cl, 3, 0.3), t0 + 6.5, 0.22)
     # hard cut to silence at the drop (reverb tails cut too)
     T.buf[:, secs(t0 + a) : secs(t0 + a + L)] *= 0.0
     T.add(reverb(impact(5, 40, 0.7), 5, 0.5), t0 + a + L, 0.6)
@@ -420,6 +421,7 @@ AMBIENCE = {
     "wind": lambda d: sfx.wind(d, 0.8),
     "bus_interior": lambda d: sfx.bus_interior(d),
     "tyres_wet": lambda d: sfx.tyres_wet(d),
+    "room": lambda d: sfx.room(d),
 }
 ONESHOTS = {
     "lamp_buzz": lambda: sfx.lamp_buzz(0.6),
@@ -439,6 +441,14 @@ ONESHOTS = {
     "brake_squeal": sfx.brake_squeal,
     "glass_squeak": sfx.glass_squeak,
     "whoosh_hit": sfx.whoosh_hit,
+    "ringtone": lambda: sfx.ringtone(4.5),
+    "vibrate": lambda: sfx.vibrate(4.5),
+    "typing_short": sfx.typing_short,
+    "dial_tone": sfx.dial_tone,
+    "error_tone": sfx.error_tone,
+    "static": lambda: sfx.static(2.5),
+    "creak": sfx.creak,
+    "knock": sfx.knock,
 }
 
 

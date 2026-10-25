@@ -29,7 +29,10 @@ ENGAGEMENT_BAIT = r"отметь друз|отметьте друз|лайк|с�
 ALLOWED_SIGNS = {"КОЛЛЕДЖ", "УЛИЦА ЛЕСНАЯ", "ПРОСПЕКТ МИРА", "БЕРЕГИТЕ ЛЕС", "13", "13 · 21 · 47", "A", "Нет сети", "Галерея", "‹ Галерея",
                  "Сегодня, 20:47", "Автобус № 13 · IMG_2047", "Новое фото · 20:47",
                  "АВТОБУСНЫЙ БИЛЕТ · № 000013", "МАРШРУТ №13", "ПАССАЖИР: ГЛЕБ", "ДАТА: ЗАВТРА", "ГОРТРАНС",
-                 "15 ноября · 20 лет назад", "15 ноября · 15 лет назад", "ЗАВТРА, 00:13"}
+                 "15 ноября · 20 лет назад", "15 ноября · 15 лет назад", "ЗАВТРА, 00:13",
+                 # «Звонок от себя»: phone UI and room props (fictional, no brands)
+                 "Входящий вызов · мобильный", "АРТЁМ", "А", "это ваш номер", "Невозможно вызвать", "собственный номер", "!", "Недавние",
+                 "Мой номер", "REC", "Мама", "Доставка", "динамик", "без звука", "клавиши", "Вызов", "Дом ·", "— это вы", "ПОСЛЕДНИЙ КАДР"}
 
 
 def main() -> None:
@@ -63,7 +66,7 @@ def main() -> None:
     sh = sorted(set(re.findall(SHOCK, text.lower())))
     item("Нет шок-контента", ok(not sh), f"словарь шок-тем: {sh or 'совпадений нет'}; нет скримеров, резких громких звуков (true peak {qcc['no clipping (true peak ≤ -1 dBFS)']['detail']}), насилия и крови")
 
-    src_files = list((ROOT / "src" / "scenes" / "bus").rglob("*.tsx")) + list((ROOT / "src" / "scenes" / "bus2").rglob("*.tsx")) + [ROOT / "src" / "Episode.tsx", ROOT / "src" / "components" / "NatriaBanner.tsx"]
+    src_files = list((ROOT / "src" / "scenes" / "bus").rglob("*.tsx")) + list((ROOT / "src" / "scenes" / "bus2").rglob("*.tsx")) + list((ROOT / "src" / "scenes" / "zvonok").rglob("*.tsx")) + [ROOT / "src" / "Episode.tsx", ROOT / "src" / "components" / "NatriaBanner.tsx"]
     src = "\n".join(p.read_text(encoding="utf-8") for p in src_files)
     signs = set()
     for mt in re.findall(r"<text[^>]*>\s*([^<{]+?)\s*</text>", src):
