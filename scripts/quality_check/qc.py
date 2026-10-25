@@ -159,7 +159,7 @@ def main() -> None:
             offs.append(abs(first[0] - start))
             end = sc["start"] + ln["at"] + vo[ln["id"]]["duration"]
             nxt = [s2["start"] for s2 in ep["scenes"] if s2["start"] > sc["start"]]
-            if nxt and end > nxt[0]:
+            if nxt and end > nxt[0] and not ln.get("crossCut"):  # crossCut: deliberately carried over the cut
                 check(f"line {ln['id']} fits its scene", False, f"ends {end:.2f}s after scene cut {nxt[0]}s")
     check("subtitle ↔ voice sync (≤ 100 ms)", max(offs) <= 0.1, f"max offset {max(offs) * 1000:.0f} ms across {len(offs)} lines")
     lipsrc = {v_["lipsyncSource"] for v_ in vo.values()}
